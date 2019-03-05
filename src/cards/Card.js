@@ -11,19 +11,17 @@ const BorderCard = styled.div`
 const ImgCard = styled.section`
   height: 280px;
   width: 325px;
-  background: url(https://artsation.com/images/RoyLichtensteinMMayb.jpg);
-  background-size: 99%;
-  border-radius: 12px 0 0 0;
+  background-image: url(https://artsation.com/images/RoyLichtensteinMMayb.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 12px 12px 0 0;
   position: relative;
-`
-const StyledImg = styled.img`
-  height: 330px;
-  width: 330px;
-  object-fit: cover;
 `
 
 const ContentCard = styled.div`
   width: 325px;
+  padding: 20px 20px 10px 20px;
   position: relative;
   background: #fafafa;
   border-radius: 0 0 12px 12px;

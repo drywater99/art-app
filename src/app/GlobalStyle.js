@@ -17,29 +17,23 @@ export default createGlobalStyle`
     overflow: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6,
+  h1, h2, h4, h5, h6,
   ul, ol {
     margin: 0;
   }
 
-  input, textarea, button {
-    font-size: 1em;
+  h3 {
+    text-transform: uppercase;
+    color: #949494;
+    font-size: 15px;
+    margin: 0;
   }
 
-  input, textarea {
-    appearance: none;
-    border: 4px solid #ddd;
-    border-radius: none;
-    background: white;
-    padding-left: 4px;
-  }
-
-  button {
-    background: hotpink;
-    border: none;
-    border-radius: 4px;
-    color: white;
+  p {
+    margin-top: 10px;
+    color: #383838;
     font-weight: bold;
-
+    font-size: 27px;
   }
+
 `
