@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Header from '../common/Header'
 import Card from './Card'
 import CardContainer from './CardContainer'
+import Title from '../common/Title'
 
 const PageGrid = styled.div`
   display: grid;
@@ -16,6 +17,7 @@ export default function CardsPage({ onBookmark, cards }) {
   return (
     <PageGrid>
       <Header cards={cards} activeTag={activeTag} setActiveTag={setActiveTag} />
+      <Title>Recommended Works</Title>
       <CardContainer>
         {cards
           .filter(card => activeTag === 'all' || card.tags.includes(activeTag))

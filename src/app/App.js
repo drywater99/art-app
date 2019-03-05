@@ -32,12 +32,14 @@ const StyledLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #333;
-  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 15px 24px;
+  color: #383838;
   text-decoration: none;
 
   &.active {
-    background: hotpink;
+    text-decoration: underline;
   }
 `
 
@@ -139,7 +141,7 @@ function App() {
           <StyledLink exact to="/">
             Home
           </StyledLink>
-          <StyledLink to="/bookmarks">Bookmarks</StyledLink>
+          <StyledLink to="/bookmarks">Saved</StyledLink>
         </Nav>
         <GlobalStyle />
       </Grid>
