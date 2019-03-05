@@ -21,8 +21,11 @@ export default function CardsPage({ onBookmark, cards }) {
           .filter(card => activeTag === 'all' || card.tags.includes(activeTag))
           .map(card => (
             <Card
+              title={card.title}
+              author={card.author}
+              image={card.image}
               {...card}
-              key={card._id}
+              key={card.id}
               onBookmark={() => onBookmark(card)}
             />
           ))}

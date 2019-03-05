@@ -31,9 +31,10 @@ export default createGlobalStyle`
 
   p {
     margin-top: 10px;
+    margin-bottom: 12px;
     color: #383838;
     font-weight: bold;
-    font-size: 27px;
+    font-size: 25px;
   }
 
 `

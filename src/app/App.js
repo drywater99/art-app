@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import CardsPage from '../cards/CardsPage'
-import { Helmet } from 'react-helmet'
+//import { Helmet } from 'react-helmet'
 import uid from 'uid'
 
 import {
-  getAllCards,
-  getCardsFromStorage,
+  //getAllCards,
+  //getCardsFromStorage,
   toggleCardBookmark,
 } from '../services'
 import GlobalStyle from './GlobalStyle'
@@ -51,7 +51,7 @@ function App() {
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
       id: uid(),
-      Image: 'http://via.placeholder.com/500x300/',
+      image: 'http://via.placeholder.com/500x300/',
     },
     {
       author: 'Lorem Ipsum',
@@ -61,7 +61,7 @@ function App() {
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
       id: uid(),
-      Image: 'http://via.placeholder.com/500x300/',
+      image: 'http://via.placeholder.com/500x300/',
     },
     {
       author: 'Lorem Ipsum',
@@ -71,7 +71,7 @@ function App() {
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
       id: uid(),
-      Image: 'http://via.placeholder.com/500x300/',
+      image: 'http://via.placeholder.com/500x300/',
     },
     {
       author: 'Lorem Ipsum',
@@ -81,7 +81,7 @@ function App() {
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
       id: uid(),
-      Image: 'http://via.placeholder.com/500x300/',
+      image: 'http://via.placeholder.com/500x300/',
     },
     {
       author: 'Lorem Ipsum',
@@ -91,7 +91,7 @@ function App() {
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
       id: uid(),
-      Image: 'http://via.placeholder.com/500x300/',
+      image: 'http://via.placeholder.com/500x300/',
     },
     {
       author: 'Lorem Ipsum',
@@ -101,7 +101,7 @@ function App() {
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
       id: uid(),
-      Image: 'http://via.placeholder.com/500x300/',
+      image: 'http://via.placeholder.com/500x300/',
     },
   ])
 

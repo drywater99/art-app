@@ -1,17 +1,15 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import Images from './Images/roy_lichtenstein_maybe.jpg'
 
 const BorderCard = styled.div`
   padding: 10px 0 0;
   filter: drop-shadow(0 10px 10px #cccccc);
 `
 
-const ImgCard = styled.section`
+const ImageCard = styled.section`
   height: 280px;
   width: 325px;
-  background-image: url(https://artsation.com/images/RoyLichtensteinMMayb.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -61,13 +59,13 @@ Card.defaultProps = {
   bookmarked: false,
 }
 
-export default function Card({ title, content }) {
+export default function Card({ title, author, image }) {
   return (
     <BorderCard>
-      <ImgCard />
+      <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
       <ContentCard>
-        <h3>{title}</h3>
-        <p>{content}</p>
+        <h3>{author}</h3>
+        <p>{title}</p>
       </ContentCard>
     </BorderCard>
   )
