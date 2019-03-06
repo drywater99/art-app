@@ -5,15 +5,15 @@ menu: Components
 
 # Card
 
-import Card from '../components/Card'
+import Card from './Card.js'
 import { Playground, PropsTable } from 'docz'
 
 <PropsTable of={Card} />
 
 <Playground>
-  <Card title="My card" content="My content" tags={['one', 'two']} />
-</Playground>
-
-<Playground>
-  <Card title="Without tags" content="My content" onBookmark={() => {}} />
+  <Card
+    title="Lorem Ipsum Dolor"
+    author="Lorem Ipsum"
+    image="http://via.placeholder.com/500x400/"
+  />
 </Playground>
