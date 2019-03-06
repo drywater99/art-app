@@ -2,12 +2,12 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-const BorderCard = styled.div`
+const BorderCard = styled.section`
   padding: 10px 0 0;
   filter: drop-shadow(0 10px 10px #cccccc);
 `
 
-const ImageCard = styled.section`
+const ImageCard = styled.div`
   height: 280px;
   width: 325px;
   background-size: cover;
@@ -17,7 +17,7 @@ const ImageCard = styled.section`
   position: relative;
 `
 
-const ContentCard = styled.div`
+const ContentCard = styled.section`
   width: 325px;
   padding: 20px 20px 10px 20px;
   position: relative;

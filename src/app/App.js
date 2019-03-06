@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import CardsPage from '../cards/CardsPage'
+import PersonList from '../testapi/PersonList'
+
 //import { Helmet } from 'react-helmet'
 import uid from 'uid'
 
@@ -137,6 +139,7 @@ function App() {
             />
           )}
         />
+        <Route path="/personlist" component={PersonList} />
         <Nav>
           <StyledLink exact to="/">
             Home
