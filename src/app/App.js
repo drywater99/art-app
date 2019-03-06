@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import CardsPage from '../cards/CardsPage'
-import { Helmet } from 'react-helmet'
+//import { Helmet } from 'react-helmet'
+import uid from 'uid'
 
 import {
-  getAllCards,
-  getCardsFromStorage,
+  //getAllCards,
+  //getCardsFromStorage,
   toggleCardBookmark,
 } from '../services'
 import GlobalStyle from './GlobalStyle'
@@ -31,23 +32,80 @@ const StyledLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #333;
-  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 15px 24px;
+  color: #383838;
   text-decoration: none;
 
   &.active {
-    background: hotpink;
+    text-decoration: underline;
   }
 `
 
 function App() {
-  const [cards, setCards] = useState(getCardsFromStorage())
-
-  useEffect(() => {
-    getAllCards().then(res => {
-      setCards(res.data)
-    })
-  }, [])
+  const [cards, setCards] = useState([
+    {
+      author: 'Lorem Ipsum',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag1'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag2'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag3'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag4'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag5'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag6'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+  ])
 
   function toggleBookmark(card) {
     toggleCardBookmark(card)
@@ -65,11 +123,6 @@ function App() {
   return (
     <Router>
       <Grid>
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>My Title</title>
-          <link rel="canonical" href="http://mysite.com/example" />
-        </Helmet>
         <Route
           exact
           path="/"
@@ -88,7 +141,7 @@ function App() {
           <StyledLink exact to="/">
             Home
           </StyledLink>
-          <StyledLink to="/bookmarks">Bookmarks</StyledLink>
+          <StyledLink to="/bookmarks">Saved</StyledLink>
         </Nav>
         <GlobalStyle />
       </Grid>
