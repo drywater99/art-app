@@ -48,7 +48,7 @@ const StyledLink = styled(NavLink)`
 function App() {
   const [cards, setCards] = useState([
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum I',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag1'],
       content:
@@ -58,7 +58,7 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum II',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag2'],
       content:
@@ -68,7 +68,7 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum III',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag3'],
       content:
@@ -78,7 +78,7 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum IV',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag4'],
       content:
@@ -88,7 +88,7 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum V',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag5'],
       content:
@@ -98,7 +98,7 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum VI',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag6'],
       content:
