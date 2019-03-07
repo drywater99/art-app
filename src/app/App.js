@@ -69,16 +69,6 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum III',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag3'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '02',
-      image: 'http://via.placeholder.com/500x300/',
-    },
-    {
       author: 'Lorem Ipsum IV',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag4'],
@@ -194,6 +184,7 @@ function App() {
           path="/artwork/:id"
           render={({ match }) => (
             <SingleCardPage
+              onBookmark={toggleBookmark}
               id={match.params.id}
               card={cards.find(card => card.id === match.params.id)}
             />

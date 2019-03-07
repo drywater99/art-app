@@ -7,7 +7,6 @@ const PageGrid = styled.section`
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 `
-
 const ImageCard = styled.div`
   height: 320px;
   width: 100%;
@@ -33,11 +32,30 @@ const FullImage = styled.img`
   }
 `
 
-export default function SingleCardPage({ card }) {
+const Bookmark = styled.div`
+  position: fixed;
+  right: 30px;
+  width: 20px;
+  height: 8px;
+  background: ${p => (p.active ? 'blue' : 'black')};
+  transition: all 0.4s ease;
+
+  &:after {
+    transition: all 0.4s ease;
+    position: absolute;
+    display: block;
+    content: '';
+    border: 10px solid ${p => (p.active ? 'blue' : 'black')};
+    border-bottom-color: transparent;
+  }
+`
+
+export default function SingleCardPage({ card, bookmarked, onBookmark }) {
   return (
     <PageGrid>
       <ImageCard style={{ backgroundImage: 'url(' + card.image + ')' }} />
       <PageContainer>
+        {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
         <h3>{card.author}</h3>
         <p>{card.title}</p>
         <h4>{card.content}</h4>

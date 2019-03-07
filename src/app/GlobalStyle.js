@@ -38,7 +38,6 @@ export default createGlobalStyle`
   }
 
   h4 {
-
     margin-top: 12px;
     margin: 0;
     font-size: 17px;
