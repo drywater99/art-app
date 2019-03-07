@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import CardsPage from '../cards/CardsPage'
-import PersonList from '../testapi/PersonList'
+import SingleCardPage from '../cards/SingleCardPage'
+import ArtCard from '../testapi/ArtCard'
 
 //import { Helmet } from 'react-helmet'
 import uid from 'uid'
@@ -13,6 +14,7 @@ import {
   toggleCardBookmark,
 } from '../services'
 import GlobalStyle from './GlobalStyle'
+import ArtsyCards from '../testapi/ArtsyCards'
 
 const Grid = styled.div`
   display: grid;
@@ -139,7 +141,17 @@ function App() {
             />
           )}
         />
-        <Route path="/personlist" component={PersonList} />
+        <Route
+          path="/artwork/:id"
+          render={({ match }) => (
+            <SingleCardPage
+              id={match.params.id}
+              card={cards.find(card => card.id === match.params.id)}
+            />
+          )}
+        />
+        <Route path="/artcard" component={ArtCard} />
+        <Route path="/artsy" component={ArtsyCards} />
         <Nav>
           <StyledLink exact to="/">
             Home

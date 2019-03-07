@@ -34,7 +34,7 @@ export default createGlobalStyle`
     margin-bottom: 12px;
     color: #383838;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 24px;
   }
 
 `

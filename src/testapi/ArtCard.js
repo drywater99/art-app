@@ -20,7 +20,7 @@ const CardContainer = styled.section`
   -webkit-overflow-scrolling: touch;
 `
 
-export default class PersonList extends React.Component {
+export default class ArtCard extends React.Component {
   state = {
     artworks: [],
   }
@@ -32,7 +32,7 @@ export default class PersonList extends React.Component {
         `
       )
       .then(res => {
-        res.data.objectIDs.map(id => {
+        res.data.objectIDs.map(id =>
           axios
             .get(
               `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
@@ -40,7 +40,7 @@ export default class PersonList extends React.Component {
             .then(res =>
               this.setState({ artworks: [...this.state.artworks, res.data] })
             )
-        })
+        )
       })
   }
 
@@ -51,9 +51,9 @@ export default class PersonList extends React.Component {
           {this.state.artworks.map((artwork, i) => (
             <Card
               key={i}
-              title={artwork.artistDisplayName}
-              author={artwork.author}
-              image={artwork.primaryImage}
+              title={artwork.title}
+              author={artwork.artistDisplayName}
+              image={artwork.primaryImageSmall}
               {...artwork}
             />
           ))}
