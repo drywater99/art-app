@@ -17,7 +17,7 @@ export default createGlobalStyle`
     overflow: hidden;
   }
 
-  h1, h2, h4, h5, h6,
+  h1, h2, h5, h6,
   ul, ol {
     margin: 0;
   }
@@ -30,11 +30,21 @@ export default createGlobalStyle`
   }
 
   p {
-    margin-top: 10px;
-    margin-bottom: 12px;
+    margin-top: 4px;
+    margin-bottom: 8px;
     color: #383838;
     font-weight: bold;
     font-size: 24px;
+  }
+
+  h4 {
+
+    margin-top: 12px;
+    margin: 0;
+    font-size: 17px;
+    color: #949494;
+    line-height: 1.2;
+    letter-spacing: 1px;
   }
 
 `
