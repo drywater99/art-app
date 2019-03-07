@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import CardsPage from '../cards/CardsPage'
-import PersonList from '../testapi/PersonList'
+import SingleCardPage from '../cards/SingleCardPage'
+import ArtCard from '../testapi/ArtCard'
 
 //import { Helmet } from 'react-helmet'
 import uid from 'uid'
@@ -13,6 +14,7 @@ import {
   toggleCardBookmark,
 } from '../services'
 import GlobalStyle from './GlobalStyle'
+import ArtsyCards from '../testapi/ArtsyCards'
 
 const Grid = styled.div`
   display: grid;
@@ -48,7 +50,7 @@ const StyledLink = styled(NavLink)`
 function App() {
   const [cards, setCards] = useState([
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum I',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag1'],
       content:
@@ -58,7 +60,7 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum II',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag2'],
       content:
@@ -68,7 +70,7 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum III',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag3'],
       content:
@@ -78,7 +80,7 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum IV',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag4'],
       content:
@@ -88,7 +90,7 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum V',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag5'],
       content:
@@ -98,9 +100,59 @@ function App() {
       image: 'http://via.placeholder.com/500x300/',
     },
     {
-      author: 'Lorem Ipsum',
+      author: 'Lorem Ipsum VI',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag6'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum VII',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag7'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum VIII',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag8'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum IX',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag9'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum IX',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag9'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum X',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag10'],
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
@@ -139,7 +191,17 @@ function App() {
             />
           )}
         />
-        <Route path="/personlist" component={PersonList} />
+        <Route
+          path="/artwork/:id"
+          render={({ match }) => (
+            <SingleCardPage
+              id={match.params.id}
+              card={cards.find(card => card.id === match.params.id)}
+            />
+          )}
+        />
+        <Route path="/artcard" component={ArtCard} />
+        <Route path="/artsy" component={ArtsyCards} />
         <Nav>
           <StyledLink exact to="/">
             Home

@@ -1,10 +1,14 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const BorderCard = styled.section`
   padding: 10px 0 0;
   filter: drop-shadow(0 10px 10px #cccccc);
+`
+const StyledLink = styled.a`
+  text-decoration: none;
 `
 
 const ImageCard = styled.div`
@@ -59,14 +63,16 @@ Card.defaultProps = {
   bookmarked: false,
 }
 
-export default function Card({ title, author, image }) {
+export default function Card({ title, author, image, id }) {
   return (
-    <BorderCard>
-      <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
-      <ContentCard>
-        <h3>{author}</h3>
-        <p>{title}</p>
-      </ContentCard>
-    </BorderCard>
+    <StyledLink to={`/artwork/${id}`}>
+      <BorderCard>
+        <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
+        <ContentCard>
+          <h3>{author}</h3>
+          <p>{title}</p>
+        </ContentCard>
+      </BorderCard>
+    </StyledLink>
   )
 }

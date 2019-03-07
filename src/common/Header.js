@@ -11,6 +11,10 @@ export default function Header({ cards, activeTag, setActiveTag, image }) {
     'all',
     ...new Set(cards.reduce((prev, curr) => [...prev, ...curr.tags], [])),
   ]
+  // const tagsImages = [
+  //   tags,
+  //   ...new Set(cards.reduce((prev, curr) => [...prev, ...curr.image], [])),
+  // ]
 
   return (
     <StyledHeader>
