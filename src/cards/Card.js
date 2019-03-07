@@ -7,7 +7,7 @@ const BorderCard = styled.section`
   padding: 10px 0 0;
   filter: drop-shadow(0 10px 10px #cccccc);
 `
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   text-decoration: none;
 `
 

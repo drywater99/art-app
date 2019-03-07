@@ -6,7 +6,6 @@ import SingleCardPage from '../cards/SingleCardPage'
 import ArtCard from '../testapi/ArtCard'
 
 //import { Helmet } from 'react-helmet'
-import uid from 'uid'
 
 import {
   //getAllCards,
@@ -56,7 +55,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '01',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -66,7 +65,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '02',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -76,7 +75,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '02',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -86,7 +85,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '03',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -96,7 +95,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '04',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -106,7 +105,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '05',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -116,7 +115,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '06',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -126,7 +125,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '07',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -136,7 +135,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '08',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -146,7 +145,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '09',
       image: 'http://via.placeholder.com/500x300/',
     },
     {
@@ -156,7 +155,7 @@ function App() {
       content:
         'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
       uploadDate: '2019-03-05T10:51',
-      id: uid(),
+      id: '10',
       image: 'http://via.placeholder.com/500x300/',
     },
   ])
