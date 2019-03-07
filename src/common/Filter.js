@@ -7,12 +7,16 @@ const Grid = styled.section`
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+  padding: 5px 0 0 25px;
+  scroll-padding: 0 25px;
 `
 
 const Link = styled.div`
   display: flex;
-  scroll-snap-align: start;
   white-space: nowrap;
+  scroll-padding: 25px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   cursor: default;
   align-items: flex-end;
   justify-content: center;

@@ -7,6 +7,9 @@ const BorderCard = styled.section`
   padding: 10px 0 0;
   filter: drop-shadow(0 10px 10px #cccccc);
 `
+const StyledLink = styled.a`
+  text-decoration: none;
+`
 
 const ImageCard = styled.div`
   height: 280px;
@@ -62,7 +65,7 @@ Card.defaultProps = {
 
 export default function Card({ title, author, image, id }) {
   return (
-    <Link to={`/artwork/${id}`}>
+    <StyledLink to={`/artwork/${id}`}>
       <BorderCard>
         <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
         <ContentCard>
@@ -70,6 +73,6 @@ export default function Card({ title, author, image, id }) {
           <p>{title}</p>
         </ContentCard>
       </BorderCard>
-    </Link>
+    </StyledLink>
   )
 }

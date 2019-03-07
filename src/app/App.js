@@ -109,6 +109,56 @@ function App() {
       id: uid(),
       image: 'http://via.placeholder.com/500x300/',
     },
+    {
+      author: 'Lorem Ipsum VII',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag7'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum VIII',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag8'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum IX',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag9'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum IX',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag9'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
+    {
+      author: 'Lorem Ipsum X',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag10'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: uid(),
+      image: 'http://via.placeholder.com/500x300/',
+    },
   ])
 
   function toggleBookmark(card) {
