@@ -40,7 +40,6 @@ const StyledLink = styled(NavLink)`
   margin: 15px 24px;
   color: #383838;
   text-decoration: none;
-
   &.active {
     text-decoration: underline;
   }

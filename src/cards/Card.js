@@ -37,7 +37,6 @@ const Bookmark = styled.div`
   height: 10px;
   background: ${p => (p.active ? '#007aff' : '#383838')};
   transition: all 0.4s ease;
-
   &:after {
     transition: all 0.4s ease;
     position: absolute;
