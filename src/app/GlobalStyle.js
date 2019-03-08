@@ -30,7 +30,7 @@ export default createGlobalStyle`
   }
 
   p {
-    margin-top: 4px;
+    margin-top: 10px;
     margin-bottom: 8px;
     color: #383838;
     font-weight: bold;
@@ -38,7 +38,6 @@ export default createGlobalStyle`
   }
 
   h4 {
-
     margin-top: 12px;
     margin: 0;
     font-size: 17px;

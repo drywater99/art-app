@@ -7,7 +7,6 @@ const PageGrid = styled.section`
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 `
-
 const ImageCard = styled.div`
   height: 320px;
   width: 100%;
@@ -21,6 +20,30 @@ const PageContainer = styled.section`
   align-content: flex-start;
   padding: 0 25px 25px 25px;
 `
+
+const BookmarkContainer = styled.section`
+  display: flex;
+  justify-content: flex-end;
+  height: 30px;
+  margin: 0 25px 25px;
+`
+
+const Bookmark = styled.div`
+  right: 30px;
+  width: 20px;
+  height: 10px;
+  background: ${p => (p.active ? '#007aff' : '#383838')};
+  transition: all 0.4s ease;
+
+  &:after {
+    transition: all 0.4s ease;
+    display: block;
+    content: '';
+    border: 10px solid ${p => (p.active ? '#007aff' : '#383838')};
+    border-bottom-color: transparent;
+  }
+`
+
 const FullImage = styled.img`
   display: flex;
   flex-direction: column;
@@ -33,10 +56,13 @@ const FullImage = styled.img`
   }
 `
 
-export default function SingleCardPage({ card }) {
+export default function SingleCardPage({ card, onBookmark }) {
   return (
     <PageGrid>
       <ImageCard style={{ backgroundImage: 'url(' + card.image + ')' }} />
+      <BookmarkContainer>
+        <Bookmark active={card.bookmarked} onClick={() => onBookmark(card)} />
+      </BookmarkContainer>
       <PageContainer>
         <h3>{card.author}</h3>
         <p>{card.title}</p>

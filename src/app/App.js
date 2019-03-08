@@ -7,11 +7,11 @@ import ArtCard from '../testapi/ArtCard'
 
 //import { Helmet } from 'react-helmet'
 
-import {
-  //getAllCards,
-  //getCardsFromStorage,
-  toggleCardBookmark,
-} from '../services'
+//import {
+//getAllCards,
+//getCardsFromStorage,
+//toggleCardBookmark,
+//} from '../services'
 import GlobalStyle from './GlobalStyle'
 import ArtsyCards from '../testapi/ArtsyCards'
 
@@ -57,6 +57,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '01',
       image: 'http://via.placeholder.com/500x300/',
+      bookmarked: false,
     },
     {
       author: 'Lorem Ipsum II',
@@ -67,16 +68,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '02',
       image: 'http://via.placeholder.com/500x300/',
-    },
-    {
-      author: 'Lorem Ipsum III',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag3'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '02',
-      image: 'http://via.placeholder.com/500x300/',
+      bookmarked: true,
     },
     {
       author: 'Lorem Ipsum IV',
@@ -87,6 +79,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '03',
       image: 'http://via.placeholder.com/500x300/',
+      bookmarked: true,
     },
     {
       author: 'Lorem Ipsum V',
@@ -97,6 +90,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '04',
       image: 'http://via.placeholder.com/500x300/',
+      bookmarked: true,
     },
     {
       author: 'Lorem Ipsum VI',
@@ -161,16 +155,13 @@ function App() {
   ])
 
   function toggleBookmark(card) {
-    toggleCardBookmark(card)
-      .then(res => {
-        const index = cards.indexOf(card)
-        setCards([
-          ...cards.slice(0, index),
-          { ...res.data },
-          ...cards.slice(index + 1),
-        ])
-      })
-      .catch(err => console.log(err))
+    console.log('hallo')
+    const index = cards.indexOf(card)
+    setCards([
+      ...cards.slice(0, index),
+      { ...card, bookmarked: !card.bookmarked },
+      ...cards.slice(index + 1),
+    ])
   }
 
   return (
@@ -194,6 +185,7 @@ function App() {
           path="/artwork/:id"
           render={({ match }) => (
             <SingleCardPage
+              onBookmark={toggleBookmark}
               id={match.params.id}
               card={cards.find(card => card.id === match.params.id)}
             />

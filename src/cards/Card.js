@@ -23,19 +23,19 @@ const ImageCard = styled.div`
 
 const ContentCard = styled.section`
   width: 325px;
-  padding: 20px 20px 10px 20px;
+  padding: 22px 20px 10px 22px;
   position: relative;
   background: #fafafa;
   border-radius: 0 0 12px 12px;
 `
 
-/*const Bookmark = styled.div`
+const Bookmark = styled.div`
   position: absolute;
-  right: 12px;
-  top: -6px;
+  right: 25px;
+  top: 12px;
   width: 20px;
-  height: 6px;
-  background: ${p => (p.active ? 'crimson' : 'black')};
+  height: 10px;
+  background: ${p => (p.active ? '#007aff' : '#383838')};
   transition: all 0.4s ease;
 
   &:after {
@@ -44,10 +44,10 @@ const ContentCard = styled.section`
     display: block;
     top: 100%;
     content: '';
-    border: 10px solid ${p => (p.active ? 'crimson' : 'black')};
+    border: 10px solid ${p => (p.active ? '#007aff' : '#383838')};
     border-bottom-color: transparent;
   }
-`*/
+`
 
 Card.propTypes = {
   title: PropTypes.string,
@@ -63,12 +63,21 @@ Card.defaultProps = {
   bookmarked: false,
 }
 
-export default function Card({ title, author, image, id }) {
+export default function Card({
+  title,
+  author,
+  image,
+  id,
+  card,
+  onBookmark,
+  bookmarked,
+}) {
   return (
     <StyledLink to={`/artwork/${id}`}>
       <BorderCard>
         <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
         <ContentCard>
+          {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
           <h3>{author}</h3>
           <p>{title}</p>
         </ContentCard>
