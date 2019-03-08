@@ -11,7 +11,7 @@ const PageGrid = styled.div`
   overflow: hidden;
 `
 
-export default function CardsPage({ onBookmark, cards }) {
+export default function SavedPage({ onBookmark, cards }) {
   const [activeTag, setActiveTag] = useState('all')
 
   return (

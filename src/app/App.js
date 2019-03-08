@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
-import CardsPage from '../cards/CardsPage'
+import HomePage from '../cards/HomePage'
+import SavedPage from '../cards/SavedPage'
 import SingleCardPage from '../cards/SingleCardPage'
 import ArtCard from '../testapi/ArtCard'
 
@@ -70,6 +71,17 @@ function App() {
       bookmarked: true,
     },
     {
+      author: 'Lorem Ipsum II',
+      title: 'Lorem Ipsum Dolor sit',
+      tags: ['tag3'],
+      content:
+        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+      uploadDate: '2019-03-05T10:51',
+      id: '02',
+      image: 'http://via.placeholder.com/500x300/',
+      bookmarked: true,
+    },
+    {
       author: 'Lorem Ipsum IV',
       title: 'Lorem Ipsum Dolor sit',
       tags: ['tag4'],
@@ -78,7 +90,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '03',
       image: 'http://via.placeholder.com/500x300/',
-      bookmarked: true,
+      bookmarked: false,
     },
     {
       author: 'Lorem Ipsum V',
@@ -89,7 +101,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '04',
       image: 'http://via.placeholder.com/500x300/',
-      bookmarked: true,
+      bookmarked: false,
     },
     {
       author: 'Lorem Ipsum VI',
@@ -100,6 +112,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '05',
       image: 'http://via.placeholder.com/500x300/',
+      bookmarked: false,
     },
     {
       author: 'Lorem Ipsum VII',
@@ -110,6 +123,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '06',
       image: 'http://via.placeholder.com/500x300/',
+      bookmarked: false,
     },
     {
       author: 'Lorem Ipsum VIII',
@@ -120,6 +134,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '07',
       image: 'http://via.placeholder.com/500x300/',
+      bookmarked: false,
     },
     {
       author: 'Lorem Ipsum IX',
@@ -130,6 +145,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '08',
       image: 'http://via.placeholder.com/500x300/',
+      bookmarked: false,
     },
     {
       author: 'Lorem Ipsum IX',
@@ -140,6 +156,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '09',
       image: 'http://via.placeholder.com/500x300/',
+      bookmarked: false,
     },
     {
       author: 'Lorem Ipsum X',
@@ -150,6 +167,7 @@ function App() {
       uploadDate: '2019-03-05T10:51',
       id: '10',
       image: 'http://via.placeholder.com/500x300/',
+      bookmarked: false,
     },
   ])
 
@@ -169,12 +187,17 @@ function App() {
         <Route
           exact
           path="/"
-          render={() => <CardsPage cards={cards} onBookmark={toggleBookmark} />}
+          render={() => (
+            <HomePage
+              cards={cards.filter(card => !card.bookmarked)}
+              onBookmark={toggleBookmark}
+            />
+          )}
         />
         <Route
-          path="/bookmarks"
+          path="/saved"
           render={() => (
-            <CardsPage
+            <SavedPage
               cards={cards.filter(card => card.bookmarked)}
               onBookmark={toggleBookmark}
             />
@@ -196,7 +219,7 @@ function App() {
           <StyledLink exact to="/">
             Home
           </StyledLink>
-          <StyledLink to="/bookmarks">Saved</StyledLink>
+          <StyledLink to="/saved">Saved</StyledLink>
         </Nav>
         <GlobalStyle />
       </Grid>
