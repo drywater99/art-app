@@ -20,6 +20,30 @@ const PageContainer = styled.section`
   align-content: flex-start;
   padding: 0 25px 25px 25px;
 `
+
+const BookmarkContainer = styled.section`
+  display: flex;
+  justify-content: flex-end;
+  height: 30px;
+  margin: 0 25px 25px;
+`
+
+const Bookmark = styled.div`
+  right: 30px;
+  width: 20px;
+  height: 10px;
+  background: ${p => (p.active ? '#007aff' : '#383838')};
+  transition: all 0.4s ease;
+
+  &:after {
+    transition: all 0.4s ease;
+    display: block;
+    content: '';
+    border: 10px solid ${p => (p.active ? '#007aff' : '#383838')};
+    border-bottom-color: transparent;
+  }
+`
+
 const FullImage = styled.img`
   display: flex;
   flex-direction: column;
@@ -32,30 +56,14 @@ const FullImage = styled.img`
   }
 `
 
-const Bookmark = styled.div`
-  position: fixed;
-  right: 30px;
-  width: 20px;
-  height: 8px;
-  background: ${p => (p.active ? 'blue' : 'black')};
-  transition: all 0.4s ease;
-
-  &:after {
-    transition: all 0.4s ease;
-    position: absolute;
-    display: block;
-    content: '';
-    border: 10px solid ${p => (p.active ? 'blue' : 'black')};
-    border-bottom-color: transparent;
-  }
-`
-
-export default function SingleCardPage({ card, bookmarked, onBookmark }) {
+export default function SingleCardPage({ card, onBookmark }) {
   return (
     <PageGrid>
       <ImageCard style={{ backgroundImage: 'url(' + card.image + ')' }} />
+      <BookmarkContainer>
+        <Bookmark active={card.bookmarked} onClick={() => onBookmark(card)} />
+      </BookmarkContainer>
       <PageContainer>
-        {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
         <h3>{card.author}</h3>
         <p>{card.title}</p>
         <h4>{card.content}</h4>
