@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import HomePage from '../cards/HomePage'
+import ExplorePage from '../cards/ExplorePage'
 import SavedPage from '../cards/SavedPage'
 import SingleCardPage from '../cards/SingleCardPage'
 import ArtCard from '../testapi/ArtCard'
@@ -195,6 +196,12 @@ function App() {
           )}
         />
         <Route
+          path="/explore"
+          render={() => (
+            <ExplorePage cards={cards} onBookmark={toggleBookmark} />
+          )}
+        />
+        <Route
           path="/saved"
           render={() => (
             <SavedPage
@@ -219,6 +226,7 @@ function App() {
           <StyledLink exact to="/">
             Home
           </StyledLink>
+          <StyledLink to="/explore">Explore</StyledLink>
           <StyledLink to="/saved">Saved</StyledLink>
         </Nav>
         <GlobalStyle />

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Header from '../common/Header'
 import Card from './Card'
 import CardContainer from './CardContainer'
 import Title from '../common/Title'
@@ -16,7 +15,6 @@ export default function HomePage({ onBookmark, cards }) {
 
   return (
     <PageGrid>
-      <Header cards={cards} activeTag={activeTag} setActiveTag={setActiveTag} />
       <Title>Recommended Works</Title>
       <CardContainer>
         {cards
