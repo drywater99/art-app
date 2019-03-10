@@ -25,7 +25,7 @@ export default function ExplorePage({ onBookmark, cards }) {
 
   return (
     <PageGrid>
-      <Title>Explore</Title>
+      <Title data-cy="header-title">Explore</Title>
       <Header cards={cards} activeTag={activeTag} setActiveTag={setActiveTag} />
       <ExploreContainer>
         {cards

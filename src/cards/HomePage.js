@@ -15,7 +15,7 @@ export default function HomePage({ onBookmark, cards }) {
 
   return (
     <PageGrid>
-      <Title>Recommended Works</Title>
+      <Title data-cy="header-title">Recommended Works</Title>
       <CardContainer>
         {cards
           .filter(card => activeTag === 'all' || card.tags.includes(activeTag))

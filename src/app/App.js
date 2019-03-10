@@ -173,7 +173,6 @@ function App() {
   ])
 
   function toggleBookmark(card) {
-    console.log('hallo')
     const index = cards.indexOf(card)
     setCards([
       ...cards.slice(0, index),
