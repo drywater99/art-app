@@ -1,6 +1,11 @@
 import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
+ @use postcss-nested;
+ *, *:before, *:after {
+  box-sizing: border-box;
+ }
+
   * {
     box-sizing: border-box;
   }
