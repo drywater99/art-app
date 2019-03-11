@@ -31,17 +31,25 @@ const ImageCard = styled.div`
 // }
 
 export default function Thumbnails({
-  title,
-  author,
   image,
   id,
   card,
+  cards,
   onBookmark,
   bookmarked,
+  _links,
 }) {
   return (
     <StyledLink to={`/artwork/${id}`}>
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
+
+      {/* {cards.map((card, i) => {
+        const image = card._links.image.href.replace(
+          '{image_version}',
+          'four_thirds'
+        )
+        return <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
+      })} */}
     </StyledLink>
   )
 }

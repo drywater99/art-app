@@ -20,7 +20,7 @@ const ExploreContainer = styled.section`
   overflow-y: scroll;
 `
 
-export default function ExplorePage({ onGeneClick, onBookmark, cards }) {
+export default function ExplorePage({ onGeneClick, onBookmark, cards, id }) {
   const [activeTag, setActiveTag] = useState('all')
 
   return (
@@ -36,7 +36,14 @@ export default function ExplorePage({ onGeneClick, onBookmark, cards }) {
         {cards
           .filter(card => activeTag === 'all' || card.tags.includes(activeTag))
           .map(card => (
-            <Thumbnails image={card.image} {...card} key={card.id} />
+            <Thumbnails
+              image={card._links.image.href.replace(
+                '{image_version}',
+                'four_thirds'
+              )}
+              {...card}
+              key={card.id}
+            />
           ))}
       </ExploreContainer>
     </PageGrid>

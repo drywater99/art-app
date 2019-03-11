@@ -45,127 +45,127 @@ const StyledLink = styled(NavLink)`
 
 function App(PageGrid, CardBox) {
   const [cards, setCards] = useState([
-    {
-      author: 'Lorem Ipsum I',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag1'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '01',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: false,
-    },
-    {
-      author: 'Lorem Ipsum II',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag2'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '02',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: true,
-    },
-    {
-      author: 'Lorem Ipsum II',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag3'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '02',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: true,
-    },
-    {
-      author: 'Lorem Ipsum IV',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag4'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '03',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: false,
-    },
-    {
-      author: 'Lorem Ipsum V',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag5'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '04',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: false,
-    },
-    {
-      author: 'Lorem Ipsum VI',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag6'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '05',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: false,
-    },
-    {
-      author: 'Lorem Ipsum VII',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag7'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '06',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: false,
-    },
-    {
-      author: 'Lorem Ipsum VIII',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag8'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '07',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: false,
-    },
-    {
-      author: 'Lorem Ipsum IX',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag9'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '08',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: false,
-    },
-    {
-      author: 'Lorem Ipsum IX',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag9'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '09',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: false,
-    },
-    {
-      author: 'Lorem Ipsum X',
-      title: 'Lorem Ipsum Dolor sit',
-      tags: ['tag10'],
-      content:
-        'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-      uploadDate: '2019-03-05T10:51',
-      id: '10',
-      image: 'http://via.placeholder.com/500x300/',
-      bookmarked: false,
-    },
+    // {
+    //   author: 'Lorem Ipsum I',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag1'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '01',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: false,
+    // },
+    // {
+    //   author: 'Lorem Ipsum II',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag2'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '02',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: true,
+    // },
+    // {
+    //   author: 'Lorem Ipsum II',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag3'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '02',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: true,
+    // },
+    // {
+    //   author: 'Lorem Ipsum IV',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag4'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '03',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: false,
+    // },
+    // {
+    //   author: 'Lorem Ipsum V',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag5'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '04',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: false,
+    // },
+    // {
+    //   author: 'Lorem Ipsum VI',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag6'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '05',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: false,
+    // },
+    // {
+    //   author: 'Lorem Ipsum VII',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag7'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '06',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: false,
+    // },
+    // {
+    //   author: 'Lorem Ipsum VIII',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag8'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '07',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: false,
+    // },
+    // {
+    //   author: 'Lorem Ipsum IX',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag9'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '08',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: false,
+    // },
+    // {
+    //   author: 'Lorem Ipsum IX',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag9'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '09',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: false,
+    // },
+    // {
+    //   author: 'Lorem Ipsum X',
+    //   title: 'Lorem Ipsum Dolor sit',
+    //   tags: ['tag10'],
+    //   content:
+    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
+    //   uploadDate: '2019-03-05T10:51',
+    //   id: '10',
+    //   image: 'http://via.placeholder.com/500x300/',
+    //   bookmarked: false,
+    // },
   ])
 
   function filterByGene(url) {
@@ -183,6 +183,8 @@ function App(PageGrid, CardBox) {
       ...cards.slice(index + 1),
     ])
   }
+
+  console.log(cards)
 
   return (
     <Router>

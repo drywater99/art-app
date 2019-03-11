@@ -3,14 +3,6 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import {
-  getAllCards,
-  getCardsFromStorage,
-  postNewCard,
-  saveCardsToStorage,
-  toggleCardBookmark,
-} from '../services'
-
 const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto 1fr;
