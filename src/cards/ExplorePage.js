@@ -20,13 +20,18 @@ const ExploreContainer = styled.section`
   overflow-y: scroll;
 `
 
-export default function ExplorePage({ onBookmark, cards }) {
+export default function ExplorePage({ onGeneClick, onBookmark, cards }) {
   const [activeTag, setActiveTag] = useState('all')
 
   return (
     <PageGrid>
       <Title data-cy="header-title">Explore</Title>
-      <Header cards={cards} activeTag={activeTag} setActiveTag={setActiveTag} />
+      <Header
+        onGeneClick={onGeneClick}
+        cards={cards}
+        activeTag={activeTag}
+        setActiveTag={setActiveTag}
+      />
       <ExploreContainer>
         {cards
           .filter(card => activeTag === 'all' || card.tags.includes(activeTag))

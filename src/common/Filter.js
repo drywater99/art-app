@@ -32,16 +32,16 @@ const Link = styled.div`
   text-decoration: ${p => (p.isActive ? 'underline' : '')};
 `
 
-export default function Filter({ items, active, onClick }) {
+export default function Filter({ active, onGeneClick, genes }) {
   return (
     <Grid>
-      {items.map(item => (
+      {genes.map(gene => (
         <Link
-          key={item}
-          isActive={item === active}
-          onClick={() => onClick(item)}
+          key={gene}
+          isActive={gene === active}
+          onClick={() => onGeneClick(gene.urlApi)}
         >
-          {item}
+          {gene.name}
         </Link>
       ))}
     </Grid>

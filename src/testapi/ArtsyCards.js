@@ -1,7 +1,15 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+
+import {
+  getAllCards,
+  getCardsFromStorage,
+  postNewCard,
+  saveCardsToStorage,
+  toggleCardBookmark,
+} from '../services'
 
 const PageGrid = styled.div`
   display: grid;
@@ -43,52 +51,51 @@ const ContentCard = styled.section`
   border-radius: 0 0 12px 12px;
 `
 
-export default class ArtsyCards extends React.Component {
-  state = {
-    artworks: [],
-  }
+export default function ArtsyCards() {
+  const [artworks, setArtworks] = useState([])
 
-  componentDidMount() {
+  function getArtworks() {
+    const urlString = 'https://api.artsy.net/api/artists?size=50&sort=-trending'
+
     axios
-      .get(`https://api.artsy.net/api/artists?size=50&sort=-trending`, {
+      .get(urlString, {
         headers: {
           'X-Xapp-Token':
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
         },
       })
       .then(res => {
+        const results = res.data._embedded.artists
         console.log(res.data._embedded.artists)
-        this.setState({
-          artworks: [...this.state.artworks, ...res.data._embedded.artists],
-        })
+        setArtworks(results)
       })
   }
 
-  render() {
-    return (
-      <PageGrid>
-        <CardContainer>
-          {this.state.artworks.map((artwork, i) => {
-            const image = artwork._links.image.href.replace(
-              '{image_version}',
-              'four_thirds'
-            )
-            return (
-              <Link to={`/artsy/${artwork.id}`}>
-                <BorderCard>
-                  <ImageCard
-                    style={{ backgroundImage: 'url(' + image + ')' }}
-                  />
-                  <ContentCard>
-                    <h3>{artwork.name}</h3>
-                    <p>{artwork.birthday}</p>
-                  </ContentCard>
-                </BorderCard>
-              </Link>
-            )
-          })}
-        </CardContainer>
-      </PageGrid>
-    )
-  }
+  useEffect(() => {
+    getArtworks()
+  }, [])
+
+  return (
+    <PageGrid>
+      <CardContainer>
+        {artworks.map((artwork, i) => {
+          const image = artwork._links.image.href.replace(
+            '{image_version}',
+            'four_thirds'
+          )
+          return (
+            <Link to={`/artsy/${artwork.id}`}>
+              <BorderCard>
+                <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
+                <ContentCard>
+                  <h3>{artwork.name}</h3>
+                  <p>{artwork.birthday}</p>
+                </ContentCard>
+              </BorderCard>
+            </Link>
+          )
+        })}
+      </CardContainer>
+    </PageGrid>
+  )
 }

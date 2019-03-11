@@ -8,7 +8,9 @@ import Title from '../common/Title'
 const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr;
-  overflow: hidden;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
 `
 
 export default function SavedPage({ onBookmark, cards }) {

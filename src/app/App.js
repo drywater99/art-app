@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import HomePage from '../cards/HomePage'
-import TestPage from '../cards/TestPage'
 import ExplorePage from '../cards/ExplorePage'
 import SavedPage from '../cards/SavedPage'
 import SingleCardPage from '../cards/SingleCardPage'
@@ -10,11 +9,7 @@ import ArtCard from '../testapi/ArtCard'
 
 //import { Helmet } from 'react-helmet'
 
-//import {
-//getAllCards,
-//getCardsFromStorage,
-//toggleCardBookmark,
-//} from '../services'
+import { getGeneData } from '../services'
 import GlobalStyle from './GlobalStyle'
 import ArtsyCards from '../testapi/ArtsyCards'
 
@@ -173,54 +168,11 @@ function App(PageGrid, CardBox) {
     },
   ])
 
-  function openTestCard() {
-    if (CardBox.classList.contains({ class: 'open' })) {
-      close(CardBox)
-    } else {
-      open(CardBox)
-    }
-  }
-
-  const open = target => {
-    const offsetY = PageGrid.scrollTop - target.offsetTop
-    const content = target.querySelector('.content')
-    const close = target.querySelector('.close')
-    target.classList.add('open')
-    PageGrid.classList.add('lock')
-    console.log(close)
-    close.style.transform = `translateX(15px) translateY(${offsetY}px)`
-    content.style.top = `${offsetY}px`
-    content.onscroll = e => {
-      if (
-        !close.classList.contains({ class: 'reverse' }) &&
-        content.scrollTop > 386
-      ) {
-        close.classList.add({ class: 'reverse' })
-      } else if (
-        close.classList.contains({ class: 'reverse' }) &&
-        content.scrollTop <= 386
-      ) {
-        close.classList.remove({ class: 'reverse' })
-      }
-    }
-  }
-
-  const close = target => {
-    const content = target.querySelector('.content')
-    const close = target.querySelector('.close')
-    const cover = content.querySelector('.cover')
-    target.classList.remove('open')
-    PageGrid.classList.remove('lock')
-    close.style.transform = `translateY(0) translateX(0)`
-    content.style.top = 0
-    cover.style.top = `${content.scrollTop}px`
-    content.onscroll = null
-    setTimeout(() => {
-      cover.style.transition = 'none'
-      cover.style.top = '0'
-      content.scrollTop = 0
-      cover.style.transition = 'all .4s ease-in-out'
-    }, 400)
+  function filterByGene(url) {
+    getGeneData(url).then(res => {
+      const results = res.data._embedded.artists
+      setCards(results)
+    })
   }
 
   function toggleBookmark(card) {
@@ -246,19 +198,13 @@ function App(PageGrid, CardBox) {
           )}
         />
         <Route
-          path="/testpage"
-          render={() => (
-            <TestPage
-              cards={cards.filter(card => !card.bookmarked)}
-              onBookmark={toggleBookmark}
-              onClick={openTestCard}
-            />
-          )}
-        />
-        <Route
           path="/explore"
           render={() => (
-            <ExplorePage cards={cards} onBookmark={toggleBookmark} />
+            <ExplorePage
+              cards={cards}
+              onGeneClick={filterByGene}
+              onBookmark={toggleBookmark}
+            />
           )}
         />
         <Route
@@ -286,7 +232,6 @@ function App(PageGrid, CardBox) {
           <StyledLink exact to="/">
             Home
           </StyledLink>
-          <StyledLink to="/testpage">Test</StyledLink>
           <StyledLink to="/explore">Explore</StyledLink>
           <StyledLink to="/saved">Saved</StyledLink>
         </Nav>
