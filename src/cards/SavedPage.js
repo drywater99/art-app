@@ -27,18 +27,17 @@ export default function SavedPage({ onBookmark, cards }) {
       <Header cards={cards} activeTag={activeTag} setActiveTag={setActiveTag} />
       <Title>Saved</Title>
       <CardContainer>
-        {cards
-          .filter(card => activeTag === 'all' || card.tags.includes(activeTag))
-          .map(card => (
-            <Card
-              title={card.title}
-              author={card.author}
-              image={card.image}
-              {...card}
-              key={card.id}
-              onBookmark={() => onBookmark(card)}
-            />
-          ))}
+        {cards.map(card => (
+          <Card
+            date={card.date}
+            collecting_institution={card.collecting_institution}
+            author={card.author}
+            image={card._links.image.href.replace('{image_version}', 'large')}
+            {...card}
+            key={card.id}
+            onBookmark={() => onBookmark(card)}
+          />
+        ))}
       </CardContainer>
     </PageGrid>
   )

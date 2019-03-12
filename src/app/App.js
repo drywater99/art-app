@@ -47,7 +47,7 @@ function App() {
   const [cards, setCards] = useState([])
 
   function getTrendingArtists() {
-    const urlString = 'https://api.artsy.net/api/artworks?size=200'
+    const urlString = 'https://api.artsy.net/api/artworks?size=20'
 
     axios
       .get(urlString, {

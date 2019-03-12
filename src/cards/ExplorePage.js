@@ -39,7 +39,7 @@ export default function ExplorePage({ onGeneClick, cards }) {
             <Thumbnails
               image={card._links.image.href.replace(
                 '{image_version}',
-                'four_thirds'
+                'medium'
               )}
               {...card}
               key={card.id}

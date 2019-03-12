@@ -16,7 +16,7 @@ const ImageCard = styled.div`
   width: 325px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center top;
   border-radius: 12px 12px 0 0;
   position: relative;
 `

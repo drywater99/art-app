@@ -34,7 +34,7 @@ export default createGlobalStyle`
     font-size: 24px;
   }
   small {
-    padding-bottom: 10px;
+    padding-bottom: 6px;
     font-size: 15px;
     font-weight: bold;
     color: #949494;
