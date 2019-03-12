@@ -26,7 +26,7 @@ const ContentCard = styled.section`
   align-items: center;
   justify-content: space-between;
   width: 325px;
-  padding: 22px 20px 10px 22px;
+  padding: 22px 20px 20px 22px;
   background: #fafafa;
   border-radius: 0 0 12px 12px;
 `
@@ -69,6 +69,8 @@ export default function Card({
   id,
   onBookmark,
   bookmarked,
+  date,
+  collecting_institution,
 }) {
   return (
     <StyledLink to={`/artwork/${id}`}>
@@ -79,8 +81,9 @@ export default function Card({
         />
         <ContentCard data-cy="card-content">
           <div>
-            <h3>{author}</h3>
+            <h3>{date}</h3>
             <p>{title}</p>
+            <small>{collecting_institution}</small>
           </div>
           {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
         </ContentCard>

@@ -14,6 +14,7 @@ const CardContainer = styled.section`
   justify-content: center;
   grid-gap: 12px;
   padding: 4px 12px 12px;
+  overflow-y: scroll;
 `
 
 export default function HomePage({ onBookmark, cards }) {
@@ -23,9 +24,10 @@ export default function HomePage({ onBookmark, cards }) {
       <CardContainer>
         {cards.map(card => (
           <Card
-            title={card.title}
+            date={card.date}
+            collecting_institution={card.collecting_institution}
             author={card.author}
-            image={card.image}
+            image={card._links.image.href.replace('{image_version}', 'large')}
             {...card}
             key={card.id}
             onBookmark={() => onBookmark(card)}
