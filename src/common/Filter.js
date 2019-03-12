@@ -7,14 +7,14 @@ const Grid = styled.section`
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 5px 0 0 25px;
+  padding: 5px 0 0 20px;
   scroll-padding: 0 25px;
 `
 
 const Link = styled.div`
   display: flex;
   white-space: nowrap;
-  scroll-padding: 25px;
+  scroll-padding: 20px;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   cursor: default;
@@ -32,16 +32,16 @@ const Link = styled.div`
   text-decoration: ${p => (p.isActive ? 'underline' : '')};
 `
 
-export default function Filter({ items, active, onClick }) {
+export default function Filter({ active, onGeneClick, genes }) {
   return (
     <Grid>
-      {items.map(item => (
+      {genes.map(gene => (
         <Link
-          key={item}
-          isActive={item === active}
-          onClick={() => onClick(item)}
+          key={gene}
+          isActive={gene === active}
+          onClick={() => onGeneClick(gene.urlApi)}
         >
-          {item}
+          {gene.name}
         </Link>
       ))}
     </Grid>
