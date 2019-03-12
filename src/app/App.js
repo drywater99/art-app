@@ -5,7 +5,6 @@ import HomePage from '../cards/HomePage'
 import ExplorePage from '../cards/ExplorePage'
 import SavedPage from '../cards/SavedPage'
 import SingleCardPage from '../cards/SingleCardPage'
-import ArtCard from '../testapi/ArtCard'
 
 //import { Helmet } from 'react-helmet'
 
@@ -45,127 +44,167 @@ const StyledLink = styled(NavLink)`
 
 function App(PageGrid, CardBox) {
   const [cards, setCards] = useState([
-    // {
-    //   author: 'Lorem Ipsum I',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag1'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '01',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: false,
-    // },
-    // {
-    //   author: 'Lorem Ipsum II',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag2'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '02',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: true,
-    // },
-    // {
-    //   author: 'Lorem Ipsum II',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag3'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '02',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: true,
-    // },
-    // {
-    //   author: 'Lorem Ipsum IV',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag4'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '03',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: false,
-    // },
-    // {
-    //   author: 'Lorem Ipsum V',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag5'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '04',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: false,
-    // },
-    // {
-    //   author: 'Lorem Ipsum VI',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag6'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '05',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: false,
-    // },
-    // {
-    //   author: 'Lorem Ipsum VII',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag7'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '06',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: false,
-    // },
-    // {
-    //   author: 'Lorem Ipsum VIII',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag8'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '07',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: false,
-    // },
-    // {
-    //   author: 'Lorem Ipsum IX',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag9'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '08',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: false,
-    // },
-    // {
-    //   author: 'Lorem Ipsum IX',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag9'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '09',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: false,
-    // },
-    // {
-    //   author: 'Lorem Ipsum X',
-    //   title: 'Lorem Ipsum Dolor sit',
-    //   tags: ['tag10'],
-    //   content:
-    //     'Lorem, ipsum dolor sit amet consectetur dipisicing elit. Voluptates officiis nulla, molestiae tenetur. officiis nulla, molestiae tenetur. offi?',
-    //   uploadDate: '2019-03-05T10:51',
-    //   id: '10',
-    //   image: 'http://via.placeholder.com/500x300/',
-    //   bookmarked: false,
-    // },
+    {
+      id: '50749e8957362b0002001c65',
+      slug: 'filippino-lippi',
+      created_at: '2012-10-09T22:00:42+00:00',
+      updated_at: '2019-03-11T07:13:07+00:00',
+      name: 'Filippino Lippi',
+      sortable_name: 'Lippi Filippino',
+      gender: 'male',
+      biography: '',
+      birthday: '1457',
+      deathday: '1504',
+      hometown: 'Prato, Italy',
+      location: 'Florence, Italy',
+      nationality: 'Italian',
+      image_versions: ['four_thirds', 'large', 'square', 'tall'],
+      _links: {
+        thumbnail: {
+          href:
+            'https://d32dm0rphc51dk.cloudfront.net/BJIGOQfdIgQL8ffuMza8Nw/four_thirds.jpg',
+        },
+        image: {
+          href:
+            'https://d32dm0rphc51dk.cloudfront.net/BJIGOQfdIgQL8ffuMza8Nw/{image_version}.jpg',
+          templated: true,
+        },
+        self: {
+          href: 'https://api.artsy.net/api/artists/50749e8957362b0002001c65',
+        },
+        permalink: {
+          href: 'http://www.artsy.net/artist/filippino-lippi',
+        },
+        artworks: {
+          href:
+            'https://api.artsy.net/api/artworks?artist_id=50749e8957362b0002001c65',
+        },
+        published_artworks: {
+          href:
+            'https://api.artsy.net/api/artworks?artist_id=50749e8957362b0002001c65&published=true',
+        },
+        similar_artists: {
+          href:
+            'https://api.artsy.net/api/artists?similar_to_artist_id=50749e8957362b0002001c65',
+        },
+        similar_contemporary_artists: {
+          href:
+            'https://api.artsy.net/api/artists?similar_to_artist_id=50749e8957362b0002001c65&similarity_type=contemporary',
+        },
+        genes: {
+          href:
+            'https://api.artsy.net/api/genes?artist_id=50749e8957362b0002001c65',
+        },
+      },
+    },
+    {
+      id: '542c6c737261692d34920400',
+      slug: 'joan-reixach',
+      created_at: '2014-10-01T21:04:51+00:00',
+      updated_at: '2018-03-23T18:42:24+00:00',
+      name: 'Joan Reixach',
+      sortable_name: 'Reixach Joan',
+      gender: null,
+      biography: '',
+      birthday: '',
+      deathday: '',
+      hometown: '',
+      location: '',
+      nationality: '',
+      image_versions: ['four_thirds', 'large', 'square', 'tall'],
+      _links: {
+        thumbnail: {
+          href:
+            'https://d32dm0rphc51dk.cloudfront.net/k3aU8Fj1vM2hsmBKopJrew/four_thirds.jpg',
+        },
+        image: {
+          href:
+            'https://d32dm0rphc51dk.cloudfront.net/k3aU8Fj1vM2hsmBKopJrew/{image_version}.jpg',
+          templated: true,
+        },
+        self: {
+          href: 'https://api.artsy.net/api/artists/542c6c737261692d34920400',
+        },
+        permalink: {
+          href: 'http://www.artsy.net/artist/joan-reixach',
+        },
+        artworks: {
+          href:
+            'https://api.artsy.net/api/artworks?artist_id=542c6c737261692d34920400',
+        },
+        published_artworks: {
+          href:
+            'https://api.artsy.net/api/artworks?artist_id=542c6c737261692d34920400&published=true',
+        },
+        similar_artists: {
+          href:
+            'https://api.artsy.net/api/artists?similar_to_artist_id=542c6c737261692d34920400',
+        },
+        similar_contemporary_artists: {
+          href:
+            'https://api.artsy.net/api/artists?similar_to_artist_id=542c6c737261692d34920400&similarity_type=contemporary',
+        },
+        genes: {
+          href:
+            'https://api.artsy.net/api/genes?artist_id=542c6c737261692d34920400',
+        },
+      },
+    },
+    {
+      id: '53ed2f137261695c2efe0600',
+      slug: 'gherardo-di-jacopo-starnina-master-of-the-bambino-vispo',
+      created_at: '2014-08-14T21:50:11+00:00',
+      updated_at: '2019-02-27T11:01:44+00:00',
+      name: 'Gherardo di Jacopo Starnina (Master of the Bambino Vispo)',
+      sortable_name:
+        'Gherardo di Jacopo Starnina (Master of the Bambino Vispo)',
+      gender: 'male',
+      biography: '',
+      birthday: 'about 1364',
+      deathday: '1413',
+      hometown: '',
+      location: '',
+      nationality: '',
+      image_versions: ['four_thirds', 'large', 'square', 'tall'],
+      _links: {
+        thumbnail: {
+          href:
+            'https://d32dm0rphc51dk.cloudfront.net/usgJL1it2oJOKFwXI06qLQ/four_thirds.jpg',
+        },
+        image: {
+          href:
+            'https://d32dm0rphc51dk.cloudfront.net/usgJL1it2oJOKFwXI06qLQ/{image_version}.jpg',
+          templated: true,
+        },
+        self: {
+          href: 'https://api.artsy.net/api/artists/53ed2f137261695c2efe0600',
+        },
+        permalink: {
+          href:
+            'http://www.artsy.net/artist/gherardo-di-jacopo-starnina-master-of-the-bambino-vispo',
+        },
+        artworks: {
+          href:
+            'https://api.artsy.net/api/artworks?artist_id=53ed2f137261695c2efe0600',
+        },
+        published_artworks: {
+          href:
+            'https://api.artsy.net/api/artworks?artist_id=53ed2f137261695c2efe0600&published=true',
+        },
+        similar_artists: {
+          href:
+            'https://api.artsy.net/api/artists?similar_to_artist_id=53ed2f137261695c2efe0600',
+        },
+        similar_contemporary_artists: {
+          href:
+            'https://api.artsy.net/api/artists?similar_to_artist_id=53ed2f137261695c2efe0600&similarity_type=contemporary',
+        },
+        genes: {
+          href:
+            'https://api.artsy.net/api/genes?artist_id=53ed2f137261695c2efe0600',
+        },
+      },
+    },
   ])
 
   function filterByGene(url) {
@@ -228,7 +267,7 @@ function App(PageGrid, CardBox) {
             />
           )}
         />
-        <Route path="/artcard" component={ArtCard} />
+
         <Route path="/artsy" component={ArtsyCards} />
         <Nav>
           <StyledLink exact to="/">

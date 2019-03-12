@@ -16,40 +16,10 @@ const ImageCard = styled.div`
   position: relative;
 `
 
-// Card.propTypes = {
-//   title: PropTypes.string,
-//   content: PropTypes.string,
-//   tags: PropTypes.arrayOf(PropTypes.string),
-//   bookmarked: PropTypes.bool,
-//   onBookmark: PropTypes.func,
-// }
-
-// Card.defaultProps = {
-//   title: 'No title defined',
-//   content: 'No content defined',
-//   bookmarked: false,
-// }
-
-export default function Thumbnails({
-  image,
-  id,
-  card,
-  cards,
-  onBookmark,
-  bookmarked,
-  _links,
-}) {
+export default function Thumbnails({ image, id }) {
   return (
     <StyledLink to={`/artwork/${id}`}>
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
-
-      {/* {cards.map((card, i) => {
-        const image = card._links.image.href.replace(
-          '{image_version}',
-          'four_thirds'
-        )
-        return <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
-      })} */}
     </StyledLink>
   )
 }

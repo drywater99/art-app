@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from '../common/Header'
 import Card from './Card'
-import CardContainer from './CardContainer'
 import Title from '../common/Title'
 
 const PageGrid = styled.div`
@@ -11,6 +10,13 @@ const PageGrid = styled.div`
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
+`
+const CardContainer = styled.section`
+  display: grid;
+  align-content: flex-start;
+  justify-content: center;
+  grid-gap: 12px;
+  padding: 4px 12px 12px;
 `
 
 export default function SavedPage({ onBookmark, cards }) {

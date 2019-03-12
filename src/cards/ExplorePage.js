@@ -20,7 +20,7 @@ const ExploreContainer = styled.section`
   overflow-y: scroll;
 `
 
-export default function ExplorePage({ onGeneClick, onBookmark, cards, id }) {
+export default function ExplorePage({ onGeneClick, cards }) {
   const [activeTag, setActiveTag] = useState('all')
 
   return (

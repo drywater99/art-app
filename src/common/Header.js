@@ -7,38 +7,25 @@ const StyledHeader = styled.header`
 `
 
 export default function Header({
-  cards,
   onGeneClick,
   activeTag,
   setActiveTag,
   image,
 }) {
-  // const tags = [
-  //   'all',
-  //   ...new Set(cards.reduce((prev, curr) => [...prev, ...curr.tags], [])),
-  // ]
-
   const [genes] = useState([
     {
-      name: 'hilibi',
+      name: '16th Century',
       urlApi:
         'https://api.artsy.net/api/artists?gene_id=51b662a48b3b816b5c00034f&size=50',
     },
   ])
-
-  // const tagsImages = [
-  //   tags,
-  //   ...new Set(cards.reduce((prev, curr) => [...prev, ...curr.image], [])),
-  // ]
 
   return (
     <StyledHeader>
       <Filter
         genes={genes}
         image={image}
-        // items={tags}
         active={activeTag}
-        onClick={setActiveTag}
         onGeneClick={onGeneClick}
       />
     </StyledHeader>

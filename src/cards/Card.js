@@ -67,7 +67,6 @@ export default function Card({
   author,
   image,
   id,
-  card,
   onBookmark,
   bookmarked,
 }) {

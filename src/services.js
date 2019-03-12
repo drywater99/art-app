@@ -13,12 +13,6 @@ export function getGeneData(url) {
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
     },
   })
-  // .then(res => {
-  //   // const results = res.data._embedded.artists
-  //   // console.log(res.data._embedded.artists)
-  //   // setArtworks(results)
-  //   console.log(res)
-  // })
 }
 
 export function toggleCardBookmark(card) {
