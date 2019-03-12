@@ -22,17 +22,19 @@ export default function HomePage({ onBookmark, cards }) {
     <PageGrid>
       <Title data-cy="header-title">Recommended Works</Title>
       <CardContainer>
-        {cards.map(card => (
-          <Card
-            date={card.date}
-            collecting_institution={card.collecting_institution}
-            author={card.author}
-            image={card._links.image.href.replace('{image_version}', 'large')}
-            {...card}
-            key={card.id}
-            onBookmark={() => onBookmark(card)}
-          />
-        ))}
+        {cards
+          .filter(card => card.slug)
+          .map(card => (
+            <Card
+              date={card.date}
+              collecting_institution={card.collecting_institution}
+              author={card.author}
+              image={card._links.image.href.replace('{image_version}', 'large')}
+              {...card}
+              key={card.id}
+              onBookmark={() => onBookmark(card)}
+            />
+          ))}
       </CardContainer>
     </PageGrid>
   )

@@ -3,8 +3,10 @@ import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import HomePage from '../cards/HomePage'
 import ExplorePage from '../cards/ExplorePage'
+import GenePage from '../cards/GenePage'
 import SavedPage from '../cards/SavedPage'
 import SingleCardPage from '../cards/SingleCardPage'
+import SingleGenePage from '../cards/SingleGenePage'
 import axios from 'axios'
 
 //import { Helmet } from 'react-helmet'
@@ -47,7 +49,7 @@ function App() {
   const [cards, setCards] = useState([])
 
   function getTrendingArtists() {
-    const urlString = 'https://api.artsy.net/api/artworks?size=20'
+    const urlString = 'https://api.artsy.net/api/artworks?size=5'
 
     axios
       .get(urlString, {
@@ -66,6 +68,28 @@ function App() {
     getTrendingArtists()
   }, [])
 
+  function getGenes() {
+    const urlString = 'https://api.artsy.net/api/genes?size=5'
+
+    axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
+        },
+      })
+      .then(res => {
+        const results = res.data._embedded.genes
+        setCards(results)
+      })
+  }
+
+  useEffect(() => {
+    getGenes()
+  }, [])
+
+  console.log(cards)
+
   function filterByGene(url) {
     getGeneData(url).then(res => {
       const results = res.data._embedded.artists
@@ -81,8 +105,6 @@ function App() {
       ...cards.slice(index + 1),
     ])
   }
-
-  console.log(cards)
 
   return (
     <Router>
@@ -108,6 +130,10 @@ function App() {
           )}
         />
         <Route
+          path="/genes"
+          render={() => <GenePage cards={cards} onBookmark={toggleBookmark} />}
+        />
+        <Route
           path="/saved"
           render={() => (
             <SavedPage
@@ -126,14 +152,25 @@ function App() {
             />
           )}
         />
+        <Route
+          path="/gene/:id"
+          render={({ match }) => (
+            <SingleGenePage
+              onBookmark={toggleBookmark}
+              id={match.params.id}
+              card={cards.find(card => card.id === match.params.id)}
+            />
+          )}
+        />
 
         <Route path="/artsy" component={ArtsyCards} />
         <Nav>
           <StyledLink exact to="/">
-            Home
+            H
           </StyledLink>
-          <StyledLink to="/explore">Explore</StyledLink>
-          <StyledLink to="/saved">Saved</StyledLink>
+          <StyledLink to="/explore">E</StyledLink>
+          <StyledLink to="/genes">G</StyledLink>
+          <StyledLink to="/saved">S</StyledLink>
         </Nav>
         <GlobalStyle />
       </Grid>
