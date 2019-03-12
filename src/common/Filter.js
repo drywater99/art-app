@@ -18,6 +18,9 @@ const Link = styled.div`
   scroll-snap-align: start;
   scroll-snap-stop: always;
   cursor: default;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   align-items: flex-end;
   justify-content: center;
   margin: 4px;
@@ -27,23 +30,23 @@ const Link = styled.div`
   flex: 1 1;
   background-color: #d8d8d8;
   border-radius: 6px;
+  font-size: 12px;
   font-weight: bold;
   color: #fcfcfc;
   text-decoration: ${p => (p.isActive ? 'underline' : '')};
 `
 
-export default function Filter({ active, onGeneClick, genes }) {
+export default function Filter({ gene, name, active, onGeneClick, image }) {
   return (
     <Grid>
-      {genes.map(gene => (
-        <Link
-          key={gene}
-          isActive={gene === active}
-          onClick={() => onGeneClick(gene.urlApi)}
-        >
-          {gene.name}
-        </Link>
-      ))}
+      <Link
+        style={{ backgroundImage: 'url(' + image + ')' }}
+        key={gene}
+        isActive={gene === active}
+        onClick={() => onGeneClick(gene.urlApi)}
+      >
+        {name}
+      </Link>
     </Grid>
   )
 }
