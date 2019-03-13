@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from '../common/Filter'
-import Card from '../home/HomeCard'
+import HomeCard from '../home/HomeCard'
 import Title from '../common/Title'
 
 const PageGrid = styled.div`
@@ -19,23 +19,30 @@ const CardContainer = styled.section`
   padding: 4px 12px 12px;
 `
 
-export default function SavedPage({ onBookmark, cards }) {
+export default function SavedPage({ onBookmark, artworks }) {
   const [activeTag, setActiveTag] = useState('all')
 
   return (
     <PageGrid>
-      <Header cards={cards} activeTag={activeTag} setActiveTag={setActiveTag} />
+      <Header
+        artworks={artworks}
+        activeTag={activeTag}
+        setActiveTag={setActiveTag}
+      />
       <Title>Saved</Title>
       <CardContainer>
-        {cards.map(card => (
-          <Card
-            date={card.date}
-            collecting_institution={card.collecting_institution}
-            author={card.author}
-            image={card._links.image.href.replace('{image_version}', 'large')}
-            {...card}
-            key={card.id}
-            onBookmark={() => onBookmark(card)}
+        {artworks.map(artwork => (
+          <HomeCard
+            date={artwork.date}
+            collecting_institution={artwork.collecting_institution}
+            author={artwork.author}
+            image={artwork._links.image.href.replace(
+              '{image_version}',
+              'large'
+            )}
+            {...artwork}
+            key={artwork.id}
+            onBookmark={() => onBookmark(artwork)}
           />
         ))}
       </CardContainer>

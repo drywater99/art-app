@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import RelatedArtistsThumbs from './RelatedArtistsThumb'
 import axios from 'axios'
+import RelatedArtistsThumbs from './RelatedArtistsThumb'
+import RelatedArtworksThumbs from './RelatedArtworksThumb'
 
 const PageGrid = styled.section`
   position: relative;
@@ -20,9 +21,9 @@ const ImageCard = styled.div`
   z-index: -1;
   height: 320px;
   width: 100%;
-  background-size: 120%;
+  background-size: 110%;
   background-repeat: no-repeat;
-  background-position: center top;
+  background-position: center;
   margin-bottom: 25px;
 `
 
@@ -79,12 +80,18 @@ const ExploreContainer = styled.section`
   grid-row-gap: 18px;
   padding: 25px;
 `
+const ContentTitle = styled.section`
+  display: grid;
+  align-content: flex-start;
+  padding: 25px 25px 0px 25px;
+`
 
-export default function GeneThumbPage({ card, onBookmark }) {
-  const [artists, setArtists] = useState([])
+export default function GeneThumbPage({ gene, onBookmark }) {
+  const [relatedArtists, setRelatedArtists] = useState([])
+  const [relatedArtworks, setRelatedArtworks] = useState([])
 
   function getRelatedArtists() {
-    const urlString = card._links.artists.href
+    const urlString = gene._links.artists.href
 
     axios
       .get(urlString, {
@@ -95,7 +102,7 @@ export default function GeneThumbPage({ card, onBookmark }) {
       })
       .then(res => {
         const results = res.data._embedded.artists
-        setArtists(results)
+        setRelatedArtists(results)
       })
   }
 
@@ -103,9 +110,29 @@ export default function GeneThumbPage({ card, onBookmark }) {
     getRelatedArtists()
   }, [])
 
-  console.log(artists)
+  function getRelatedArtworks() {
+    const urlString = gene._links.artworks.href
 
-  const image = card._links.image.href.replace('{image_version}', 'square500')
+    axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+        },
+      })
+      .then(res => {
+        const results = res.data._embedded.artworks
+        setRelatedArtworks(results)
+      })
+  }
+
+  useEffect(() => {
+    getRelatedArtworks()
+  }, [])
+
+  console.log(relatedArtists, relatedArtworks)
+
+  const image = gene._links.image.href.replace('{image_version}', 'square500')
 
   function goBack() {
     window.history.back()
@@ -115,28 +142,43 @@ export default function GeneThumbPage({ card, onBookmark }) {
     <PageGrid>
       <CloseLink onClick={goBack}>x</CloseLink>
       <ImageCard
-        image={card._links.image.href.replace('{image_version}', 'large')}
+        image={gene._links.image.href.replace('{image_version}', 'large')}
         style={{ backgroundImage: 'url(' + image + ')' }}
       />
       <BookmarkContainer>
-        <Bookmark active={card.bookmarked} onClick={() => onBookmark(card)} />
+        <Bookmark active={gene.bookmarked} onClick={() => onBookmark(gene)} />
       </BookmarkContainer>
       <ContentContainer>
-        <p>{card.display_name}</p>
-        <small>{card.description}</small>
+        <p>{gene.display_name || gene.name}</p>
+        <small>{gene.description}</small>
       </ContentContainer>
-      <ContentContainer>
+      <ContentTitle>
         <p>Related Artists</p>
-      </ContentContainer>
+      </ContentTitle>
       <ExploreContainer>
-        {artists.map(artist => (
+        {relatedArtists.map(relatedArtist => (
           <RelatedArtistsThumbs
-            image={artist._links.image.href.replace(
+            image={relatedArtist._links.image.href.replace(
               '{image_version}',
               'square'
             )}
-            name={artist.name}
-            key={artist.id}
+            name={relatedArtist.name}
+            key={relatedArtist.id}
+          />
+        ))}
+      </ExploreContainer>
+      <ContentTitle>
+        <p>Related Artworks</p>
+      </ContentTitle>
+      <ExploreContainer>
+        {relatedArtworks.map(relatedArtwork => (
+          <RelatedArtworksThumbs
+            image={relatedArtwork._links.image.href.replace(
+              '{image_version}',
+              'square'
+            )}
+            name={relatedArtwork.name}
+            key={relatedArtwork.id}
           />
         ))}
       </ExploreContainer>

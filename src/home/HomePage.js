@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Card from './HomeCard'
+import HomeCard from './HomeCard'
 import Title from '../common/Title'
 
 const PageGrid = styled.div`
@@ -17,22 +17,25 @@ const CardContainer = styled.section`
   overflow-y: scroll;
 `
 
-export default function HomePage({ onBookmark, cards }) {
+export default function HomePage({ onBookmark, artworks }) {
   return (
     <PageGrid>
       <Title data-cy="header-title">Recommended Works</Title>
       <CardContainer>
-        {cards
-          .filter(card => card.slug)
-          .map(card => (
-            <Card
-              date={card.date}
-              collecting_institution={card.collecting_institution}
-              author={card.author}
-              image={card._links.image.href.replace('{image_version}', 'large')}
-              {...card}
-              key={card.id}
-              onBookmark={() => onBookmark(card)}
+        {artworks
+          .filter(artwork => artwork.slug)
+          .map(artwork => (
+            <HomeCard
+              date={artwork.date}
+              collecting_institution={artwork.collecting_institution}
+              author={artwork.author}
+              image={artwork._links.image.href.replace(
+                '{image_version}',
+                'large'
+              )}
+              {...artwork}
+              key={artwork.id}
+              onBookmark={() => onBookmark(artwork)}
             />
           ))}
       </CardContainer>

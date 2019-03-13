@@ -20,7 +20,7 @@ const ExploreContainer = styled.section`
   overflow-y: scroll;
 `
 
-export default function ExplorePage({ onGeneClick, cards, isLoading }) {
+export default function ExplorePage({ onTopicClick, artworks, isLoading }) {
   const [activeTag, setActiveTag] = useState('all')
   let exploreContent
   if (isLoading) {
@@ -28,14 +28,14 @@ export default function ExplorePage({ onGeneClick, cards, isLoading }) {
   } else {
     exploreContent = (
       <ExploreContainer>
-        {cards.map(card => (
+        {artworks.map(artwork => (
           <Thumbnails
-            image={card._links.image.href.replace(
+            image={artwork._links.image.href.replace(
               '{image_version}',
               'medium' || 'large'
             )}
-            {...card}
-            key={card.id}
+            {...artwork}
+            key={artwork.id}
           />
         ))}
       </ExploreContainer>
@@ -46,7 +46,7 @@ export default function ExplorePage({ onGeneClick, cards, isLoading }) {
     <PageGrid>
       <Title data-cy="header-title">Explore</Title>
       <Filter
-        onGeneClick={onGeneClick}
+        onTopicClick={onTopicClick}
         activeTag={activeTag}
         setActiveTag={setActiveTag}
       />

@@ -92,13 +92,13 @@ const ExploreContainer = styled.section`
   padding: 25px;
 `
 
-export default function HomeCardPage({ card, onBookmark }) {
+export default function HomeCardPage({ artwork, onBookmark }) {
   const [artists, setArtists] = useState([])
   const [artistsGene, setArtistsGene] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
 
   function getRelatedArtists() {
-    const urlString = card._links.artists.href
+    const urlString = artwork._links.artists.href
 
     axios
       .get(urlString, {
@@ -120,7 +120,7 @@ export default function HomeCardPage({ card, onBookmark }) {
   console.log(artists)
 
   function getArtistsGene() {
-    const urlString = card._links.genes.href
+    const urlString = artwork._links.genes.href
 
     axios
       .get(urlString, {
@@ -142,7 +142,7 @@ export default function HomeCardPage({ card, onBookmark }) {
   console.log(artistsGene)
 
   function getSimilarArtworks() {
-    const urlString = card._links.similar_artworks.href
+    const urlString = artwork._links.similar_artworks.href
 
     axios
       .get(urlString, {
@@ -163,7 +163,7 @@ export default function HomeCardPage({ card, onBookmark }) {
 
   console.log(simArtworks)
 
-  const image = card._links.image.href.replace('{image_version}', 'large')
+  const image = artwork._links.image.href.replace('{image_version}', 'large')
 
   function goBack() {
     window.history.back()
@@ -173,24 +173,27 @@ export default function HomeCardPage({ card, onBookmark }) {
     <PageGrid>
       <CloseLink onClick={goBack}>x</CloseLink>
       <ImageCard
-        image={card._links.image.href.replace('{image_version}', 'large')}
+        image={artwork._links.image.href.replace('{image_version}', 'large')}
         style={{ backgroundImage: 'url(' + image + ')' }}
       />
       <BookmarkContainer>
-        <Bookmark active={card.bookmarked} onClick={() => onBookmark(card)} />
+        <Bookmark
+          active={artwork.bookmarked}
+          onClick={() => onBookmark(artwork)}
+        />
       </BookmarkContainer>
       <ContentContainer>
         {artists.map(artist => (
           <h3 key={artist.id}>{artist.name}</h3>
         ))}
-        <p>{card.title}</p>
-        <h3>{card.date}</h3>
-        <small>{card.category}</small>
-        <small>{card.medium}</small>
-        <small>{card.dimensions.cm.text}</small>
-        <small>{card.dimensions.in.text}</small>
+        <p>{artwork.title}</p>
+        <h3>{artwork.date}</h3>
+        <small>{artwork.category}</small>
+        <small>{artwork.medium}</small>
+        <small>{artwork.dimensions.cm.text}</small>
+        <small>{artwork.dimensions.in.text}</small>
         <br />
-        <small>Location: {card.collecting_institution}</small>
+        <small>Location: {artwork.collecting_institution}</small>
         <br />
         {artistsGene.map(artistGene => (
           <small key={artistGene.id}>{artistGene.name}</small>
@@ -198,7 +201,7 @@ export default function HomeCardPage({ card, onBookmark }) {
         <div />
       </ContentContainer>
       <FullImage
-        src={card._links.image.href.replace('{image_version}', 'larger')}
+        src={artwork._links.image.href.replace('{image_version}', 'larger')}
       />
       <ExploreContainer>
         <h3>Similar Artworks</h3>

@@ -19,33 +19,31 @@ const ExploreContainer = styled.section`
   overflow-y: scroll;
 `
 
-export default function GenePage({ cards, isLoading }) {
+export default function GenePage({ genes, isLoading }) {
   let exploreContent
   if (isLoading) {
     exploreContent = 'Loading'
   } else {
-    console.log(cards)
+    console.log(genes)
     exploreContent = (
       <ExploreContainer>
-        {cards
-          .filter(card => card.description)
-          .map(card => (
-            <GeneThumbnails
-              image={card._links.image.href.replace(
-                '{image_version}',
-                'square500'
-              )}
-              {...card}
-              key={card.id}
-            />
-          ))}
+        {genes.map(gene => (
+          <GeneThumbnails
+            image={gene._links.image.href.replace(
+              '{image_version}',
+              'square500'
+            )}
+            {...gene}
+            key={gene.id}
+          />
+        ))}
       </ExploreContainer>
     )
   }
 
   return (
     <PageGrid>
-      <Title data-cy="header-title">Genres</Title>
+      <Title data-cy="header-title">Categories</Title>
       {exploreContent}
     </PageGrid>
   )

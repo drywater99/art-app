@@ -14,8 +14,8 @@ const ProfileImage = styled.div`
   width: 150px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
-  border-radius: 100%;
+  background-position: center top;
+  border-radius: 12px;
   position: relative;
 `
 const ProfileTitle = styled.div`
@@ -26,7 +26,7 @@ const ProfileTitle = styled.div`
 
 export default function RelatedArtistsThumb({ image, name, id }) {
   return (
-    <StyledLink to={`/artist/${id}`}>
+    <StyledLink to={`/relartist/${id}`}>
       <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
       <ProfileTitle>{name}</ProfileTitle>
     </StyledLink>

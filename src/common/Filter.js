@@ -37,7 +37,7 @@ const ButtonTitle = styled.div`
   text-decoration: ${p => (p.isActive ? 'underline' : '')};
 `
 
-export default function Filter({ onGeneClick }) {
+export default function Filter({ onTopicClick }) {
   const [genes] = useState([
     {
       name: 'Old Masters',
@@ -80,7 +80,7 @@ export default function Filter({ onGeneClick }) {
         <FilterButton
           style={{ backgroundImage: 'url(' + gene.href + ')' }}
           key={gene.urlApi}
-          onClick={() => onGeneClick(gene.urlApi)}
+          onClick={() => onTopicClick(gene.urlApi)}
         >
           <ButtonTitle>{gene.name}</ButtonTitle>
         </FilterButton>
