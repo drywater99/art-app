@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Header from '../common/Header'
+import Header from '../common/Filter'
 import Card from '../home/HomeCard'
 import Title from '../common/Title'
 

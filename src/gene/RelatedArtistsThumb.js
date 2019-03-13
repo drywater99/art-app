@@ -24,7 +24,7 @@ const ProfileTitle = styled.div`
   margin-top: 12px;
 `
 
-export default function RelatedArtistsThumbs({ image, name, id }) {
+export default function RelatedArtistsThumb({ image, name, id }) {
   return (
     <StyledLink to={`/artist/${id}`}>
       <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />

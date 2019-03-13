@@ -16,7 +16,7 @@ const ImageCard = styled.div`
   position: relative;
 `
 
-export default function GeneThumbnails({ image, id }) {
+export default function GeneThumb({ image, id }) {
   return (
     <StyledLink to={`/gene/${id}`}>
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />

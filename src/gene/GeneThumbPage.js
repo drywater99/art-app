@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import RelatedArtistsThumbs from './RelatedArtistsThumbs'
+import RelatedArtistsThumbs from './RelatedArtistsThumb'
 import axios from 'axios'
 
 const PageGrid = styled.section`
@@ -80,7 +80,7 @@ const ExploreContainer = styled.section`
   padding: 25px;
 `
 
-export default function SingleGenePage({ card, onBookmark }) {
+export default function GeneThumbPage({ card, onBookmark }) {
   const [artists, setArtists] = useState([])
 
   function getRelatedArtists() {

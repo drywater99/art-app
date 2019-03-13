@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import GeneThumbnails from './GeneThumbnails'
+import GeneThumbnails from './GeneThumb'
 import Title from '../common/Title'
 
 const PageGrid = styled.div`

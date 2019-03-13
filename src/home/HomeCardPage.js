@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
+import SimArtworksThumb from './SimArtworksThumb'
 
 const PageGrid = styled.section`
   position: relative;
@@ -81,7 +83,86 @@ const FullImage = styled.img`
   }
 `
 
+const ExploreContainer = styled.section`
+  display: grid;
+  grid-template-columns: 150px 150px;
+  grid-template-rows: auto;
+  grid-column-gap: 21px;
+  grid-row-gap: 18px;
+  padding: 25px;
+`
+
 export default function HomeCardPage({ card, onBookmark }) {
+  const [artists, setArtists] = useState([])
+  const [artistsGene, setArtistsGene] = useState([])
+  const [simArtworks, setSimArtworks] = useState([])
+
+  function getRelatedArtists() {
+    const urlString = card._links.artists.href
+
+    axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
+        },
+      })
+      .then(res => {
+        const results = res.data._embedded.artists
+        setArtists(results)
+      })
+  }
+
+  useEffect(() => {
+    getRelatedArtists()
+  }, [])
+
+  console.log(artists)
+
+  function getArtistsGene() {
+    const urlString = card._links.genes.href
+
+    axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
+        },
+      })
+      .then(res => {
+        const results = res.data._embedded.genes
+        setArtistsGene(results)
+      })
+  }
+
+  useEffect(() => {
+    getArtistsGene()
+  }, [])
+
+  console.log(artistsGene)
+
+  function getSimilarArtworks() {
+    const urlString = card._links.similar_artworks.href
+
+    axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
+        },
+      })
+      .then(res => {
+        const results = res.data._embedded.artworks
+        setSimArtworks(results)
+      })
+  }
+
+  useEffect(() => {
+    getSimilarArtworks()
+  }, [])
+
+  console.log(simArtworks)
+
   const image = card._links.image.href.replace('{image_version}', 'large')
 
   function goBack() {
@@ -99,22 +180,39 @@ export default function HomeCardPage({ card, onBookmark }) {
         <Bookmark active={card.bookmarked} onClick={() => onBookmark(card)} />
       </BookmarkContainer>
       <ContentContainer>
-        <h3>{card.date}</h3>
+        {artists.map(artist => (
+          <h3 key={artist.id}>{artist.name}</h3>
+        ))}
         <p>{card.title}</p>
+        <h3>{card.date}</h3>
         <small>{card.category}</small>
         <small>{card.medium}</small>
         <small>{card.dimensions.cm.text}</small>
         <small>{card.dimensions.in.text}</small>
         <br />
-        <small>{card.collecting_institution}</small>
+        <small>Location: {card.collecting_institution}</small>
+        <br />
+        {artistsGene.map(artistGene => (
+          <small key={artistGene.id}>{artistGene.name}</small>
+        ))}
         <div />
       </ContentContainer>
       <FullImage
         src={card._links.image.href.replace('{image_version}', 'larger')}
       />
-      <ContentContainer>
-        <h4>{card.content}</h4>
-      </ContentContainer>
+      <ExploreContainer>
+        <h3>Similar Artworks</h3>
+        {simArtworks.map(simArtwork => (
+          <SimArtworksThumb
+            image={simArtwork._links.image.href.replace(
+              '{image_version}',
+              'square'
+            )}
+            name={simArtwork.name}
+            key={simArtwork.id}
+          />
+        ))}
+      </ExploreContainer>
     </PageGrid>
   )
 }

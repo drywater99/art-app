@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import GlobalStyle from './GlobalStyle'
 import axios from 'axios'
 import HomePage from '../home/HomePage'
+import HomeCardPage from '../home/HomeCardPage'
 import ExplorePage from '../explore/ExplorePage'
 import GenePage from '../gene/GenePage'
+import GeneThumbPage from '../gene/GeneThumbPage'
 import SavedPage from '../saved/SavedPage'
-import SingleCardPage from '../cards/SingleCardPage'
-import SingleGenePage from '../gene/SingleGenePage'
 import { getGeneData } from '../services'
 
 //import { Helmet } from 'react-helmet'
@@ -144,7 +144,7 @@ function App() {
         <Route
           path="/artwork/:id"
           render={({ match }) => (
-            <SingleCardPage
+            <HomeCardPage
               onBookmark={toggleBookmark}
               id={match.params.id}
               card={cards.find(card => card.id === match.params.id)}
@@ -154,7 +154,7 @@ function App() {
         <Route
           path="/gene/:id"
           render={({ match }) => (
-            <SingleGenePage
+            <GeneThumbPage
               onBookmark={toggleBookmark}
               id={match.params.id}
               card={cards.find(card => card.id === match.params.id)}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Header from '../common/Header'
+import Filter from '../common/Filter'
 import Thumbnails from './ExploreThumbs'
 import Title from '../common/Title'
 
@@ -26,7 +26,7 @@ export default function ExplorePage({ onGeneClick, cards }) {
   return (
     <PageGrid>
       <Title data-cy="header-title">Explore</Title>
-      <Header
+      <Filter
         onGeneClick={onGeneClick}
         cards={cards}
         activeTag={activeTag}
