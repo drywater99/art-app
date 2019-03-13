@@ -40,62 +40,40 @@ const ButtonTitle = styled.div`
 export default function Filter({ onGeneClick }) {
   const [genes] = useState([
     {
-      name: 'Trending',
-      urlApi: 'https://api.artsy.net/api/artworks?size=20&sort=-trending',
+      name: 'Old Masters',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=50',
       href:
-        'https://d32dm0rphc51dk.cloudfront.net/Tk7srLDTS-0Y60mbN7gWew/big_and_tall.jpg',
+        'https://d32dm0rphc51dk.cloudfront.net/o1C6-_FV3rp_ZQPVY-hPtw/big_and_tall.jpg',
     },
     {
-      name: '17th Century',
-      urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=51b662878b3b81ec27000281',
+      name: 'Random',
+      urlApi: 'https://api.artsy.net/api/artworks?size=50',
       href:
-        'https://d32dm0rphc51dk.cloudfront.net/JWbwcX077-tmSfaCgsjmeg/big_and_tall.jpg',
-    },
-    {
-      name: 'Figurative Painting',
-      urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=4fbabaa5be12d400010007c4',
-      href:
-        'https://d32dm0rphc51dk.cloudfront.net/EAnTmaoDg3EX-jezJwrtGg/big_and_tall.jpg',
-    },
-    {
-      name: 'Contemporary',
-      urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=4d90d18fdcdd5f44a5000025',
-      href:
-        'https://d32dm0rphc51dk.cloudfront.net/f_WVnADS9HIc5dQ-sIcejA/big_and_tall.jpg',
-    },
-    {
-      name: 'Found Objects',
-      urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=4f50f40ad9c50c027b1394b1',
-      href:
-        'https://d32dm0rphc51dk.cloudfront.net/GgcwiPzDWlZcaH4i4ILPPw/big_and_tall.jpg',
+        'https://d32dm0rphc51dk.cloudfront.net/NOpIAwQa-3r51Cg9qXKbfA/medium.jpg',
     },
     {
       name: 'Gothic Art',
       urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=4f514737d8f91c000100019b',
+        'https://api.artsy.net/api/artworks?gene_id=4f514737d8f91c000100019b&size=50',
       href:
         'https://d32dm0rphc51dk.cloudfront.net/WtY-wgNpdnjBTHxVKttO8A/big_and_tall.jpg',
     },
     {
-      name: 'Abstract Art',
+      name: 'Baroque',
       urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=504fb4584ed2d60002000344',
+        'https://api.artsy.net/api/artworks?gene_id=4d90d194dcdd5f44a50000ad&size=50',
       href:
-        'https://d32dm0rphc51dk.cloudfront.net/Tk7srLDTS-0Y60mbN7gWew/big_and_tall.jpg',
+        'https://d32dm0rphc51dk.cloudfront.net/4ly-DIuyLoH-JlrLcZjvnw/big_and_tall.jpg',
     },
     {
-      name: 'Street Art',
+      name: 'Pop Culture',
       urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=522e169febad64e88d000001',
+        'https://api.artsy.net/api/artworks?gene_id=4d9396db17cb13253700048c&size=50',
       href:
-        'https://d32dm0rphc51dk.cloudfront.net/Tk7srLDTS-0Y60mbN7gWew/big_and_tall.jpg',
+        'https://d32dm0rphc51dk.cloudfront.net/zG4wicMdlu7LQFRe2keeIg/big_and_tall.jpg',
     },
   ])
-
   return (
     <FilterContainer>
       {genes.map(gene => (

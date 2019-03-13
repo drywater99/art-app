@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import GlobalStyle from './GlobalStyle'
-import axios from 'axios'
 import HomePage from '../home/HomePage'
 import HomeCardPage from '../home/HomeCardPage'
 import ExplorePage from '../explore/ExplorePage'
 import GenePage from '../gene/GenePage'
 import GeneThumbPage from '../gene/GeneThumbPage'
 import SavedPage from '../saved/SavedPage'
-import { getGeneData } from '../services'
+import { getGeneData, getTrendingArtistData, getGeneDataAll } from '../services'
 
 //import { Helmet } from 'react-helmet'
 import ArtsyCards from '../testapi/ArtsyCards'
@@ -46,54 +45,42 @@ const StyledLink = styled(NavLink)`
 
 function App() {
   const [cards, setCards] = useState([])
+  const [isLoading, setIsLoading] = useState()
 
-  function getTrendingArtists() {
-    const urlString = 'https://api.artsy.net/api/artworks?size=5'
-
-    axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.artworks
-        setCards(results)
-      })
+  async function getTrendingArtists() {
+    setIsLoading(true)
+    await getTrendingArtistData().then(res => {
+      const results = res.data._embedded.artworks
+      setCards(results)
+    })
+    setIsLoading(true)
   }
 
   useEffect(() => {
     getTrendingArtists()
   }, [])
 
-  function getGenes() {
-    const urlString = 'https://api.artsy.net/api/genes?size=5'
+  async function getGenes() {
+    setIsLoading(true)
+    await getGeneDataAll().then(res => {
+      const results = res.data._embedded.genes
+      setCards(results)
+    })
 
-    axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.genes
-        setCards(results)
-      })
+    setIsLoading(true)
   }
 
   useEffect(() => {
     getGenes()
   }, [])
 
-  console.log(cards)
-
-  function filterByGene(url) {
-    getGeneData(url).then(res => {
-      const results = res.data._embedded.artists
+  async function filterByGene(url) {
+    setIsLoading(true)
+    await getGeneData(url).then(res => {
+      const results = res.data._embedded.artworks
       setCards(results)
     })
+    setIsLoading(false)
   }
 
   function toggleBookmark(card) {
@@ -122,6 +109,7 @@ function App() {
           path="/explore"
           render={() => (
             <ExplorePage
+              isLoading={isLoading}
               cards={cards}
               onGeneClick={filterByGene}
               onBookmark={toggleBookmark}

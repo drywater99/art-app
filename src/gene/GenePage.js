@@ -19,10 +19,12 @@ const ExploreContainer = styled.section`
   overflow-y: scroll;
 `
 
-export default function GenePage({ cards }) {
-  return (
-    <PageGrid>
-      <Title data-cy="header-title">Genres</Title>
+export default function GenePage({ cards, isLoading }) {
+  let exploreContent
+  if (isLoading) {
+    exploreContent = 'Loading'
+  } else {
+    exploreContent = (
       <ExploreContainer>
         {cards
           .filter(card => card.description)
@@ -37,6 +39,13 @@ export default function GenePage({ cards }) {
             />
           ))}
       </ExploreContainer>
+    )
+  }
+
+  return (
+    <PageGrid>
+      <Title data-cy="header-title">Genres</Title>
+      {exploreContent}
     </PageGrid>
   )
 }
