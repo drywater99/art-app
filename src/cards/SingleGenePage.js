@@ -84,8 +84,7 @@ export default function SingleGenePage({ card, onBookmark }) {
   const [artists, setArtists] = useState([])
 
   function getRelatedArtists() {
-    const urlString =
-      'https://api.artsy.net/api/artists?gene_id=51b662978b3b81ec27000285'
+    const urlString = card._links.artists.href
 
     axios
       .get(urlString, {
