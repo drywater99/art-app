@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Card from './Card'
+import Card from './HomeCard'
 import Title from '../common/Title'
 
 const PageGrid = styled.div`

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from '../common/Header'
-import Card from './Card'
+import Card from '../home/HomeCard'
 import Title from '../common/Title'
 
 const PageGrid = styled.div`

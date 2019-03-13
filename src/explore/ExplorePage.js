@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Header from '../common/Header'
-import Thumbnails from './Thumbnails'
+import Thumbnails from './ExploreThumbs'
 import Title from '../common/Title'
 
 const PageGrid = styled.div`

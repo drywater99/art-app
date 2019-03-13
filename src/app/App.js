@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
-import HomePage from '../cards/HomePage'
-import ExplorePage from '../cards/ExplorePage'
-import GenePage from '../cards/GenePage'
-import SavedPage from '../cards/SavedPage'
-import SingleCardPage from '../cards/SingleCardPage'
-import SingleGenePage from '../cards/SingleGenePage'
+import GlobalStyle from './GlobalStyle'
 import axios from 'axios'
+import HomePage from '../home/HomePage'
+import ExplorePage from '../explore/ExplorePage'
+import GenePage from '../gene/GenePage'
+import SavedPage from '../saved/SavedPage'
+import SingleCardPage from '../cards/SingleCardPage'
+import SingleGenePage from '../gene/SingleGenePage'
+import { getGeneData } from '../services'
 
 //import { Helmet } from 'react-helmet'
-
-import { getGeneData } from '../services'
-import GlobalStyle from './GlobalStyle'
 import ArtsyCards from '../testapi/ArtsyCards'
 
 const Grid = styled.div`

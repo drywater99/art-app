@@ -16,7 +16,7 @@ const ImageCard = styled.div`
   position: relative;
 `
 
-export default function Thumbnails({ image, id }) {
+export default function ExploreThumbs({ image, id }) {
   return (
     <StyledLink to={`/artwork/${id}`}>
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />

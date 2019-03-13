@@ -81,7 +81,7 @@ const FullImage = styled.img`
   }
 `
 
-export default function SingleCardPage({ card, onBookmark }) {
+export default function HomeCardPage({ card, onBookmark }) {
   const image = card._links.image.href.replace('{image_version}', 'large')
 
   function goBack() {
