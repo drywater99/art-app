@@ -79,7 +79,7 @@ export default function Filter({ onGeneClick }) {
       {genes.map(gene => (
         <FilterButton
           style={{ backgroundImage: 'url(' + gene.href + ')' }}
-          key={gene}
+          key={gene.urlApi}
           onClick={() => onGeneClick(gene.urlApi)}
         >
           <ButtonTitle>{gene.name}</ButtonTitle>

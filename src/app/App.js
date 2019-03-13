@@ -53,7 +53,7 @@ function App() {
       const results = res.data._embedded.artworks
       setCards(results)
     })
-    setIsLoading(true)
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -67,7 +67,7 @@ function App() {
       setCards(results)
     })
 
-    setIsLoading(true)
+    setIsLoading(false)
   }
 
   useEffect(() => {

@@ -24,6 +24,7 @@ export default function GenePage({ cards, isLoading }) {
   if (isLoading) {
     exploreContent = 'Loading'
   } else {
+    console.log(cards)
     exploreContent = (
       <ExploreContainer>
         {cards
