@@ -33,18 +33,13 @@ export default function ExplorePage({ onGeneClick, cards }) {
         setActiveTag={setActiveTag}
       />
       <ExploreContainer>
-        {cards
-          .filter(card => activeTag === 'all' || card.tags.includes(activeTag))
-          .map(card => (
-            <Thumbnails
-              image={card._links.image.href.replace(
-                '{image_version}',
-                'four_thirds'
-              )}
-              {...card}
-              key={card.id}
-            />
-          ))}
+        {cards.map(card => (
+          <Thumbnails
+            image={card._links.image.href.replace('{image_version}', 'medium')}
+            {...card}
+            key={card.id}
+          />
+        ))}
       </ExploreContainer>
     </PageGrid>
   )

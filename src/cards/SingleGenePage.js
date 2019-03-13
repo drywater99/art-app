@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import RelatedArtistsThumbs from './RelatedArtistsThumbs'
+import axios from 'axios'
 
 const PageGrid = styled.section`
   position: relative;
@@ -69,20 +71,41 @@ const Bookmark = styled.div`
   }
 `
 
-const FullImage = styled.img`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  padding: 0 25px 25px;
-  width: 100%;
-  .fill {
-    object-fit: fill;
-  }
+const ExploreContainer = styled.section`
+  display: grid;
+  grid-template-columns: 150px 150px;
+  grid-template-rows: auto;
+  grid-column-gap: 21px;
+  grid-row-gap: 18px;
+  padding: 25px;
 `
 
-export default function SingleCardPage({ card, onBookmark }) {
-  const image = card._links.image.href.replace('{image_version}', 'large')
+export default function SingleGenePage({ card, onBookmark }) {
+  const [artists, setArtists] = useState([])
+
+  function getRelatedArtists() {
+    const urlString = card._links.artists.href
+
+    axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
+        },
+      })
+      .then(res => {
+        const results = res.data._embedded.artists
+        setArtists(results)
+      })
+  }
+
+  useEffect(() => {
+    getRelatedArtists()
+  }, [])
+
+  console.log(artists)
+
+  const image = card._links.image.href.replace('{image_version}', 'square500')
 
   function goBack() {
     window.history.back()
@@ -99,22 +122,24 @@ export default function SingleCardPage({ card, onBookmark }) {
         <Bookmark active={card.bookmarked} onClick={() => onBookmark(card)} />
       </BookmarkContainer>
       <ContentContainer>
-        <h3>{card.date}</h3>
-        <p>{card.title}</p>
-        <small>{card.category}</small>
-        <small>{card.medium}</small>
-        <small>{card.dimensions.cm.text}</small>
-        <small>{card.dimensions.in.text}</small>
-        <br />
-        <small>{card.collecting_institution}</small>
-        <div />
+        <p>{card.display_name}</p>
+        <small>{card.description}</small>
       </ContentContainer>
-      <FullImage
-        src={card._links.image.href.replace('{image_version}', 'larger')}
-      />
       <ContentContainer>
-        <h4>{card.content}</h4>
+        <p>Related Artists</p>
       </ContentContainer>
+      <ExploreContainer>
+        {artists.map(artist => (
+          <RelatedArtistsThumbs
+            image={artist._links.image.href.replace(
+              '{image_version}',
+              'square'
+            )}
+            name={artist.name}
+            key={artist.id}
+          />
+        ))}
+      </ExploreContainer>
     </PageGrid>
   )
 }

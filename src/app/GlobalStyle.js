@@ -23,22 +23,22 @@ export default createGlobalStyle`
   h3 {
     text-transform: uppercase;
     color: #949494;
-    font-size: 15px;
+    font-size: 16px;
     margin: 0;
   }
   p {
-    margin-top: 10px;
-    margin-bottom: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
     color: #383838;
     font-weight: bold;
     font-size: 24px;
   }
-  h4 {
-    margin-top: 12px;
-    margin: 0;
-    font-size: 17px;
+  small {
+    padding-bottom: 6px;
+    font-size: 15px;
+    font-weight: bold;
     color: #949494;
     line-height: 1.2;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
   }
 `
