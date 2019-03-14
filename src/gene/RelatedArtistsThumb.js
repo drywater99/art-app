@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
+const ThumbContainer = styled.section``
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   display: flex;
@@ -20,15 +22,18 @@ const ProfileImage = styled.div`
 `
 const ProfileTitle = styled.div`
   font-weight: bold;
-  color: #383838;
+  color: #949494;
+  text-align: center;
   margin-top: 12px;
 `
 
 export default function RelatedArtistsThumb({ image, name, id }) {
   return (
-    <StyledLink to={`/artist/${id}`}>
-      <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
-      <ProfileTitle>{name}</ProfileTitle>
-    </StyledLink>
+    <ThumbContainer>
+      <StyledLink to={`/artist/${id}`}>
+        <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
+        <ProfileTitle>{name}</ProfileTitle>
+      </StyledLink>
+    </ThumbContainer>
   )
 }

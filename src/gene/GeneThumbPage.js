@@ -11,11 +11,6 @@ const PageGrid = styled.section`
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 `
-const ContentContainer = styled.section`
-  display: grid;
-  align-content: flex-start;
-  padding: 0 25px 25px 25px;
-`
 
 const ImageCard = styled.div`
   z-index: -1;
@@ -77,13 +72,39 @@ const ExploreContainer = styled.section`
   grid-template-columns: 150px 150px;
   grid-template-rows: auto;
   grid-column-gap: 21px;
-  grid-row-gap: 18px;
+  grid-row-gap: 21px;
   padding: 25px;
 `
+const ExploreContainerX = styled.section`
+  display: grid;
+  grid-auto-flow: column;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  scroll-padding: 0 25px 0 25px;
+  height: fit-content;
+  padding: 25px;
+`
+const SectionTitle = styled.section`
+  display: grid;
+  align-content: flex-start;
+  padding: 25px 25px 0 25px;
+`
+
+const ContentDescription = styled.small`
+  color: #949494;
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0 25px 25px 25px;
+  :first-line {
+    color: #383838;
+  }
+`
+
 const ContentTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 25px 25px 0px 25px;
+  padding: 0 25px 25px 25px;
 `
 
 export default function GeneThumbPage({ gene, onBookmark }) {
@@ -148,13 +169,13 @@ export default function GeneThumbPage({ gene, onBookmark }) {
       <BookmarkContainer>
         <Bookmark active={gene.bookmarked} onClick={() => onBookmark(gene)} />
       </BookmarkContainer>
-      <ContentContainer>
-        <p>{gene.display_name || gene.name}</p>
-        <small>{gene.description}</small>
-      </ContentContainer>
       <ContentTitle>
-        <p>Related Artists</p>
+        <p>{gene.display_name || gene.name}</p>
       </ContentTitle>
+      <ContentDescription>{gene.description}</ContentDescription>
+      <SectionTitle>
+        <h3>Related Artists</h3>
+      </SectionTitle>
       <ExploreContainer>
         {relatedArtists.map(relatedArtist => (
           <RelatedArtistsThumbs
@@ -167,10 +188,12 @@ export default function GeneThumbPage({ gene, onBookmark }) {
           />
         ))}
       </ExploreContainer>
-      <ContentTitle>
-        <p>Related Artworks</p>
-      </ContentTitle>
-      <ExploreContainer>
+
+      <SectionTitle>
+        <h3>Related Artworks</h3>
+      </SectionTitle>
+
+      <ExploreContainerX>
         {relatedArtworks.map(relatedArtwork => (
           <RelatedArtworksThumbs
             image={relatedArtwork._links.image.href.replace(
@@ -181,7 +204,7 @@ export default function GeneThumbPage({ gene, onBookmark }) {
             key={relatedArtwork.id}
           />
         ))}
-      </ExploreContainer>
+      </ExploreContainerX>
     </PageGrid>
   )
 }
