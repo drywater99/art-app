@@ -26,7 +26,7 @@ export function getGeneData() {
 }
 
 export function getTrendingArtworkData() {
-  const urlString = 'https://api.artsy.net/api/artworks?size=5'
+  const urlString = 'https://api.artsy.net/api/artworks?size=12'
   return axios.get(urlString, {
     headers: {
       'X-Xapp-Token':

@@ -46,6 +46,7 @@ const StyledLink = styled(NavLink)`
 
 function App(relatedArtworks) {
   const [artworks, setArtworks] = useState([])
+  const [topics, setTopics] = useState([])
   const [genes, setGenes] = useState([])
   const [isLoading, setIsLoading] = useState()
 
@@ -78,11 +79,15 @@ function App(relatedArtworks) {
   async function getTopics(url) {
     setIsLoading(true)
     await getTopicData(url).then(res => {
-      const results = res.data._embedded.artworks
-      setArtworks(results)
+      const results = res.data._embedded.artworks || res.data._embedded.artists
+      setTopics(results)
     })
     setIsLoading(false)
   }
+
+  useEffect(() => {
+    getTopics()
+  }, [])
 
   function toggleBookmark(artwork) {
     const index = artworks.indexOf(artwork)
@@ -92,6 +97,8 @@ function App(relatedArtworks) {
       ...artworks.slice(index + 1),
     ])
   }
+
+  console.log(artworks)
 
   return (
     <Router>
@@ -111,7 +118,7 @@ function App(relatedArtworks) {
           render={() => (
             <ExplorePage
               isLoading={isLoading}
-              artworks={artworks}
+              topics={topics}
               onTopicClick={getTopics}
               onBookmark={toggleBookmark}
             />

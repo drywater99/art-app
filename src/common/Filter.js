@@ -20,6 +20,7 @@ const FilterButton = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  background-blend-mode: darken;
   align-items: flex-end;
   justify-content: center;
   margin: 4px;
@@ -37,8 +38,8 @@ const ButtonTitle = styled.div`
   text-decoration: ${p => (p.isActive ? 'underline' : '')};
 `
 
-export default function Filter({ onTopicClick }) {
-  const [genes] = useState([
+export default function Filter({ onTopicClick, active }) {
+  const [topicApis] = useState([
     {
       name: 'Old Masters',
       urlApi:
@@ -53,11 +54,18 @@ export default function Filter({ onTopicClick }) {
         'https://d32dm0rphc51dk.cloudfront.net/NOpIAwQa-3r51Cg9qXKbfA/medium.jpg',
     },
     {
-      name: 'Gothic Art',
+      name: 'Pop Art',
       urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=4f514737d8f91c000100019b&size=50',
+        'https://api.artsy.net/api/artists?gene_id=4e5e41670d2c670001030350&size=50',
       href:
-        'https://d32dm0rphc51dk.cloudfront.net/WtY-wgNpdnjBTHxVKttO8A/big_and_tall.jpg',
+        'https://d32dm0rphc51dk.cloudfront.net/46PghnvIBjrN25-_kPPwQA/big_and_tall.jpg',
+    },
+    {
+      name: 'Photography',
+      urlApi:
+        'https://api.artsy.net/api/artists?gene_id=50356575ab7498000200000f&size=50',
+      href:
+        'https://d32dm0rphc51dk.cloudfront.net/60jOLdlmGHMs5cF-4bM2_w/big_and_tall.jpg',
     },
     {
       name: 'Baroque',
@@ -67,22 +75,46 @@ export default function Filter({ onTopicClick }) {
         'https://d32dm0rphc51dk.cloudfront.net/4ly-DIuyLoH-JlrLcZjvnw/big_and_tall.jpg',
     },
     {
-      name: 'Pop Culture',
+      name: 'Contemporay',
       urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=4d9396db17cb13253700048c&size=50',
+        'https://api.artsy.net/api/artists?gene_id=504f7335de9164000200041a&size=50',
       href:
-        'https://d32dm0rphc51dk.cloudfront.net/zG4wicMdlu7LQFRe2keeIg/big_and_tall.jpg',
+        'https://d32dm0rphc51dk.cloudfront.net/DsYeaxMGPVgQEC09yVj0KQ/big_and_tall.jpg',
+    },
+    {
+      name: 'New Topographics',
+      urlApi:
+        'https://api.artsy.net/api/artists?gene_id=4e8f6e5120df9500010059ba&size=50',
+      href:
+        'https://d32dm0rphc51dk.cloudfront.net/YIMb7ZdxIjLRQ8JgzD8ycg/big_and_tall.jpg',
+    },
+    {
+      name: 'Modernism',
+      urlApi:
+        'https://api.artsy.net/api/artists?gene_id=50356574ab74980002000006&size=50',
+      href:
+        'https://d32dm0rphc51dk.cloudfront.net/Y2fVKtk64zRDfoGWgYSkJA/big_and_tall.jpg',
     },
   ])
   return (
     <FilterContainer>
-      {genes.map(gene => (
+      {topicApis.map(topicApi => (
         <FilterButton
-          style={{ backgroundImage: 'url(' + gene.href + ')' }}
-          key={gene.urlApi}
-          onClick={() => onTopicClick(gene.urlApi)}
+          style={{
+            backgroundImage:
+              'url(' +
+              topicApi.href +
+              '), linear-gradient(transparent, #525252)',
+          }}
+          key={topicApi.urlApi}
+          onClick={() => onTopicClick(topicApi.urlApi)}
         >
-          <ButtonTitle>{gene.name}</ButtonTitle>
+          <ButtonTitle
+            key={topicApi.urlApi}
+            isActive={topicApi.urlApi === active}
+          >
+            {topicApi.name}
+          </ButtonTitle>
         </FilterButton>
       ))}
     </FilterContainer>

@@ -20,7 +20,7 @@ const ExploreContainer = styled.section`
   overflow-y: scroll;
 `
 
-export default function ExplorePage({ onTopicClick, artworks, isLoading }) {
+export default function ExplorePage({ onTopicClick, topics, isLoading }) {
   const [activeTag, setActiveTag] = useState('all')
   let exploreContent
   if (isLoading) {
@@ -28,14 +28,11 @@ export default function ExplorePage({ onTopicClick, artworks, isLoading }) {
   } else {
     exploreContent = (
       <ExploreContainer>
-        {artworks.map(artwork => (
+        {topics.map(topic => (
           <Thumbnails
-            image={artwork._links.image.href.replace(
-              '{image_version}',
-              'medium' || 'large'
-            )}
-            {...artwork}
-            key={artwork.id}
+            image={topic._links.image.href.replace('{image_version}', 'large')}
+            {...topic}
+            key={topic.id}
           />
         ))}
       </ExploreContainer>

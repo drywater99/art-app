@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import SimArtworksThumb from './SimArtworksThumb'
+
+import RelatedArtworksThumbs from '../gene/RelatedArtworksThumb'
+import RelatedGeneThumb from '../gene/RelatedGeneThumb'
 
 const PageGrid = styled.section`
   position: relative;
@@ -92,32 +94,84 @@ const ExploreContainer = styled.section`
   padding: 25px;
 `
 
+const ContentTitle = styled.section`
+  display: grid;
+  align-content: flex-start;
+  padding: 0 25px 25px 25px;
+`
+
+const SectionTitle = styled.section`
+  display: grid;
+  align-content: flex-start;
+  padding: 25px 25px 0px 25px;
+`
+
+const ExploreContainerX = styled.section`
+  display: grid;
+  grid-auto-flow: column;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  scroll-padding: 0 25px 0 25px;
+  height: fit-content;
+  padding: 25px;
+`
+
+// const FilterContainer = styled.header`
+//   display: grid;
+//   grid-auto-flow: column;
+//   scroll-snap-type: x mandatory;
+//   overflow-x: scroll;
+//   scroll-padding: 0 25px 0 25px;
+//   padding: 5px 0 0 20px;
+// `
+
+// const FilterButton = styled.div`
+//   display: flex;
+//   white-space: nowrap;
+//   scroll-padding: 20px;
+//   scroll-snap-align: start;
+//   scroll-snap-stop: always;
+//   cursor: default;
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   background-blend-mode: darken;
+//   align-items: flex-end;
+//   justify-content: center;
+//   margin: 4px;
+//   width: 102px;
+//   height: 60px;
+//   padding: 24px 12px 12px 8px;
+//   flex: 1 1;
+//   border-radius: 6px;
+// `
+
 export default function HomeCardPage({ artwork, onBookmark }) {
-  const [artists, setArtists] = useState([])
+  const [artist, setArtist] = useState([])
   const [artistsGene, setArtistsGene] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
 
-  function getRelatedArtists() {
+  function getArtist() {
     const urlString = artwork._links.artists.href
 
     axios
       .get(urlString, {
         headers: {
           'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
         },
       })
       .then(res => {
         const results = res.data._embedded.artists
-        setArtists(results)
+        setArtist(results)
       })
   }
 
   useEffect(() => {
-    getRelatedArtists()
+    getArtist()
   }, [])
 
-  console.log(artists)
+  console.log(artist)
 
   function getArtistsGene() {
     const urlString = artwork._links.genes.href
@@ -126,7 +180,7 @@ export default function HomeCardPage({ artwork, onBookmark }) {
       .get(urlString, {
         headers: {
           'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
         },
       })
       .then(res => {
@@ -148,7 +202,7 @@ export default function HomeCardPage({ artwork, onBookmark }) {
       .get(urlString, {
         headers: {
           'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
         },
       })
       .then(res => {
@@ -182,12 +236,15 @@ export default function HomeCardPage({ artwork, onBookmark }) {
           onClick={() => onBookmark(artwork)}
         />
       </BookmarkContainer>
-      <ContentContainer>
-        {artists.map(artist => (
+      <ContentTitle>
+        {' '}
+        {artist.map(artist => (
           <h3 key={artist.id}>{artist.name}</h3>
         ))}
         <p>{artwork.title}</p>
         <h3>{artwork.date}</h3>
+      </ContentTitle>
+      <ContentContainer>
         <small>{artwork.category}</small>
         <small>{artwork.medium}</small>
         <small>{artwork.dimensions.cm.text}</small>
@@ -203,16 +260,33 @@ export default function HomeCardPage({ artwork, onBookmark }) {
       <FullImage
         src={artwork._links.image.href.replace('{image_version}', 'larger')}
       />
-      <ExploreContainer>
+      <SectionTitle>
         <h3>Similar Artworks</h3>
+      </SectionTitle>
+      <ExploreContainerX>
         {simArtworks.map(simArtwork => (
-          <SimArtworksThumb
+          <RelatedArtworksThumbs
             image={simArtwork._links.image.href.replace(
               '{image_version}',
               'square'
             )}
             name={simArtwork.name}
             key={simArtwork.id}
+          />
+        ))}
+      </ExploreContainerX>
+      <SectionTitle>
+        <h3>Related Categories</h3>
+      </SectionTitle>
+      <ExploreContainer>
+        {artistsGene.map(artistsGene => (
+          <RelatedGeneThumb
+            image={artistsGene._links.image.href.replace(
+              '{image_version}',
+              'square500'
+            )}
+            name={artistsGene.name}
+            key={artistsGene.id}
           />
         ))}
       </ExploreContainer>
