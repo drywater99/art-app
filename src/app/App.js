@@ -119,8 +119,6 @@ function App(homeArtists) {
     ])
   }
 
-  console.log(trendingArtists, artworks)
-
   return (
     <Router>
       <Grid>
@@ -171,7 +169,7 @@ function App(homeArtists) {
             <HomePageArtwork
               onBookmark={toggleBookmark}
               id={match.params.id}
-              artwork={artworks.find(artwork => artwork.id === match.params.id)}
+              //artwork={artworks.find(artwork => artwork.id === match.params.id)}
             />
           )}
         />

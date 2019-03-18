@@ -116,15 +116,42 @@ const ExploreContainerX = styled.section`
   padding: 25px;
 `
 
-export default function HomePageArtwork({ artwork, onBookmark, id }) {
+export default function HomePageArtwork({
+  artwork,
+  pageArtwork,
+  onBookmark,
+  id,
+  match,
+}) {
   const [homeArtists, setHomeArtist] = useState([])
   const [artistsGene, setArtistsGene] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
+  const [pageArtworks, setPageArtworks] = useState([])
 
-  function getArtist() {
-    const urlString = artwork._links.artists.href
+  async function getArtworks() {
+    const urlString = `https://api.artsy.net/api/artworks/${id}`
+    await axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+        },
+      })
+      .then(res => {
+        const results = res.data
+        console.log(results)
+        setPageArtworks([results])
+      })
+  }
 
-    axios
+  useEffect(() => {
+    getArtworks()
+  }, [])
+
+  async function getArtist() {
+    const urlString = `https://api.artsy.net/api/artists?artwork_id=${id}`
+    console.log(urlString)
+    await axios
       .get(urlString, {
         headers: {
           'X-Xapp-Token':
@@ -141,124 +168,136 @@ export default function HomePageArtwork({ artwork, onBookmark, id }) {
     getArtist()
   }, [])
 
-  console.log(homeArtists)
+  // async function getArtistsGene() {
+  //   const urlString = pageArtwork._links.genes.href
+  //   await axios
+  //     .get(urlString, {
+  //       headers: {
+  //         'X-Xapp-Token':
+  //           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+  //       },
+  //     })
+  //     .then(res => {
+  //       const results = res.data._embedded.genes
+  //       setArtistsGene(results)
+  //     })
+  // }
 
-  function getArtistsGene() {
-    const urlString = artwork._links.genes.href
+  // useEffect(() => {
+  //   getArtistsGene()
+  // }, [])
 
-    axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.genes
-        setArtistsGene(results)
-      })
-  }
+  // console.log(pageArtworks)
 
-  useEffect(() => {
-    getArtistsGene()
-  }, [])
+  // async function getSimilarArtworks() {
+  //   const urlString = pageArtwork._links.similar_artworks.href
+  //   await axios
+  //     .get(urlString, {
+  //       headers: {
+  //         'X-Xapp-Token':
+  //           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+  //       },
+  //     })
+  //     .then(res => {
+  //       const results = res.data._embedded.artworks
+  //       setSimArtworks(results)
+  //     })
+  // }
 
-  console.log(artistsGene)
+  // useEffect(() => {
+  //   getSimilarArtworks()
+  // }, [])
 
-  function getSimilarArtworks() {
-    const urlString = artwork._links.similar_artworks.href
-
-    axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.artworks
-        setSimArtworks(results)
-      })
-  }
-
-  useEffect(() => {
-    getSimilarArtworks()
-  }, [])
-
-  console.log(simArtworks)
-
-  const image = artwork._links.image.href.replace('{image_version}', 'large')
+  // console.log(simArtworks)
 
   function goBack() {
     window.history.back()
   }
 
+  console.log(pageArtworks, homeArtists)
+
   return (
     <PageGrid>
-      <CloseLink onClick={goBack}>x</CloseLink>
-      <ImageCard
-        image={artwork._links.image.href.replace('{image_version}', 'large')}
-        style={{ backgroundImage: 'url(' + image + ')' }}
-      />
-      <BookmarkContainer>
-        <Bookmark
-          active={artwork.bookmarked}
-          onClick={() => onBookmark(artwork)}
-        />
-      </BookmarkContainer>
-      <ContentTitle>
-        {homeArtists.map(homeArtist => (
-          <h3 key={homeArtist.id}>{homeArtist.name}</h3>
-        ))}
-        <p>{artwork.title}</p>
-        <h3>{artwork.date}</h3>
-      </ContentTitle>
-      <ContentContainer>
-        <small>{artwork.category}</small>
-        <small>{artwork.medium}</small>
-        <small>{artwork.dimensions.cm.text}</small>
-        <small>{artwork.dimensions.in.text}</small>
-        <br />
-        <small>Location: {artwork.collecting_institution}</small>
-        <br />
-        {artistsGene.map(artistGene => (
-          <small key={artistGene.id}>{artistGene.name}</small>
-        ))}
-        <div />
-      </ContentContainer>
-      <FullImage
-        src={artwork._links.image.href.replace('{image_version}', 'larger')}
-      />
-      <SectionTitle>
-        <h3>Similar Artworks</h3>
-      </SectionTitle>
-      <ExploreContainerX>
-        {simArtworks.map(simArtwork => (
-          <HomeThumbSimArtwork
-            image={simArtwork._links.image.href.replace(
-              '{image_version}',
-              'square'
-            )}
-            name={simArtwork.name}
-            key={simArtwork.id}
-          />
-        ))}
-      </ExploreContainerX>
-      <SectionTitle>
-        <h3>Related Categories</h3>
-      </SectionTitle>
-      <ExploreContainer>
-        {artistsGene.map(artistsGene => (
-          <HomeGeneThumb
-            image={artistsGene._links.image.href.replace(
-              '{image_version}',
-              'square500'
-            )}
-            name={artistsGene.name}
-            key={artistsGene.id}
-          />
-        ))}
-      </ExploreContainer>
+      {pageArtworks.map(pageArtwork => {
+        const image = pageArtwork._links.image.href.replace(
+          '{image_version}',
+          'large'
+        )
+        return (
+          <div key={pageArtwork.id}>
+            <CloseLink onClick={goBack}>x</CloseLink>
+            <ImageCard
+              image={pageArtwork._links.image.href.replace(
+                '{image_version}',
+                'large'
+              )}
+              style={{ backgroundImage: 'url(' + image + ')' }}
+            />
+            <BookmarkContainer>
+              <Bookmark
+                active={pageArtwork.bookmarked}
+                onClick={() => onBookmark(pageArtwork)}
+              />
+            </BookmarkContainer>
+            <ContentTitle>
+              {homeArtists.map(homeArtist => (
+                <h3 key={homeArtist.id}>{homeArtist.name}</h3>
+              ))}
+              <p>{pageArtwork.title}</p>
+              <h3>{pageArtwork.date}</h3>
+            </ContentTitle>
+            <ContentContainer>
+              <small>{pageArtwork.category}</small>
+              <small>{pageArtwork.medium}</small>
+              <small>{pageArtwork.dimensions.cm.text}</small>
+              <small>{pageArtwork.dimensions.in.text}</small>
+              <br />
+              <small>Location: {pageArtwork.collecting_institution}</small>
+              <br />
+              {artistsGene.map(artistGene => (
+                <small key={artistGene.id}>{artistGene.name}</small>
+              ))}
+              <div />
+            </ContentContainer>
+            <FullImage
+              src={pageArtwork._links.image.href.replace(
+                '{image_version}',
+                'larger'
+              )}
+            />
+            <SectionTitle>
+              <h3>Similar Artworks</h3>
+            </SectionTitle>
+            <ExploreContainerX>
+              {simArtworks.map(simArtwork => (
+                <HomeThumbSimArtwork
+                  image={simArtwork._links.image.href.replace(
+                    '{image_version}',
+                    'square'
+                  )}
+                  name={simArtwork.name}
+                  key={simArtwork.id}
+                />
+              ))}
+            </ExploreContainerX>
+            <SectionTitle>
+              <h3>Related Categories</h3>
+            </SectionTitle>
+            <ExploreContainer>
+              {artistsGene.map(artistsGene => (
+                <HomeGeneThumb
+                  image={artistsGene._links.image.href.replace(
+                    '{image_version}',
+                    'square500'
+                  )}
+                  name={artistsGene.name}
+                  key={artistsGene.id}
+                />
+              ))}
+            </ExploreContainer>
+          </div>
+        )
+      })}
     </PageGrid>
   )
 }
