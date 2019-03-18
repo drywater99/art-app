@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import GlobalStyle from './GlobalStyle'
 import HomeMain from '../home/HomeMain'
 import HomePageArtwork from '../home/HomePageArtwork'
+import HomePageArtist from '../home/HomePageArtist'
 import ExploreMain from '../explore/ExploreMain'
 import ExplorePage from '../explore/ExplorePage'
 import GeneMain from '../gene/GeneMain'
@@ -166,32 +167,22 @@ function App(homeArtists) {
         <Route
           path="/artwork/:id"
           render={({ match }) => (
-            <HomePageArtwork
-              onBookmark={toggleBookmark}
-              id={match.params.id}
-              //artwork={artworks.find(artwork => artwork.id === match.params.id)}
-            />
+            <HomePageArtwork onBookmark={toggleBookmark} id={match.params.id} />
           )}
         />
-        {/* <Route
-          path="/home/artist/:id"
+        <Route
+          path="/artist/:id"
           render={({ match }) => (
-            <HomePageArtist
-              onBookmark={toggleBookmark}
-              id={match.params.id}
-              homeArtist={homeArtists.find(
-                homeArtist => homeArtist.id === match.params.id
-              )}
-            />
+            <HomePageArtist onBookmark={toggleBookmark} id={match.params.id} />
           )}
-        /> */}
+        />
         <Route
           path="/gene/:id"
           render={({ match }) => (
             <GenePage
               onBookmark={toggleBookmark}
               id={match.params.id}
-              gene={genes.find(gene => gene.id === match.params.id)}
+              //gene={genes.find(gene => gene.id === match.params.id)}
             />
           )}
         />

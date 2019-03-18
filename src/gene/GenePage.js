@@ -107,12 +107,35 @@ const ContentTitle = styled.section`
   padding: 0 25px 25px 25px;
 `
 
-export default function GenePage({ gene, onBookmark }) {
+export default function GenePage({ pageGene, onBookmark, id }) {
+  const [pageGenes, setPageGenes] = useState([])
   const [relatedArtists, setRelatedArtists] = useState([])
   const [relatedArtworks, setRelatedArtworks] = useState([])
 
+  function getGenes() {
+    const urlString = `https://api.artsy.net/api/genes?artwork_id=${id}`
+
+    axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+        },
+      })
+      .then(res => {
+        const results = res.data._embedded.genes
+        setPageGenes(results)
+      })
+  }
+
+  useEffect(() => {
+    getGenes()
+  }, [])
+
+  console.log(pageGenes)
+
   function getRelatedArtists() {
-    const urlString = gene._links.artists.href
+    const urlString = `https://api.artsy.net/api/artists?gene_id=${id}`
 
     axios
       .get(urlString, {
@@ -132,7 +155,7 @@ export default function GenePage({ gene, onBookmark }) {
   }, [])
 
   function getRelatedArtworks() {
-    const urlString = gene._links.artworks.href
+    const urlString = `https://api.artsy.net/api/artworks?gene_id=${id}`
 
     axios
       .get(urlString, {
@@ -153,58 +176,72 @@ export default function GenePage({ gene, onBookmark }) {
 
   console.log(relatedArtists, relatedArtworks)
 
-  const image = gene._links.image.href.replace('{image_version}', 'square500')
-
   function goBack() {
     window.history.back()
   }
 
   return (
     <PageGrid>
-      <CloseLink onClick={goBack}>x</CloseLink>
-      <ImageCard
-        image={gene._links.image.href.replace('{image_version}', 'large')}
-        style={{ backgroundImage: 'url(' + image + ')' }}
-      />
-      <BookmarkContainer>
-        <Bookmark active={gene.bookmarked} onClick={() => onBookmark(gene)} />
-      </BookmarkContainer>
-      <ContentTitle>
-        <p>{gene.display_name || gene.name}</p>
-      </ContentTitle>
-      <ContentDescription>{gene.description}</ContentDescription>
-      <SectionTitle>
-        <h3>Related Artists</h3>
-      </SectionTitle>
-      <ExploreContainer>
-        {relatedArtists.map(relatedArtist => (
-          <GeneThumbSimArtist
-            image={relatedArtist._links.image.href.replace(
-              '{image_version}',
-              'square'
-            )}
-            name={relatedArtist.name}
-            key={relatedArtist.id}
-          />
-        ))}
-      </ExploreContainer>
+      {pageGenes.map(pageGene => {
+        const image = pageGene._links.image.href.replace(
+          '{image_version}',
+          'square500'
+        )
+        return (
+          <div key={pageGene.id}>
+            <CloseLink onClick={goBack}>x</CloseLink>
+            <ImageCard
+              image={pageGene._links.image.href.replace(
+                '{image_version}',
+                'large'
+              )}
+              style={{ backgroundImage: 'url(' + image + ')' }}
+            />
+            <BookmarkContainer>
+              <Bookmark
+                active={pageGene.bookmarked}
+                onClick={() => onBookmark(pageGene)}
+              />
+            </BookmarkContainer>
+            <ContentTitle>
+              <p>{pageGene.display_name || pageGene.name}</p>
+            </ContentTitle>
+            <ContentDescription>{pageGene.description}</ContentDescription>
+            <SectionTitle>
+              <h3>Related Artists</h3>
+            </SectionTitle>
+            <ExploreContainer>
+              {relatedArtists.map(relatedArtist => (
+                <GeneThumbSimArtist
+                  image={relatedArtist._links.image.href.replace(
+                    '{image_version}',
+                    'square'
+                  )}
+                  name={relatedArtist.name}
+                  key={relatedArtist.id}
+                />
+              ))}
+            </ExploreContainer>
 
-      <SectionTitle>
-        <h3>Related Artworks</h3>
-      </SectionTitle>
+            <SectionTitle>
+              <h3>Related Artworks</h3>
+            </SectionTitle>
 
-      <ExploreContainerX>
-        {relatedArtworks.map(relatedArtwork => (
-          <GeneThumbSimArtwork
-            image={relatedArtwork._links.image.href.replace(
-              '{image_version}',
-              'square'
-            )}
-            name={relatedArtwork.name}
-            key={relatedArtwork.id}
-          />
-        ))}
-      </ExploreContainerX>
+            <ExploreContainerX>
+              {relatedArtworks.map(relatedArtwork => (
+                <GeneThumbSimArtwork
+                  image={relatedArtwork._links.image.href.replace(
+                    '{image_version}',
+                    'square'
+                  )}
+                  name={relatedArtwork.name}
+                  key={relatedArtwork.id}
+                />
+              ))}
+            </ExploreContainerX>
+          </div>
+        )
+      })}
     </PageGrid>
   )
 }

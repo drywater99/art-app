@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import axios from 'axios'
 import HomeGeneThumb from './HomeThumbGene'
-import HomeThumbSimArtwork from './HomeThumbSimArtwork'
+// import HomeThumbSimArtwork from './HomeThumbSimArtwork'
 
 const PageGrid = styled.section`
   position: relative;
@@ -116,6 +116,10 @@ const ExploreContainerX = styled.section`
   padding: 25px;
 `
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`
+
 export default function HomePageArtwork({
   artwork,
   pageArtwork,
@@ -124,7 +128,7 @@ export default function HomePageArtwork({
   match,
 }) {
   const [homeArtists, setHomeArtist] = useState([])
-  const [artistsGene, setArtistsGene] = useState([])
+  const [artistGenes, setArtistsGene] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
   const [pageArtworks, setPageArtworks] = useState([])
 
@@ -168,47 +172,47 @@ export default function HomePageArtwork({
     getArtist()
   }, [])
 
-  // async function getArtistsGene() {
-  //   const urlString = pageArtwork._links.genes.href
-  //   await axios
-  //     .get(urlString, {
-  //       headers: {
-  //         'X-Xapp-Token':
-  //           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-  //       },
-  //     })
-  //     .then(res => {
-  //       const results = res.data._embedded.genes
-  //       setArtistsGene(results)
-  //     })
-  // }
+  async function getSimilarArtworks() {
+    const urlString = `https://api.artsy.net/api/artworks?similar_to_artwork_id=${id}`
+    await axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+        },
+      })
+      .then(res => {
+        const results = res.data._embedded.artworks
+        setSimArtworks(results)
+      })
+  }
 
-  // useEffect(() => {
-  //   getArtistsGene()
-  // }, [])
+  useEffect(() => {
+    getSimilarArtworks()
+  }, [])
 
-  // console.log(pageArtworks)
+  console.log(simArtworks)
 
-  // async function getSimilarArtworks() {
-  //   const urlString = pageArtwork._links.similar_artworks.href
-  //   await axios
-  //     .get(urlString, {
-  //       headers: {
-  //         'X-Xapp-Token':
-  //           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-  //       },
-  //     })
-  //     .then(res => {
-  //       const results = res.data._embedded.artworks
-  //       setSimArtworks(results)
-  //     })
-  // }
+  async function getArtistsGene() {
+    const urlString = `https://api.artsy.net/api/genes?artwork_id=${id}`
+    await axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+        },
+      })
+      .then(res => {
+        const results = res.data._embedded.genes
+        setArtistsGene(results)
+      })
+  }
 
-  // useEffect(() => {
-  //   getSimilarArtworks()
-  // }, [])
+  useEffect(() => {
+    getArtistsGene()
+  }, [])
 
-  // console.log(simArtworks)
+  console.log(pageArtworks)
 
   function goBack() {
     window.history.back()
@@ -241,7 +245,9 @@ export default function HomePageArtwork({
             </BookmarkContainer>
             <ContentTitle>
               {homeArtists.map(homeArtist => (
-                <h3 key={homeArtist.id}>{homeArtist.name}</h3>
+                <StyledLink to={`/artist/${id}`} key={homeArtist.id}>
+                  <h3>{homeArtist.name}</h3>
+                </StyledLink>
               ))}
               <p>{pageArtwork.title}</p>
               <h3>{pageArtwork.date}</h3>
@@ -254,8 +260,10 @@ export default function HomePageArtwork({
               <br />
               <small>Location: {pageArtwork.collecting_institution}</small>
               <br />
-              {artistsGene.map(artistGene => (
-                <small key={artistGene.id}>{artistGene.name}</small>
+              {artistGenes.map(artistGene => (
+                <StyledLink to={`/gene/${id}`} key={artistGene.id}>
+                  <small>{artistGene.display_name || artistGene.name}</small>
+                </StyledLink>
               ))}
               <div />
             </ContentContainer>
@@ -265,7 +273,7 @@ export default function HomePageArtwork({
                 'larger'
               )}
             />
-            <SectionTitle>
+            {/* <SectionTitle>
               <h3>Similar Artworks</h3>
             </SectionTitle>
             <ExploreContainerX>
@@ -273,25 +281,25 @@ export default function HomePageArtwork({
                 <HomeThumbSimArtwork
                   image={simArtwork._links.image.href.replace(
                     '{image_version}',
-                    'square'
+                    'small'
                   )}
                   name={simArtwork.name}
                   key={simArtwork.id}
                 />
               ))}
-            </ExploreContainerX>
+            </ExploreContainerX> */}
             <SectionTitle>
               <h3>Related Categories</h3>
             </SectionTitle>
             <ExploreContainer>
-              {artistsGene.map(artistsGene => (
+              {artistGenes.map(artistGene => (
                 <HomeGeneThumb
-                  image={artistsGene._links.image.href.replace(
+                  image={artistGene._links.image.href.replace(
                     '{image_version}',
                     'square500'
                   )}
-                  name={artistsGene.name}
-                  key={artistsGene.id}
+                  name={artistGene.name}
+                  key={artistGene.id}
                 />
               ))}
             </ExploreContainer>
