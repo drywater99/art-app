@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
+// import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import axios from 'axios'
-
-import RelatedArtworksThumbs from '../gene/RelatedArtworksThumb'
-import RelatedGeneThumb from '../gene/RelatedGeneThumb'
+import HomeGeneThumb from './HomeThumbGene'
+import HomeThumbSimArtwork from './HomeThumbSimArtwork'
 
 const PageGrid = styled.section`
   position: relative;
@@ -116,38 +116,8 @@ const ExploreContainerX = styled.section`
   padding: 25px;
 `
 
-// const FilterContainer = styled.header`
-//   display: grid;
-//   grid-auto-flow: column;
-//   scroll-snap-type: x mandatory;
-//   overflow-x: scroll;
-//   scroll-padding: 0 25px 0 25px;
-//   padding: 5px 0 0 20px;
-// `
-
-// const FilterButton = styled.div`
-//   display: flex;
-//   white-space: nowrap;
-//   scroll-padding: 20px;
-//   scroll-snap-align: start;
-//   scroll-snap-stop: always;
-//   cursor: default;
-//   background-size: cover;
-//   background-repeat: no-repeat;
-//   background-position: center;
-//   background-blend-mode: darken;
-//   align-items: flex-end;
-//   justify-content: center;
-//   margin: 4px;
-//   width: 102px;
-//   height: 60px;
-//   padding: 24px 12px 12px 8px;
-//   flex: 1 1;
-//   border-radius: 6px;
-// `
-
-export default function HomeCardPage({ artwork, onBookmark }) {
-  const [artist, setArtist] = useState([])
+export default function HomePageArtwork({ artwork, onBookmark, id }) {
+  const [homeArtists, setHomeArtist] = useState([])
   const [artistsGene, setArtistsGene] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
 
@@ -163,7 +133,7 @@ export default function HomeCardPage({ artwork, onBookmark }) {
       })
       .then(res => {
         const results = res.data._embedded.artists
-        setArtist(results)
+        setHomeArtist(results)
       })
   }
 
@@ -171,7 +141,7 @@ export default function HomeCardPage({ artwork, onBookmark }) {
     getArtist()
   }, [])
 
-  console.log(artist)
+  console.log(homeArtists)
 
   function getArtistsGene() {
     const urlString = artwork._links.genes.href
@@ -237,9 +207,8 @@ export default function HomeCardPage({ artwork, onBookmark }) {
         />
       </BookmarkContainer>
       <ContentTitle>
-        {' '}
-        {artist.map(artist => (
-          <h3 key={artist.id}>{artist.name}</h3>
+        {homeArtists.map(homeArtist => (
+          <h3 key={homeArtist.id}>{homeArtist.name}</h3>
         ))}
         <p>{artwork.title}</p>
         <h3>{artwork.date}</h3>
@@ -265,7 +234,7 @@ export default function HomeCardPage({ artwork, onBookmark }) {
       </SectionTitle>
       <ExploreContainerX>
         {simArtworks.map(simArtwork => (
-          <RelatedArtworksThumbs
+          <HomeThumbSimArtwork
             image={simArtwork._links.image.href.replace(
               '{image_version}',
               'square'
@@ -280,7 +249,7 @@ export default function HomeCardPage({ artwork, onBookmark }) {
       </SectionTitle>
       <ExploreContainer>
         {artistsGene.map(artistsGene => (
-          <RelatedGeneThumb
+          <HomeGeneThumb
             image={artistsGene._links.image.href.replace(
               '{image_version}',
               'square500'

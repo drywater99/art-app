@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const StyledLink = styled(Link)`
   text-decoration: none;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
 `
 
@@ -15,18 +15,22 @@ const ProfileImage = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
-  border-radius: 100%;
+  border-radius: 12px;
   position: relative;
 `
+
 const ProfileTitle = styled.div`
+  display: flex;
+  align-items: flex-end;
   font-weight: bold;
-  color: #383838;
-  margin-top: 12px;
+  font-size: 15px;
+  color: #949494;
+  margin-top: 8px;
 `
 
-export default function SimArtworksThumb({ image, name, id }) {
+export default function HomeThumbGene({ image, name, id }) {
   return (
-    <StyledLink to={`/artist/${id}`}>
+    <StyledLink to={`/relartist/${id}`}>
       <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
       <ProfileTitle>{name}</ProfileTitle>
     </StyledLink>

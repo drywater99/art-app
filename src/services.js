@@ -16,7 +16,7 @@ export function getTopicData(url) {
 }
 
 export function getGeneData() {
-  const urlString = 'https://api.artsy.net/api/genes?size=5'
+  const urlString = 'https://api.artsy.net/api/genes?size=50'
   return axios.get(urlString, {
     headers: {
       'X-Xapp-Token':
@@ -27,6 +27,16 @@ export function getGeneData() {
 
 export function getTrendingArtworkData() {
   const urlString = 'https://api.artsy.net/api/artworks?size=12'
+  return axios.get(urlString, {
+    headers: {
+      'X-Xapp-Token':
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+    },
+  })
+}
+
+export function getTrendingArtistsData() {
+  const urlString = 'https://api.artsy.net/api/artists?size=16&sort=-trending'
   return axios.get(urlString, {
     headers: {
       'X-Xapp-Token':

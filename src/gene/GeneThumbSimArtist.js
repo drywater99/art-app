@@ -14,7 +14,7 @@ const StyledLink = styled(Link)`
 const ProfileImage = styled.div`
   height: 150px;
   width: 150px;
-  background-size: cover;
+  background-size: 105%;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 100%;
@@ -27,7 +27,7 @@ const ProfileTitle = styled.div`
   margin-top: 12px;
 `
 
-export default function RelatedArtistsThumb({ image, name, id }) {
+export default function GeneThumbSimArtist({ image, name, id }) {
   return (
     <ThumbContainer>
       <StyledLink to={`/artist/${id}`}>

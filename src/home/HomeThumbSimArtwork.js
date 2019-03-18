@@ -22,9 +22,9 @@ const StyledLink = styled(Link)`
 const ProfileImage = styled.div`
   height: 200px;
   width: 235px;
-  background-size: cover;
+  background-size: 105%;
   background-repeat: no-repeat;
-  background-position: center top;
+  background-position: center;
   border-radius: 12px;
   position: relative;
   position: relative;
@@ -40,7 +40,7 @@ const ProfileTitle = styled.div`
   margin-top: 12px;
 `
 
-export default function RelatedArtworksThumb({ image, name, id }) {
+export default function HomeThumbSimArtwork({ image, name, id }) {
   return (
     <ThumbContainer>
       <StyledLink to={`/relartist/${id}`}>

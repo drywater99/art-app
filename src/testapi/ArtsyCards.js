@@ -73,7 +73,7 @@ export default function ArtsyCards() {
         {artworks.map((artwork, i) => {
           const image = artwork._links.image.href.replace(
             '{image_version}',
-            'four_thirds'
+            'four_thirds' || 'large'
           )
           return (
             <Link to={`/artsy/${artwork.id}`}>

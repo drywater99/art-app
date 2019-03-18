@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const BorderCard = styled.section`
-  padding: 10px 0 0;
+  padding: 30px 0 0;
   filter: drop-shadow(0 10px 10px #cccccc);
 `
 const StyledLink = styled(Link)`

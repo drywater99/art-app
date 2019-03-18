@@ -15,11 +15,20 @@ const ImageCard = styled.div`
   border-radius: 12px;
   position: relative;
 `
+const ProfileTitle = styled.div`
+  display: flex;
+  align-items: flex-end;
+  font-weight: bold;
+  font-size: 15px;
+  color: #949494;
+  margin-top: 8px;
+`
 
-export default function GeneThumb({ image, id }) {
+export default function GeneThumb({ image, id, name }) {
   return (
     <StyledLink to={`/gene/${id}`}>
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
+      <ProfileTitle>{name}</ProfileTitle>
     </StyledLink>
   )
 }

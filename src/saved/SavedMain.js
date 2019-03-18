@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import Header from '../common/Filter'
 import HomeCard from '../home/HomeCard'
 import Title from '../common/Title'
 
@@ -19,16 +18,11 @@ const CardContainer = styled.section`
   padding: 4px 12px 12px;
 `
 
-export default function SavedPage({ onBookmark, artworks }) {
-  const [activeTag, setActiveTag] = useState('all')
+export default function SavedMain({ onBookmark, artworks }) {
+  //const [activeTag, setActiveTag] = useState('all')
 
   return (
     <PageGrid>
-      <Header
-        artworks={artworks}
-        activeTag={activeTag}
-        setActiveTag={setActiveTag}
-      />
       <Title>Saved</Title>
       <CardContainer>
         {artworks.map(artwork => (
