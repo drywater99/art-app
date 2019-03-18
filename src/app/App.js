@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
-import HomePage from '../cards/HomePage'
-import ExplorePage from '../cards/ExplorePage'
-import GenePage from '../cards/GenePage'
-import SavedPage from '../cards/SavedPage'
-import SingleCardPage from '../cards/SingleCardPage'
-import SingleGenePage from '../cards/SingleGenePage'
-import axios from 'axios'
+import GlobalStyle from './GlobalStyle'
+import HomeMain from '../home/HomeMain'
+import HomePageArtwork from '../home/HomePageArtwork'
+import ExploreMain from '../explore/ExploreMain'
+import ExplorePage from '../explore/ExplorePage'
+import GeneMain from '../gene/GeneMain'
+import GenePage from '../gene/GenePage'
+import SavedMain from '../saved/SavedMain'
+import {
+  getTopicData,
+  getTrendingArtworkData,
+  getGeneData,
+  getTrendingArtistsData,
+} from '../services'
 
 //import { Helmet } from 'react-helmet'
-
-import { getGeneData } from '../services'
-import GlobalStyle from './GlobalStyle'
 import ArtsyCards from '../testapi/ArtsyCards'
 
 const Grid = styled.div`
@@ -29,6 +33,8 @@ const Nav = styled.nav`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 2px;
+  color: #efefef;
+  border-top: #949494 solid 1px;
 `
 
 const StyledLink = styled(NavLink)`
@@ -36,7 +42,7 @@ const StyledLink = styled(NavLink)`
   justify-content: center;
   align-items: center;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 12px;
   margin: 15px 24px;
   color: #383838;
   text-decoration: none;
@@ -45,66 +51,75 @@ const StyledLink = styled(NavLink)`
   }
 `
 
-function App() {
-  const [cards, setCards] = useState([])
+function App(homeArtists) {
+  const [artworks, setArtworks] = useState([])
+  const [trendingArtists, setTrendingArtists] = useState([])
+  const [topics, setTopics] = useState([])
+  const [genes, setGenes] = useState([])
+  const [isLoading, setIsLoading] = useState()
 
-  function getTrendingArtists() {
-    const urlString = 'https://api.artsy.net/api/artworks?size=5'
-
-    axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.artworks
-        setCards(results)
-      })
+  async function getTrendingArtists() {
+    setIsLoading(true)
+    await getTrendingArtistsData().then(res => {
+      const results = res.data._embedded.artists
+      setTrendingArtists(results)
+    })
+    setIsLoading(false)
   }
 
   useEffect(() => {
     getTrendingArtists()
   }, [])
 
-  function getGenes() {
-    const urlString = 'https://api.artsy.net/api/genes?size=5'
+  async function getTrendingArtworks() {
+    setIsLoading(true)
+    await getTrendingArtworkData().then(res => {
+      const results = res.data._embedded.artworks
+      setArtworks(results)
+    })
+    setIsLoading(false)
+  }
 
-    axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.genes
-        setCards(results)
-      })
+  useEffect(() => {
+    getTrendingArtworks()
+  }, [])
+
+  async function getGenes() {
+    setIsLoading(true)
+    await getGeneData().then(res => {
+      const results = res.data._embedded.genes
+      setGenes(results)
+    })
+    setIsLoading(false)
   }
 
   useEffect(() => {
     getGenes()
   }, [])
 
-  console.log(cards)
-
-  function filterByGene(url) {
-    getGeneData(url).then(res => {
-      const results = res.data._embedded.artists
-      setCards(results)
+  async function getTopics(url) {
+    setIsLoading(true)
+    await getTopicData(url).then(res => {
+      const results = res.data._embedded.artworks || res.data._embedded.artists
+      setTopics(results)
     })
+    setIsLoading(false)
   }
 
-  function toggleBookmark(card) {
-    const index = cards.indexOf(card)
-    setCards([
-      ...cards.slice(0, index),
-      { ...card, bookmarked: !card.bookmarked },
-      ...cards.slice(index + 1),
+  useEffect(() => {
+    getTopics()
+  }, [])
+
+  function toggleBookmark(artwork) {
+    const index = artworks.indexOf(artwork)
+    setArtworks([
+      ...artworks.slice(0, index),
+      { ...artwork, bookmarked: !artwork.bookmarked },
+      ...artworks.slice(index + 1),
     ])
   }
+
+  console.log(trendingArtists, artworks)
 
   return (
     <Router>
@@ -113,8 +128,9 @@ function App() {
           exact
           path="/"
           render={() => (
-            <HomePage
-              cards={cards.filter(card => !card.bookmarked)}
+            <HomeMain
+              isLoading={isLoading}
+              artworks={artworks.filter(artwork => !artwork.bookmarked)}
               onBookmark={toggleBookmark}
             />
           )}
@@ -122,22 +138,29 @@ function App() {
         <Route
           path="/explore"
           render={() => (
-            <ExplorePage
-              cards={cards}
-              onGeneClick={filterByGene}
+            <ExploreMain
+              isLoading={isLoading}
+              topics={topics}
+              onTopicClick={getTopics}
               onBookmark={toggleBookmark}
             />
           )}
         />
         <Route
           path="/genes"
-          render={() => <GenePage cards={cards} onBookmark={toggleBookmark} />}
+          render={() => (
+            <GeneMain
+              isLoading={isLoading}
+              genes={genes}
+              onBookmark={toggleBookmark}
+            />
+          )}
         />
         <Route
           path="/saved"
           render={() => (
-            <SavedPage
-              cards={cards.filter(card => card.bookmarked)}
+            <SavedMain
+              artworks={artworks.filter(artwork => artwork.bookmarked)}
               onBookmark={toggleBookmark}
             />
           )}
@@ -145,20 +168,42 @@ function App() {
         <Route
           path="/artwork/:id"
           render={({ match }) => (
-            <SingleCardPage
+            <HomePageArtwork
               onBookmark={toggleBookmark}
               id={match.params.id}
-              card={cards.find(card => card.id === match.params.id)}
+              artwork={artworks.find(artwork => artwork.id === match.params.id)}
+            />
+          )}
+        />
+        {/* <Route
+          path="/home/artist/:id"
+          render={({ match }) => (
+            <HomePageArtist
+              onBookmark={toggleBookmark}
+              id={match.params.id}
+              homeArtist={homeArtists.find(
+                homeArtist => homeArtist.id === match.params.id
+              )}
+            />
+          )}
+        /> */}
+        <Route
+          path="/gene/:id"
+          render={({ match }) => (
+            <GenePage
+              onBookmark={toggleBookmark}
+              id={match.params.id}
+              gene={genes.find(gene => gene.id === match.params.id)}
             />
           )}
         />
         <Route
-          path="/gene/:id"
+          path="/topic/:id"
           render={({ match }) => (
-            <SingleGenePage
+            <ExplorePage
               onBookmark={toggleBookmark}
               id={match.params.id}
-              card={cards.find(card => card.id === match.params.id)}
+              topic={topics.find(topic => topic.id === match.params.id)}
             />
           )}
         />
@@ -166,11 +211,11 @@ function App() {
         <Route path="/artsy" component={ArtsyCards} />
         <Nav>
           <StyledLink exact to="/">
-            H
+            Home
           </StyledLink>
-          <StyledLink to="/explore">E</StyledLink>
-          <StyledLink to="/genes">G</StyledLink>
-          <StyledLink to="/saved">S</StyledLink>
+          <StyledLink to="/explore">Explore</StyledLink>
+          <StyledLink to="/genes">Category</StyledLink>
+          <StyledLink to="/saved">Saved</StyledLink>
         </Nav>
         <GlobalStyle />
       </Grid>

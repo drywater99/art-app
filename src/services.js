@@ -1,44 +1,74 @@
 import axios from 'axios'
-const ip = process.env.REACT_APP_BACKEND_IP
-const cardsPath = `http://${ip}:4000/cards`
+// const ip = process.env.REACT_APP_BACKEND_IP
+// const cardsPath = `http://${ip}:4000/cards`
 
-export function getAllCards() {
-  return axios.get(cardsPath)
-}
+// export function getAllCards() {
+//   return axios.get(cardsPath)
+// }
 
-export function getGeneData(url) {
+export function getTopicData(url) {
   return axios.get(url, {
     headers: {
       'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MjQ5NTU2MiwiaWF0IjoxNTUxODkwNzYyLCJhdWQiOiI1YzdmZjk0OTI5MGViYTI4NGZjNzdhNTQiLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM3ZmY5NGEyOTBlYmE0OTE3NWUxZDlhIn0.xuujDMTwmKjPc16Gtjwri4PhdshtAEX5QHg32WtpmoQ',
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
     },
   })
 }
 
-export function toggleCardBookmark(card) {
-  return axios.patch(`${cardsPath}/${card._id}`, {
-    bookmarked: !card.bookmarked,
+export function getGeneData() {
+  const urlString = 'https://api.artsy.net/api/genes?size=50'
+  return axios.get(urlString, {
+    headers: {
+      'X-Xapp-Token':
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+    },
   })
 }
 
-export function getCardsFromStorage() {
-  return getFromStorage('cards') || []
+export function getTrendingArtworkData() {
+  const urlString = 'https://api.artsy.net/api/artworks?size=12'
+  return axios.get(urlString, {
+    headers: {
+      'X-Xapp-Token':
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+    },
+  })
 }
 
-export function saveCardsToStorage(cards) {
-  saveToStorage('cards', cards)
+export function getTrendingArtistsData() {
+  const urlString = 'https://api.artsy.net/api/artists?size=16&sort=-trending'
+  return axios.get(urlString, {
+    headers: {
+      'X-Xapp-Token':
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+    },
+  })
 }
 
-export function saveToStorage(name, data) {
-  const dataString = JSON.stringify(data)
-  localStorage.setItem(name, dataString)
-}
+// export function toggleCardBookmark(artwork) {
+//   return axios.patch(`${cardsPath}/${card._id}`, {
+//     bookmarked: !card.bookmarked,
+//   })
+// }
 
-export function getFromStorage(name) {
-  const dataString = localStorage.getItem(name)
-  try {
-    return JSON.parse(dataString)
-  } catch (error) {
-    console.error(error.message)
-  }
-}
+// export function getCardsFromStorage() {
+//   return getFromStorage('cards') || []
+// }
+
+// export function saveCardsToStorage(cards) {
+//   saveToStorage('cards', cards)
+// }
+
+// export function saveToStorage(name, data) {
+//   const dataString = JSON.stringify(data)
+//   localStorage.setItem(name, dataString)
+// }
+
+// export function getFromStorage(name) {
+//   const dataString = localStorage.getItem(name)
+//   try {
+//     return JSON.parse(dataString)
+//   } catch (error) {
+//     console.error(error.message)
+//   }
+// }

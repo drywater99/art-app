@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 const BorderCard = styled.section`
-  padding: 10px 0 0;
+  padding: 30px 0 0;
   filter: drop-shadow(0 10px 10px #cccccc);
 `
 const StyledLink = styled(Link)`
@@ -48,7 +48,7 @@ const Bookmark = styled.div`
   }
 `
 
-Card.propTypes = {
+HomeCard.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string),
@@ -56,13 +56,13 @@ Card.propTypes = {
   onBookmark: PropTypes.func,
 }
 
-Card.defaultProps = {
+HomeCard.defaultProps = {
   title: 'No title defined',
   content: 'No content defined',
   bookmarked: false,
 }
 
-export default function Card({
+export default function HomeCard({
   title,
   image,
   id,

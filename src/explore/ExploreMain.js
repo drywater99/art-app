@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Header from '../common/Header'
-import Thumbnails from './Thumbnails'
+import Filter from '../common/Filter'
+import ExploreThumb from './ExploreThumb'
 import Title from '../common/Title'
 
 const PageGrid = styled.div`
@@ -20,27 +20,34 @@ const ExploreContainer = styled.section`
   overflow-y: scroll;
 `
 
-export default function ExplorePage({ onGeneClick, cards }) {
+export default function ExploreMain({ onTopicClick, topics, isLoading }) {
   const [activeTag, setActiveTag] = useState('all')
+  let exploreContent
+  if (isLoading) {
+    exploreContent = 'Loading'
+  } else {
+    exploreContent = (
+      <ExploreContainer>
+        {topics.map(topic => (
+          <ExploreThumb
+            image={topic._links.image.href.replace('{image_version}', 'large')}
+            {...topic}
+            key={topic.id}
+          />
+        ))}
+      </ExploreContainer>
+    )
+  }
 
   return (
     <PageGrid>
       <Title data-cy="header-title">Explore</Title>
-      <Header
-        onGeneClick={onGeneClick}
-        cards={cards}
+      <Filter
+        onTopicClick={onTopicClick}
         activeTag={activeTag}
         setActiveTag={setActiveTag}
       />
-      <ExploreContainer>
-        {cards.map(card => (
-          <Thumbnails
-            image={card._links.image.href.replace('{image_version}', 'medium')}
-            {...card}
-            key={card.id}
-          />
-        ))}
-      </ExploreContainer>
+      {exploreContent}
     </PageGrid>
   )
 }
