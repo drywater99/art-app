@@ -120,7 +120,7 @@ const ContentTitle = styled.section`
 //   text-decoration: none;
 // `
 
-export default function HomePageArtwork({
+export default function ArtistPage({
   artwork,
   homeArtist,
   onBookmark,

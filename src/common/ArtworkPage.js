@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import axios from 'axios'
-import HomeGeneThumb from './HomeThumbGene'
-// import HomeThumbSimArtwork from './HomeThumbSimArtwork'
+import SimGeneThumb from './SimGeneThumb'
+import SimArtworkThumb from './SimArtworkThumb'
+import {
+  getArtworksData,
+  getArtistByArtworkData,
+  getSimilarArtworksToArtworkData,
+  getArtworkGenesData,
+} from '../services'
 
 const PageGrid = styled.section`
-  position: relative;
   display: grid;
+  position: relative;
+  width: 100vw;
   align-content: flex-start;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -22,7 +28,7 @@ const ImageCard = styled.div`
   z-index: -1;
   height: 320px;
   width: 100%;
-  background-size: 120%;
+  background-size: 100%;
   background-repeat: no-repeat;
   background-position: center top;
   margin-bottom: 25px;
@@ -106,6 +112,10 @@ const SectionTitle = styled.section`
   padding: 25px 25px 0px 25px;
 `
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`
+
 const ExploreContainerX = styled.section`
   display: grid;
   grid-auto-flow: column;
@@ -116,17 +126,7 @@ const ExploreContainerX = styled.section`
   padding: 25px;
 `
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-`
-
-export default function HomePageArtwork({
-  artwork,
-  pageArtwork,
-  onBookmark,
-  id,
-  match,
-}) {
+export default function ArtworkPage({ onBookmark, id }) {
   const [homeArtists, setHomeArtist] = useState([])
   const [artistGenes, setArtistsGene] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
@@ -134,101 +134,61 @@ export default function HomePageArtwork({
 
   async function getArtworks() {
     const urlString = `https://api.artsy.net/api/artworks/${id}`
-    await axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data
-        console.log(results)
-        setPageArtworks([results])
-      })
+    await getArtworksData(urlString).then(res => {
+      setPageArtworks([res.data])
+    })
   }
 
   useEffect(() => {
     getArtworks()
   }, [])
 
-  async function getArtist() {
+  async function getArtistByArtwork() {
     const urlString = `https://api.artsy.net/api/artists?artwork_id=${id}`
-    console.log(urlString)
-    await axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.artists
-        setHomeArtist(results)
-      })
+    await getArtistByArtworkData(urlString).then(res => {
+      setHomeArtist(res.data._embedded.artists)
+    })
   }
 
   useEffect(() => {
-    getArtist()
+    getArtistByArtwork()
   }, [])
 
-  async function getSimilarArtworks() {
+  async function getSimilarArtworksToArtwork() {
     const urlString = `https://api.artsy.net/api/artworks?similar_to_artwork_id=${id}`
-    await axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.artworks
-        setSimArtworks(results)
-      })
+    await getSimilarArtworksToArtworkData(urlString).then(res => {
+      setSimArtworks(res.data._embedded.artworks)
+    })
   }
 
   useEffect(() => {
-    getSimilarArtworks()
+    getSimilarArtworksToArtwork()
   }, [])
 
-  console.log(simArtworks)
-
-  async function getArtistsGene() {
+  async function getArtworkGenes() {
     const urlString = `https://api.artsy.net/api/genes?artwork_id=${id}`
-    await axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.genes
-        setArtistsGene(results)
-      })
+    await getArtworkGenesData(urlString).then(res => {
+      setArtistsGene(res.data._embedded.genes)
+    })
   }
 
   useEffect(() => {
-    getArtistsGene()
+    getArtworkGenes()
   }, [])
-
-  console.log(pageArtworks)
 
   function goBack() {
     window.history.back()
   }
 
-  console.log(pageArtworks, homeArtists)
-
   return (
-    <PageGrid>
+    <React.Fragment>
       {pageArtworks.map(pageArtwork => {
         const image = pageArtwork._links.image.href.replace(
           '{image_version}',
           'large'
         )
         return (
-          <div key={pageArtwork.id}>
+          <PageGrid key={pageArtwork.id}>
             <CloseLink onClick={goBack}>x</CloseLink>
             <ImageCard
               image={pageArtwork._links.image.href.replace(
@@ -246,7 +206,7 @@ export default function HomePageArtwork({
             <ContentTitle>
               {homeArtists.map(homeArtist => (
                 <StyledLink to={`/artist/${id}`} key={homeArtist.id}>
-                  <h3>{homeArtist.name}</h3>
+                  <h3>{homeArtist.name} ❯</h3>
                 </StyledLink>
               ))}
               <p>{pageArtwork.title}</p>
@@ -261,9 +221,9 @@ export default function HomePageArtwork({
               <small>Location: {pageArtwork.collecting_institution}</small>
               <br />
               {artistGenes.map(artistGene => (
-                <StyledLink to={`/gene/${id}`} key={artistGene.id}>
-                  <small>{artistGene.display_name || artistGene.name}</small>
-                </StyledLink>
+                <small key={artistGene.id}>
+                  {artistGene.display_name || artistGene.name}
+                </small>
               ))}
               <div />
             </ContentContainer>
@@ -273,39 +233,41 @@ export default function HomePageArtwork({
                 'larger'
               )}
             />
-            {/* <SectionTitle>
+            <SectionTitle>
               <h3>Similar Artworks</h3>
             </SectionTitle>
             <ExploreContainerX>
               {simArtworks.map(simArtwork => (
-                <HomeThumbSimArtwork
+                <SimArtworkThumb
                   image={simArtwork._links.image.href.replace(
                     '{image_version}',
-                    'small'
+                    'large'
                   )}
-                  name={simArtwork.name}
+                  id={simArtwork.id}
                   key={simArtwork.id}
                 />
               ))}
-            </ExploreContainerX> */}
+            </ExploreContainerX>
             <SectionTitle>
               <h3>Related Categories</h3>
             </SectionTitle>
             <ExploreContainer>
               {artistGenes.map(artistGene => (
-                <HomeGeneThumb
+                <SimGeneThumb
                   image={artistGene._links.image.href.replace(
                     '{image_version}',
                     'square500'
                   )}
+                  id={artistGene.id}
                   name={artistGene.name}
+                  display_name={artistGene.display_name}
                   key={artistGene.id}
                 />
               ))}
             </ExploreContainer>
-          </div>
+          </PageGrid>
         )
       })}
-    </PageGrid>
+    </React.Fragment>
   )
 }

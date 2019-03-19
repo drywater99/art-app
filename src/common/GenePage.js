@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
-import GeneThumbSimArtist from './GeneThumbSimArtist'
-import GeneThumbSimArtwork from './GeneThumbSimArtwork'
+import SimArtistThumb from './SimArtistThumb'
+import SimArtworkThumb from './SimArtworkThumb'
+import {
+  getGenesData,
+  getGenesRelatedArtistsData,
+  getGeneRelatedArtworksData,
+} from '../services'
 
 const PageGrid = styled.section`
-  position: relative;
   display: grid;
+  position: relative;
+  width: 100vw;
   align-content: flex-start;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
@@ -107,88 +112,59 @@ const ContentTitle = styled.section`
   padding: 0 25px 25px 25px;
 `
 
-export default function GenePage({ pageGene, onBookmark, id }) {
+export default function GenePage({ onBookmark, id }) {
   const [pageGenes, setPageGenes] = useState([])
   const [relatedArtists, setRelatedArtists] = useState([])
   const [relatedArtworks, setRelatedArtworks] = useState([])
 
-  function getGenes() {
-    const urlString = `https://api.artsy.net/api/genes?artwork_id=${id}`
-
-    axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.genes
-        setPageGenes(results)
-      })
+  async function getGenes() {
+    const urlString = `https://api.artsy.net/api/genes/${id}`
+    await getGenesData(urlString).then(res => {
+      setPageGenes([res.data])
+    })
   }
 
   useEffect(() => {
     getGenes()
   }, [])
 
-  console.log(pageGenes)
-
-  function getRelatedArtists() {
+  async function getGeneRelatedArtists() {
     const urlString = `https://api.artsy.net/api/artists?gene_id=${id}`
 
-    axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.artists
-        setRelatedArtists(results)
-      })
+    await getGenesRelatedArtistsData(urlString).then(res => {
+      setRelatedArtists(res.data._embedded.artists)
+    })
   }
 
   useEffect(() => {
-    getRelatedArtists()
+    getGeneRelatedArtists()
   }, [])
 
-  function getRelatedArtworks() {
+  async function getGeneRelatedArtworks() {
     const urlString = `https://api.artsy.net/api/artworks?gene_id=${id}`
 
-    axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.artworks
-        setRelatedArtworks(results)
-      })
+    await getGeneRelatedArtworksData(urlString).then(res => {
+      setRelatedArtworks(res.data._embedded.artworks)
+    })
   }
 
   useEffect(() => {
-    getRelatedArtworks()
+    getGeneRelatedArtworks()
   }, [])
-
-  console.log(relatedArtists, relatedArtworks)
 
   function goBack() {
     window.history.back()
   }
 
   return (
-    <PageGrid>
+    <React.Fragment>
       {pageGenes.map(pageGene => {
         const image = pageGene._links.image.href.replace(
           '{image_version}',
           'square500'
         )
         return (
-          <div key={pageGene.id}>
+          <PageGrid key={pageGene.id}>
             <CloseLink onClick={goBack}>x</CloseLink>
             <ImageCard
               image={pageGene._links.image.href.replace(
@@ -212,7 +188,7 @@ export default function GenePage({ pageGene, onBookmark, id }) {
             </SectionTitle>
             <ExploreContainer>
               {relatedArtists.map(relatedArtist => (
-                <GeneThumbSimArtist
+                <SimArtistThumb
                   image={relatedArtist._links.image.href.replace(
                     '{image_version}',
                     'square'
@@ -222,26 +198,23 @@ export default function GenePage({ pageGene, onBookmark, id }) {
                 />
               ))}
             </ExploreContainer>
-
             <SectionTitle>
               <h3>Related Artworks</h3>
             </SectionTitle>
-
             <ExploreContainerX>
               {relatedArtworks.map(relatedArtwork => (
-                <GeneThumbSimArtwork
+                <SimArtworkThumb
                   image={relatedArtwork._links.image.href.replace(
                     '{image_version}',
-                    'square'
+                    'large'
                   )}
-                  name={relatedArtwork.name}
                   key={relatedArtwork.id}
                 />
               ))}
             </ExploreContainerX>
-          </div>
+          </PageGrid>
         )
       })}
-    </PageGrid>
+    </React.Fragment>
   )
 }

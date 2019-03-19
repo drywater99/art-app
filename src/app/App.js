@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import GlobalStyle from './GlobalStyle'
+import GenePage from '../common/GenePage'
+import ArtistPage from '../common/ArtistPage'
+import ArtworkPage from '../common/ArtworkPage'
 import HomeMain from '../home/HomeMain'
-import HomePageArtwork from '../home/HomePageArtwork'
-import HomePageArtist from '../home/HomePageArtist'
 import ExploreMain from '../explore/ExploreMain'
 import ExplorePage from '../explore/ExplorePage'
 import GeneMain from '../gene/GeneMain'
-import GenePage from '../gene/GenePage'
 import SavedMain from '../saved/SavedMain'
 import {
   getTopicData,
@@ -167,13 +167,13 @@ function App(homeArtists) {
         <Route
           path="/artwork/:id"
           render={({ match }) => (
-            <HomePageArtwork onBookmark={toggleBookmark} id={match.params.id} />
+            <ArtworkPage onBookmark={toggleBookmark} id={match.params.id} />
           )}
         />
         <Route
           path="/artist/:id"
           render={({ match }) => (
-            <HomePageArtist onBookmark={toggleBookmark} id={match.params.id} />
+            <ArtistPage onBookmark={toggleBookmark} id={match.params.id} />
           )}
         />
         <Route

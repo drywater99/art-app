@@ -22,7 +22,7 @@ const StyledLink = styled(Link)`
 const ProfileImage = styled.div`
   height: 200px;
   width: 235px;
-  background-size: 105%;
+  background-size: 135%;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 12px;
@@ -31,22 +31,12 @@ const ProfileImage = styled.div`
   margin-right: 16px;
 `
 
-const ProfileTitle = styled.div`
-  display: flex;
-  align-items: flex-end;
-  font-weight: bold;
-  font-size: 15px;
-  color: #949494;
-  margin-top: 12px;
-`
-
-export default function HomeThumbSimArtwork({ image, name, id }) {
+export default function SimArtworkThumb({ image, id }) {
   return (
-    <ThumbContainer>
-      <StyledLink to={`/relartist/${id}`}>
+    <StyledLink to={`/artwork/${id}`}>
+      <ThumbContainer>
         <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
-        <ProfileTitle>{name}</ProfileTitle>
-      </StyledLink>
-    </ThumbContainer>
+      </ThumbContainer>
+    </StyledLink>
   )
 }

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 
-import RelatedArtworksThumbs from '../gene/GeneThumbSimArtwork'
-import RelatedGeneThumb from '../home/HomeThumbGene'
+import SimArtworkThumb from '../common/SimArtworkThumb'
+import SimGeneThumb from '../common/SimGeneThumb'
 
 const PageGrid = styled.section`
   position: relative;
@@ -232,11 +232,12 @@ export default function ExplorePage({ topic, onBookmark }) {
       </SectionTitle>
       <ExploreContainerX>
         {simArtworks.map(simArtwork => (
-          <RelatedArtworksThumbs
+          <SimArtworkThumb
             image={simArtwork._links.image.href.replace(
               '{image_version}',
               'square'
             )}
+            id={simArtwork.id}
             name={simArtwork.name}
             key={simArtwork.id}
           />
@@ -247,7 +248,7 @@ export default function ExplorePage({ topic, onBookmark }) {
       </SectionTitle>
       <ExploreContainer>
         {artistsGene.map(artistsGene => (
-          <RelatedGeneThumb
+          <SimGeneThumb
             image={artistsGene._links.image.href.replace(
               '{image_version}',
               'square500'
