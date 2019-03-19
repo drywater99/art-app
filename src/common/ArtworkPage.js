@@ -26,12 +26,13 @@ const ContentContainer = styled.section`
 
 const ImageCard = styled.div`
   z-index: -1;
-  height: 320px;
+  min-height: 250px;
+  max-height: 320px;
   width: 100%;
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center top;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 `
 
 const CloseLink = styled.button`

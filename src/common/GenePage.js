@@ -193,6 +193,7 @@ export default function GenePage({ onBookmark, id }) {
                     '{image_version}',
                     'square'
                   )}
+                  id={relatedArtist.id}
                   name={relatedArtist.name}
                   key={relatedArtist.id}
                 />
@@ -209,6 +210,7 @@ export default function GenePage({ onBookmark, id }) {
                     'large'
                   )}
                   key={relatedArtwork.id}
+                  id={relatedArtwork.id}
                 />
               ))}
             </ExploreContainerX>

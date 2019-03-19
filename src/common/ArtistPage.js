@@ -20,9 +20,10 @@ const ContentContainer = styled.section`
 
 const ImageCard = styled.div`
   z-index: -1;
-  height: 320px;
+  min-height: 250px;
+  max-height: 320px;
   width: 100%;
-  background-size: 140%;
+  background-size: 120%;
   background-repeat: no-repeat;
   background-position: center top;
   margin-bottom: 25px;
@@ -120,13 +121,7 @@ const ContentTitle = styled.section`
 //   text-decoration: none;
 // `
 
-export default function ArtistPage({
-  artwork,
-  homeArtist,
-  onBookmark,
-  id,
-  match,
-}) {
+export default function ArtistPage({ onBookmark, id }) {
   const [homeArtists, setHomeArtist] = useState([])
   // const [artistsGene, setArtistsGene] = useState([])
   // const [simArtworks, setSimArtworks] = useState([])
@@ -153,6 +148,25 @@ export default function ArtistPage({
   // }, [])
 
   async function getArtist() {
+    const urlString = `https://api.artsy.net/api/artists/${id}`
+    console.log(urlString)
+    await axios
+      .get(urlString, {
+        headers: {
+          'X-Xapp-Token':
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
+        },
+      })
+      .then(res => {
+        setHomeArtist([res.data])
+      })
+  }
+
+  useEffect(() => {
+    getArtist()
+  }, [])
+
+  async function getArtistByArtwork() {
     const urlString = `https://api.artsy.net/api/artists?artwork_id=${id}`
     console.log(urlString)
     await axios
@@ -169,7 +183,7 @@ export default function ArtistPage({
   }
 
   useEffect(() => {
-    getArtist()
+    getArtistByArtwork()
   }, [])
 
   // async function getSimilarArtworks() {
