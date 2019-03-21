@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Title from '../common/Title'
 import { getSearchQueryData, getSuggestionsData } from '../services'
-import ExploreThumb from './ExploreThumb'
+import ThumbSearch from './ThumbSearch'
 
 const PageGrid = styled.div`
   display: grid;
@@ -10,7 +10,7 @@ const PageGrid = styled.div`
   overflow: hidden;
 `
 
-const ExploreContainer = styled.section`
+const SearchContainer = styled.section`
   display: grid;
   grid-template-columns: 150px 150px;
   grid-template-rows: auto;
@@ -45,7 +45,7 @@ export default function Search() {
     if (event) {
       const urlString = `https://api.artsy.net/api/search?q=${
         event.target.value
-      }&offset=0&size=10&type=artist&type=artwork&type=gene`
+      }&offset=0&size=10&type=gene`
       setIsLoading(true)
       await getSearchQueryData(urlString)
         .then(res => {
@@ -73,80 +73,48 @@ export default function Search() {
     getSuggestions()
   }, [])
 
-  // function ItemRender({ d }) {
-  //   console.log(d)
-  //   if (d.type === 'artwork') {
-  //     return (
-  //       <React.Fragment>
-  //         {d}
-  //         <ExploreThumb image={d._links.thumbnail.href} key={d.title} />
-  //       </React.Fragment>
-  //     )
-  //   } else if (d.type === 'artist') {
-  //     return (
-  //       <React.Fragment>
-  //         {d.title}
-  //         <ExploreThumb image={d._links.thumbnail.href} key={d.title} />
-  //       </React.Fragment>
-  //     )
-  //   } else {
-  //     return null
-  //   }
-  // }
+  console.log(data)
 
-  // function SearchContent() {
-  //   if (isLoading) {
-  //     return <div>Loading...</div>
-  //   } else if (data.length > 0) {
-  //     console.log(data)
-  //     return (
-  //       <ExploreContainer>
-  //         {data.map(d => (
-  //           <ItemRender d={d} key={d.title} />
-  //         ))}
-  //       </ExploreContainer>
-  //     )
-  //   } else {
-  //     return null
-  //   }
-  // }
   function SearchContent() {
     if (isLoading) {
       console.log(suggestions)
       return (
-        <ExploreContainer>
+        <SearchContainer>
           {suggestions.map(s => (
             <React.Fragment key={s.id}>
               {s.name}
-              <ExploreThumb
+              <ThumbSearch
                 image={s._links.image.href.replace('{image_version}', 'large')}
                 key={s.id}
+                id={s.id}
               />
             </React.Fragment>
           ))}
-        </ExploreContainer>
+        </SearchContainer>
       )
     } else if (data.length > 0) {
       console.log(data)
       return (
-        <ExploreContainer>
+        <SearchContainer>
           {data.map(d => (
             <React.Fragment key={d._links.self.href}>
               {d.title}
-              <ExploreThumb
+              <ThumbSearch
                 image={
                   d._links.thumbnail.href
                     ? d._links.thumbnail.href
                     : 'https://via.placeholder.com/150'
                 }
                 key={d._links.self.href}
+                href={d._links.self.href}
+                id={d._links.self.href}
               />
             </React.Fragment>
           ))}
-        </ExploreContainer>
+        </SearchContainer>
       )
     } else {
-      return null
+      return <div>No results found</div>
     }
   }
 

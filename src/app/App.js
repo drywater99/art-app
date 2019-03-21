@@ -7,7 +7,7 @@ import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
 import ExploreMain from '../explore/ExploreMain'
-import Search from '../explore/Search'
+import Search from '../search/Search'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
 import {
