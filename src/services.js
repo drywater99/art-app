@@ -76,6 +76,10 @@ export function getSearchQueryData(urlString) {
   return axios.get(urlString, apiToken)
 }
 
+export function getSuggestionsData(urlString) {
+  return axios.get(urlString, apiToken)
+}
+
 // export function toggleCardBookmark(artwork) {
 //   return axios.patch(`${cardsPath}/${card._id}`, {
 //     bookmarked: !card.bookmarked,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Title from '../common/Title'
-import { getSearchQueryData } from '../services'
+import { getSearchQueryData, getSuggestionsData } from '../services'
 import ExploreThumb from './ExploreThumb'
 
 const PageGrid = styled.div`
@@ -38,18 +38,17 @@ const StyledInput = styled.input`
 
 export default function Search() {
   const [data, setData] = useState([])
+  const [suggestions, setSuggestions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
   async function getSearchQuery(event) {
     if (event) {
       const urlString = `https://api.artsy.net/api/search?q=${
         event.target.value
-      }&offset=0&size=10`
+      }&offset=0&size=10&type=artist&type=artwork&type=gene`
       setIsLoading(true)
       await getSearchQueryData(urlString)
         .then(res => {
-          console.log(data)
-
           setData(res.data._embedded.results)
         })
         .catch(err => console.log(err))
@@ -57,52 +56,92 @@ export default function Search() {
     }
   }
 
-  //   if (event.target.value === '') {
-  //     getTrendingMovies()
-  //   } else {
-  //     Axios.get(searchString).then(res => {
-  //       const { results } = res.data
-  //       setMovies(results)
-  //     })
-  //   }
-
   useEffect(() => {
     getSearchQuery()
   }, [])
 
-  function ItemRender({ d }) {
-    console.log(d)
-    if (d.type === 'artwork') {
-      return (
-        <React.Fragment>
-          {d}
-          <ExploreThumb image={d._links.thumbnail.href} key={d.title} />
-        </React.Fragment>
-      )
-    } else if (d.type === 'artist') {
-      return (
-        <React.Fragment>
-          {d.title ? d.title : null}
-          <ExploreThumb
-            image={d._links.thumbnail.href ? d._links.thumbnail.href : null}
-            key={d.title ? d.title : null}
-          />
-        </React.Fragment>
-      )
-    } else {
-      return null
-    }
+  async function getSuggestions() {
+    const urlString = `https://api.artsy.net/api/artists?size=10&sort=-trending`
+    await getSuggestionsData(urlString)
+      .then(res => {
+        setSuggestions(res.data._embedded.artists)
+      })
+      .catch(err => console.log(err))
   }
 
+  useEffect(() => {
+    getSuggestions()
+  }, [])
+
+  // function ItemRender({ d }) {
+  //   console.log(d)
+  //   if (d.type === 'artwork') {
+  //     return (
+  //       <React.Fragment>
+  //         {d}
+  //         <ExploreThumb image={d._links.thumbnail.href} key={d.title} />
+  //       </React.Fragment>
+  //     )
+  //   } else if (d.type === 'artist') {
+  //     return (
+  //       <React.Fragment>
+  //         {d.title}
+  //         <ExploreThumb image={d._links.thumbnail.href} key={d.title} />
+  //       </React.Fragment>
+  //     )
+  //   } else {
+  //     return null
+  //   }
+  // }
+
+  // function SearchContent() {
+  //   if (isLoading) {
+  //     return <div>Loading...</div>
+  //   } else if (data.length > 0) {
+  //     console.log(data)
+  //     return (
+  //       <ExploreContainer>
+  //         {data.map(d => (
+  //           <ItemRender d={d} key={d.title} />
+  //         ))}
+  //       </ExploreContainer>
+  //     )
+  //   } else {
+  //     return null
+  //   }
+  // }
   function SearchContent() {
     if (isLoading) {
-      return <div>Loading...</div>
+      console.log(suggestions)
+      return (
+        <ExploreContainer>
+          {suggestions.map(s => (
+            <React.Fragment key={s.id}>
+              {s.name}
+              <ExploreThumb
+                image={s._links.image.href.replace('{image_version}', 'large')}
+                key={s.id}
+              />
+            </React.Fragment>
+          ))}
+        </ExploreContainer>
+      )
     } else if (data.length > 0) {
       console.log(data)
       return (
         <ExploreContainer>
           {data.map(d => (
-            <ItemRender d={d} />
+            <React.Fragment key={d._links.self.href}>
+              {d.title}
+              <ExploreThumb
+                image={
+                  d._links.thumbnail.href
+                    ? d._links.thumbnail.href
+                    : 'https://via.placeholder.com/150'
+                }
+                key={d._links.self.href}
+              />
+            </React.Fragment>
           ))}
         </ExploreContainer>
       )
