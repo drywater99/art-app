@@ -31,7 +31,7 @@ const ProfileImage = styled.div`
   margin-right: 16px;
 `
 
-export default function SimArtworkThumb({ image, id }) {
+export default function ThumbSimArtwork({ image, id }) {
   return (
     <StyledLink to={`/artwork/${id}`}>
       <ThumbContainer>

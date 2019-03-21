@@ -6,106 +6,74 @@ import axios from 'axios'
 //   return axios.get(cardsPath)
 // }
 
+const apiToken = {
+  headers: {
+    'X-Xapp-Token':
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1Mzc2Njc1OCwiaWF0IjoxNTUzMTYxOTU4LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM5MzVlZTY0OTVlNmQ3MTdiZmY2NzM5In0.-Oz9VmlcjMQTvpbIlrehE6en2STp1HpNhacO9roCRx0',
+  },
+}
+
 export function getTopicData(url) {
-  return axios.get(url, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+  return axios.get(url, apiToken)
 }
 
 export function getGeneData() {
   const urlString = 'https://api.artsy.net/api/genes?size=50'
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+  return axios.get(urlString, apiToken)
 }
 
 export function getTrendingArtworkData() {
   const urlString = 'https://api.artsy.net/api/artworks?size=12'
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+  return axios.get(urlString, apiToken)
 }
 
 export function getTrendingArtistsData() {
   const urlString = 'https://api.artsy.net/api/artists?size=16&sort=-trending'
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+  return axios.get(urlString, apiToken)
 }
 
-export function getArtworksData(urlString) {
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+export function getArtworkData(id) {
+  const urlString = `https://api.artsy.net/api/artworks/${id}`
+  return axios.get(urlString, apiToken)
 }
 
-export function getArtistByArtworkData(urlString) {
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+export function getArtistByArtworkData(id) {
+  const urlString = `https://api.artsy.net/api/artists?artwork_id=${id}`
+  return axios.get(urlString, apiToken)
 }
 
-export function getSimilarArtworksToArtworkData(urlString) {
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+export function getSimilarArtworksToArtworkData(id) {
+  const urlString = `https://api.artsy.net/api/artworks?similar_to_artwork_id=${id}`
+  return axios.get(urlString, apiToken)
 }
 
-export function getArtworkGenesData(urlString) {
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+export function getArtworkGenesData(id) {
+  const urlString = `https://api.artsy.net/api/genes?artwork_id=${id}`
+  return axios.get(urlString, apiToken)
 }
 
-export function getGenesData(urlString) {
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+export function getGenesData(id) {
+  const urlString = `https://api.artsy.net/api/genes/${id}`
+  return axios.get(urlString, apiToken)
 }
 
-export function getGenesRelatedArtistsData(urlString) {
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+export function getGenesRelatedArtistsData(id) {
+  const urlString = `https://api.artsy.net/api/artists?gene_id=${id}`
+  return axios.get(urlString, apiToken)
 }
 
-export function getGeneRelatedArtworksData(urlString) {
-  return axios.get(urlString, {
-    headers: {
-      'X-Xapp-Token':
-        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-    },
-  })
+export function getGeneRelatedArtworksData(id) {
+  const urlString = `https://api.artsy.net/api/artworks?gene_id=${id}`
+  return axios.get(urlString, apiToken)
+}
+
+export function getArtistData(id) {
+  const urlString = `https://api.artsy.net/api/artists/${id}`
+  return axios.get(urlString, apiToken)
+}
+
+export function getSearchQueryData(urlString) {
+  return axios.get(urlString, apiToken)
 }
 
 // export function toggleCardBookmark(artwork) {

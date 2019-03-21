@@ -28,7 +28,7 @@ const ProfileTitle = styled.div`
   margin-top: 8px;
 `
 
-export default function SimGeneThumb({ image, name, display_name, id }) {
+export default function ThumbSimGene({ image, name, display_name, id }) {
   return (
     <StyledLink to={`/gene/${id}`}>
       <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />

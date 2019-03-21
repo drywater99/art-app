@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 // import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import axios from 'axios'
+import { getArtistData, getArtistByArtworkData } from '../services'
 // import HomeGeneThumb from './HomeThumbGene'
 // import HomeThumbSimArtwork from './HomeThumbSimArtwork'
 
@@ -123,43 +123,11 @@ const ContentTitle = styled.section`
 
 export default function ArtistPage({ onBookmark, id }) {
   const [homeArtists, setHomeArtist] = useState([])
-  // const [artistsGene, setArtistsGene] = useState([])
-  // const [simArtworks, setSimArtworks] = useState([])
-  // const [pageArtworks, setPageArtworks] = useState([])
-
-  // async function getArtworks() {
-  //   const urlString = `https://api.artsy.net/api/artworks/${id}`
-  //   await axios
-  //     .get(urlString, {
-  //       headers: {
-  //         'X-Xapp-Token':
-  //           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-  //       },
-  //     })
-  //     .then(res => {
-  //       const results = res.data
-  //       console.log(results)
-  //       setPageArtworks([results])
-  //     })
-  // }
-
-  // useEffect(() => {
-  //   getArtworks()
-  // }, [])
 
   async function getArtist() {
-    const urlString = `https://api.artsy.net/api/artists/${id}`
-    console.log(urlString)
-    await axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        setHomeArtist([res.data])
-      })
+    await getArtistData(id).then(res => {
+      setHomeArtist([res.data])
+    })
   }
 
   useEffect(() => {
@@ -167,19 +135,10 @@ export default function ArtistPage({ onBookmark, id }) {
   }, [])
 
   async function getArtistByArtwork() {
-    const urlString = `https://api.artsy.net/api/artists?artwork_id=${id}`
-    console.log(urlString)
-    await axios
-      .get(urlString, {
-        headers: {
-          'X-Xapp-Token':
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-        },
-      })
-      .then(res => {
-        const results = res.data._embedded.artists
-        setHomeArtist(results)
-      })
+    await getArtistByArtworkData(id).then(res => {
+      const results = res.data._embedded.artists
+      setHomeArtist(results)
+    })
   }
 
   useEffect(() => {

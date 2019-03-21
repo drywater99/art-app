@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import GlobalStyle from './GlobalStyle'
-import GenePage from '../common/GenePage'
-import ArtistPage from '../common/ArtistPage'
-import ArtworkPage from '../common/ArtworkPage'
+import PageGene from '../common/PageGene'
+import PageArtist from '../common/PageArtist'
+import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
 import ExploreMain from '../explore/ExploreMain'
-import ExplorePage from '../explore/ExplorePage'
+import Search from '../explore/Search'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
 import {
@@ -16,9 +16,8 @@ import {
   getGeneData,
   getTrendingArtistsData,
 } from '../services'
-
-//import { Helmet } from 'react-helmet'
 import ArtsyCards from '../testapi/ArtsyCards'
+//import Icon from './Icon'
 
 const Grid = styled.div`
   display: grid;
@@ -165,46 +164,56 @@ function App(homeArtists) {
           )}
         />
         <Route
-          path="/artwork/:id"
-          render={({ match }) => (
-            <ArtworkPage onBookmark={toggleBookmark} id={match.params.id} />
+          path="/search"
+          render={() => (
+            <Search
+              artworks={artworks.filter(artwork => artwork.bookmarked)}
+              onBookmark={toggleBookmark}
+            />
           )}
         />
         <Route
+          path="/artwork/:id"
+          render={props => (
+            <PageArtwork
+              props={props}
+              onBookmark={toggleBookmark}
+              id={props.match.params.id}
+            />
+          )}
+        />
+        {/* <Route
+          path="/artwork/:id"
+          render={({ match }) => (
+            <PageArtwork onBookmark={toggleBookmark} id={match.params.id} />
+          )}
+        /> */}
+        <Route
           path="/artist/:id"
           render={({ match }) => (
-            <ArtistPage onBookmark={toggleBookmark} id={match.params.id} />
+            <PageArtist onBookmark={toggleBookmark} id={match.params.id} />
           )}
         />
         <Route
           path="/gene/:id"
           render={({ match }) => (
-            <GenePage
+            <PageGene
               onBookmark={toggleBookmark}
               id={match.params.id}
               //gene={genes.find(gene => gene.id === match.params.id)}
             />
           )}
         />
-        <Route
-          path="/topic/:id"
-          render={({ match }) => (
-            <ExplorePage
-              onBookmark={toggleBookmark}
-              id={match.params.id}
-              topic={topics.find(topic => topic.id === match.params.id)}
-            />
-          )}
-        />
-
         <Route path="/artsy" component={ArtsyCards} />
         <Nav>
           <StyledLink exact to="/">
-            Home
+            HOME
+            {/* <Icon name="home" height="20px" width="20px" /> */}
           </StyledLink>
-          <StyledLink to="/explore">Explore</StyledLink>
-          <StyledLink to="/genes">Category</StyledLink>
-          <StyledLink to="/saved">Saved</StyledLink>
+          <StyledLink to="/explore">EXPLORE</StyledLink>
+          <StyledLink to="/genes">GENRE</StyledLink>
+          <StyledLink to="/search">SEARCH</StyledLink>
+          {/* <StyledLink to="/saved">SAVED</StyledLink> */}
         </Nav>
         <GlobalStyle />
       </Grid>

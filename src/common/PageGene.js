@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import SimArtistThumb from './SimArtistThumb'
-import SimArtworkThumb from './SimArtworkThumb'
+import ThumbSimArtist from './ThumbSimArtist'
+import ThumbSimArtwork from './ThumbSimArtwork'
 import {
   getGenesData,
   getGenesRelatedArtistsData,
@@ -112,42 +112,37 @@ const ContentTitle = styled.section`
   padding: 0 25px 25px 25px;
 `
 
-export default function GenePage({ onBookmark, id }) {
-  const [pageGenes, setPageGenes] = useState([])
+export default function PageGene({ onBookmark, id }) {
+  const [gene, setGene] = useState([])
   const [relatedArtists, setRelatedArtists] = useState([])
   const [relatedArtworks, setRelatedArtworks] = useState([])
+  const [isLoading, setIsLoading] = useState()
 
   async function getGenes() {
-    const urlString = `https://api.artsy.net/api/genes/${id}`
-    await getGenesData(urlString).then(res => {
-      setPageGenes([res.data])
+    setIsLoading(true)
+    await getGenesData(id).then(res => {
+      setGene([res.data])
     })
+    setIsLoading(false)
   }
-
   useEffect(() => {
     getGenes()
   }, [])
 
   async function getGeneRelatedArtists() {
-    const urlString = `https://api.artsy.net/api/artists?gene_id=${id}`
-
-    await getGenesRelatedArtistsData(urlString).then(res => {
+    await getGenesRelatedArtistsData(id).then(res => {
       setRelatedArtists(res.data._embedded.artists)
     })
   }
-
   useEffect(() => {
     getGeneRelatedArtists()
   }, [])
 
   async function getGeneRelatedArtworks() {
-    const urlString = `https://api.artsy.net/api/artworks?gene_id=${id}`
-
-    await getGeneRelatedArtworksData(urlString).then(res => {
+    await getGeneRelatedArtworksData(id).then(res => {
       setRelatedArtworks(res.data._embedded.artworks)
     })
   }
-
   useEffect(() => {
     getGeneRelatedArtworks()
   }, [])
@@ -156,67 +151,68 @@ export default function GenePage({ onBookmark, id }) {
     window.history.back()
   }
 
-  return (
-    <React.Fragment>
-      {pageGenes.map(pageGene => {
-        const image = pageGene._links.image.href.replace(
-          '{image_version}',
-          'square500'
-        )
-        return (
-          <PageGrid key={pageGene.id}>
-            <CloseLink onClick={goBack}>x</CloseLink>
-            <ImageCard
-              image={pageGene._links.image.href.replace(
-                '{image_version}',
-                'large'
-              )}
-              style={{ backgroundImage: 'url(' + image + ')' }}
-            />
-            <BookmarkContainer>
-              <Bookmark
-                active={pageGene.bookmarked}
-                onClick={() => onBookmark(pageGene)}
+  let PageGeneContent
+  if (isLoading) {
+    PageGeneContent = 'Loading'
+  } else {
+    PageGeneContent = (
+      <React.Fragment>
+        {gene.map(g => {
+          const image = g._links.image.href.replace(
+            '{image_version}',
+            'square500'
+          )
+          return (
+            <PageGrid key={g.id}>
+              <CloseLink onClick={goBack}>x</CloseLink>
+              <ImageCard
+                image={g._links.image.href.replace('{image_version}', 'large')}
+                style={{ backgroundImage: 'url(' + image + ')' }}
               />
-            </BookmarkContainer>
-            <ContentTitle>
-              <p>{pageGene.display_name || pageGene.name}</p>
-            </ContentTitle>
-            <ContentDescription>{pageGene.description}</ContentDescription>
-            <SectionTitle>
-              <h3>Related Artists</h3>
-            </SectionTitle>
-            <ExploreContainer>
-              {relatedArtists.map(relatedArtist => (
-                <SimArtistThumb
-                  image={relatedArtist._links.image.href.replace(
-                    '{image_version}',
-                    'square'
-                  )}
-                  id={relatedArtist.id}
-                  name={relatedArtist.name}
-                  key={relatedArtist.id}
-                />
-              ))}
-            </ExploreContainer>
-            <SectionTitle>
-              <h3>Related Artworks</h3>
-            </SectionTitle>
-            <ExploreContainerX>
-              {relatedArtworks.map(relatedArtwork => (
-                <SimArtworkThumb
-                  image={relatedArtwork._links.image.href.replace(
-                    '{image_version}',
-                    'large'
-                  )}
-                  key={relatedArtwork.id}
-                  id={relatedArtwork.id}
-                />
-              ))}
-            </ExploreContainerX>
-          </PageGrid>
-        )
-      })}
-    </React.Fragment>
-  )
+              <BookmarkContainer>
+                <Bookmark active={g.bookmarked} onClick={() => onBookmark(g)} />
+              </BookmarkContainer>
+              <ContentTitle>
+                <p>{g.display_name || g.name}</p>
+              </ContentTitle>
+              <ContentDescription>{g.description}</ContentDescription>
+              <SectionTitle>
+                <h3>Related Artists</h3>
+              </SectionTitle>
+              <ExploreContainer>
+                {relatedArtists.map(relatedArtist => (
+                  <ThumbSimArtist
+                    image={relatedArtist._links.image.href.replace(
+                      '{image_version}',
+                      'square'
+                    )}
+                    id={relatedArtist.id}
+                    name={relatedArtist.name}
+                    key={relatedArtist.id}
+                  />
+                ))}
+              </ExploreContainer>
+              <SectionTitle>
+                <h3>Related Artworks</h3>
+              </SectionTitle>
+              <ExploreContainerX>
+                {relatedArtworks.map(relatedArtwork => (
+                  <ThumbSimArtwork
+                    image={relatedArtwork._links.image.href.replace(
+                      '{image_version}',
+                      'large'
+                    )}
+                    key={relatedArtwork.id}
+                    id={relatedArtwork.id}
+                  />
+                ))}
+              </ExploreContainerX>
+            </PageGrid>
+          )
+        })}
+      </React.Fragment>
+    )
+  }
+
+  return <React.Fragment>{PageGeneContent}</React.Fragment>
 }
