@@ -7,7 +7,7 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    font-family: sans-serif;
+    font-family: Roboto, sans-serif;
     margin: 0;
     
   }
@@ -24,6 +24,7 @@ export default createGlobalStyle`
   }
   h3 {
     text-transform: uppercase;
+    font-weight: bold;
     color: #949494;
     font-size: 16px;
     margin: 0;

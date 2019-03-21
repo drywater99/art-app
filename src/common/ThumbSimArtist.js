@@ -27,7 +27,7 @@ const ProfileTitle = styled.div`
   margin-top: 12px;
 `
 
-export default function GeneThumbSimArtist({ image, name, id }) {
+export default function ThumbSimArtist({ image, name, id }) {
   return (
     <ThumbContainer>
       <StyledLink to={`/artist/${id}`}>

@@ -18,7 +18,7 @@ const ImageCard = styled.div`
 
 export default function ExploreThumb({ image, id }) {
   return (
-    <StyledLink to={`/topic/${id}`}>
+    <StyledLink to={`/artwork/${id}`}>
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
     </StyledLink>
   )

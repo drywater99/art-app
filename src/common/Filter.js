@@ -27,7 +27,7 @@ const FilterButton = styled.div`
   width: 102px;
   height: 60px;
   padding: 24px 12px 12px 8px;
-  flex: 1 1;
+
   border-radius: 6px;
 `
 

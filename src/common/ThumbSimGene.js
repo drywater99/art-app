@@ -28,11 +28,11 @@ const ProfileTitle = styled.div`
   margin-top: 8px;
 `
 
-export default function HomeThumbGene({ image, name, id }) {
+export default function ThumbSimGene({ image, name, display_name, id }) {
   return (
-    <StyledLink to={`/relartist/${id}`}>
+    <StyledLink to={`/gene/${id}`}>
       <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
-      <ProfileTitle>{name}</ProfileTitle>
+      <ProfileTitle>{display_name || name}</ProfileTitle>
     </StyledLink>
   )
 }
