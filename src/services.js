@@ -37,11 +37,6 @@ export function getArtworkData(id) {
   return axios.get(urlString, apiToken)
 }
 
-export function getArtworkByHrefData(href) {
-  const urlString = `${href}`
-  return axios.get(urlString, apiToken)
-}
-
 export function getArtistByArtworkData(id) {
   const urlString = `https://api.artsy.net/api/artists?artwork_id=${id}`
   return axios.get(urlString, apiToken)

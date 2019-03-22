@@ -8,6 +8,7 @@ import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
 import ExploreMain from '../explore/ExploreMain'
 import Search from '../search/Search'
+import SearchTest from '../search/SearchTest'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
 import {
@@ -173,6 +174,15 @@ function App() {
           )}
         />
         <Route
+          path="/searchTest"
+          render={() => (
+            <SearchTest
+              artworks={artworks.filter(artwork => artwork.bookmarked)}
+              onBookmark={toggleBookmark}
+            />
+          )}
+        />
+        <Route
           path="/artwork/:id"
           render={props => (
             <PageArtwork
@@ -204,8 +214,9 @@ function App() {
             {/* <Icon name="home" height="20px" width="20px" /> */}
           </StyledLink>
           <StyledLink to="/explore">EXPLORE</StyledLink>
-          <StyledLink to="/genes">GENRE</StyledLink>
+          {/* <StyledLink to="/genes">GENRE</StyledLink> */}
           <StyledLink to="/search">SEARCH</StyledLink>
+          <StyledLink to="/searchTest">TEST</StyledLink>
           {/* <StyledLink to="/saved">SAVED</StyledLink> */}
         </Nav>
         <GlobalStyle />
