@@ -8,7 +8,6 @@ import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
 import ExploreMain from '../explore/ExploreMain'
 import Search from '../search/Search'
-// import SearchTest from '../search/SearchTest'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
 import {
@@ -173,15 +172,6 @@ function App() {
             />
           )}
         />
-        {/* <Route
-          path="/searchtest"
-          render={() => (
-            <SearchTest
-              artworks={artworks.filter(artwork => artwork.bookmarked)}
-              onBookmark={toggleBookmark}
-            />
-          )}
-        /> */}
         <Route
           path="/artwork/:id"
           render={props => (
@@ -192,12 +182,6 @@ function App() {
             />
           )}
         />
-        {/* <Route
-          path="/artwork/:id"
-          render={({ match }) => (
-            <PageArtwork onBookmark={toggleBookmark} id={match.params.id} />
-          )}
-        /> */}
         <Route
           path="/artist/:id"
           render={({ match }) => (
@@ -210,7 +194,6 @@ function App() {
             <PageGene
               onBookmark={toggleBookmark}
               id={match.params.id}
-              //gene={genes.find(gene => gene.id === match.params.id)}
             />
           )}
         />
