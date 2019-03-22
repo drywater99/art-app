@@ -106,8 +106,10 @@ export default function Search() {
                     : 'https://via.placeholder.com/150'
                 }
                 key={d._links.self.href}
-                href={d._links.self.href}
-                id={d._links.self.href}
+                id={d._links.self.href.replace(
+                  'https://api.artsy.net/api/genes/',
+                  ''
+                )}
               />
             </React.Fragment>
           ))}

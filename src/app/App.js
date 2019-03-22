@@ -8,6 +8,7 @@ import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
 import ExploreMain from '../explore/ExploreMain'
 import Search from '../search/Search'
+// import SearchTest from '../search/SearchTest'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
 import {
@@ -51,7 +52,7 @@ const StyledLink = styled(NavLink)`
   }
 `
 
-function App(homeArtists) {
+function App() {
   const [artworks, setArtworks] = useState([])
   const [trendingArtists, setTrendingArtists] = useState([])
   const [topics, setTopics] = useState([])
@@ -172,6 +173,15 @@ function App(homeArtists) {
             />
           )}
         />
+        {/* <Route
+          path="/searchtest"
+          render={() => (
+            <SearchTest
+              artworks={artworks.filter(artwork => artwork.bookmarked)}
+              onBookmark={toggleBookmark}
+            />
+          )}
+        /> */}
         <Route
           path="/artwork/:id"
           render={props => (

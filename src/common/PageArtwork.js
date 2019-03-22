@@ -148,16 +148,16 @@ export default function PageArtwork({ onBookmark, props, id }) {
     getArtwork()
   }, [])
 
-  async function getArtworkByHref() {
-    setIsLoading(true)
-    await getArtworkByHrefData(id).then(res => {
-      setArtwork([res.data])
-    })
-    setIsLoading(false)
-  }
-  useEffect(() => {
-    getArtworkByHref()
-  }, [])
+  // async function getArtworkByHref() {
+  //   setIsLoading(true)
+  //   await getArtworkByHrefData(href).then(res => {
+  //     setArtwork([res.data])
+  //   })
+  //   setIsLoading(false)
+  // }
+  // useEffect(() => {
+  //   getArtworkByHref()
+  // }, [])
 
   // if (xxx !== props.location) {
   //   useEffect(() => {

@@ -37,8 +37,8 @@ export function getArtworkData(id) {
   return axios.get(urlString, apiToken)
 }
 
-export function getArtworkByHrefData(id) {
-  const urlString = `${id}`
+export function getArtworkByHrefData(href) {
+  const urlString = `${href}`
   return axios.get(urlString, apiToken)
 }
 
