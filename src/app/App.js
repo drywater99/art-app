@@ -7,7 +7,7 @@ import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
 import ExploreMain from '../explore/ExploreMain'
-import Search from '../explore/Search'
+import Search from '../search/Search'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
 import {
@@ -51,7 +51,7 @@ const StyledLink = styled(NavLink)`
   }
 `
 
-function App(homeArtists) {
+function App() {
   const [artworks, setArtworks] = useState([])
   const [trendingArtists, setTrendingArtists] = useState([])
   const [topics, setTopics] = useState([])
@@ -182,12 +182,6 @@ function App(homeArtists) {
             />
           )}
         />
-        {/* <Route
-          path="/artwork/:id"
-          render={({ match }) => (
-            <PageArtwork onBookmark={toggleBookmark} id={match.params.id} />
-          )}
-        /> */}
         <Route
           path="/artist/:id"
           render={({ match }) => (
@@ -200,7 +194,6 @@ function App(homeArtists) {
             <PageGene
               onBookmark={toggleBookmark}
               id={match.params.id}
-              //gene={genes.find(gene => gene.id === match.params.id)}
             />
           )}
         />

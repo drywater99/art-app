@@ -44,56 +44,77 @@ export default function Filter({ onTopicClick, active }) {
       name: 'Old Masters',
       urlApi:
         'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=50',
-      href:
+      image:
         'https://d32dm0rphc51dk.cloudfront.net/o1C6-_FV3rp_ZQPVY-hPtw/big_and_tall.jpg',
     },
     {
       name: 'Random',
       urlApi: 'https://api.artsy.net/api/artworks?size=50',
-      href:
+      image:
         'https://d32dm0rphc51dk.cloudfront.net/NOpIAwQa-3r51Cg9qXKbfA/medium.jpg',
     },
     {
-      name: 'Pop Art',
+      name: 'Design',
       urlApi:
-        'https://api.artsy.net/api/artists?gene_id=4e5e41670d2c670001030350&size=50',
-      href:
-        'https://d32dm0rphc51dk.cloudfront.net/46PghnvIBjrN25-_kPPwQA/big_and_tall.jpg',
+        'https://api.artsy.net/api/artworks?gene_id=5845d1449c18db7330001c5d',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/D9BR53JPC0tory7evDbv-Q/thumb.jpg',
     },
     {
-      name: 'Photography',
+      name: 'Renaissance',
       urlApi:
-        'https://api.artsy.net/api/artists?gene_id=50356575ab7498000200000f&size=50',
-      href:
-        'https://d32dm0rphc51dk.cloudfront.net/60jOLdlmGHMs5cF-4bM2_w/big_and_tall.jpg',
+        'https://api.artsy.net/api/artworks?gene_id=4f26f2e004ea5c0001000167&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/XxR4YrbxOIUSZgFvte_K1A/big_and_tall.jpg',
     },
     {
       name: 'Baroque',
       urlApi:
         'https://api.artsy.net/api/artworks?gene_id=4d90d194dcdd5f44a50000ad&size=50',
-      href:
+      image:
         'https://d32dm0rphc51dk.cloudfront.net/4ly-DIuyLoH-JlrLcZjvnw/big_and_tall.jpg',
     },
     {
       name: 'Contemporay',
       urlApi:
         'https://api.artsy.net/api/artists?gene_id=504f7335de9164000200041a&size=50',
-      href:
+      image:
         'https://d32dm0rphc51dk.cloudfront.net/DsYeaxMGPVgQEC09yVj0KQ/big_and_tall.jpg',
     },
     {
-      name: 'New Topographics',
+      name: 'Drawing',
       urlApi:
-        'https://api.artsy.net/api/artists?gene_id=4e8f6e5120df9500010059ba&size=50',
-      href:
-        'https://d32dm0rphc51dk.cloudfront.net/YIMb7ZdxIjLRQ8JgzD8ycg/big_and_tall.jpg',
+        'https://api.artsy.net/api/artworks?gene_id=4f3edd319c211a00010000d6&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/bzKTw_jn7zxAmvAiP1uIxw/big_and_tall.jpg',
     },
     {
-      name: 'Modernism',
+      name: 'Medieval',
       urlApi:
-        'https://api.artsy.net/api/artists?gene_id=50356574ab74980002000006&size=50',
-      href:
-        'https://d32dm0rphc51dk.cloudfront.net/Y2fVKtk64zRDfoGWgYSkJA/big_and_tall.jpg',
+        'https://api.artsy.net/api/artworks?gene_id=4f3ab350acbecf0001000638&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/yk3N6KnZ4FCberc2g2qDDg/big_and_tall.jpg',
+    },
+    {
+      name: 'Eye Contact',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=51efe2708b3b8196fc000462&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/TaRTIdn2xHnFkernyk1BNg/big_and_tall.jpg',
+    },
+    {
+      name: 'Face',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=50b98fe08c65b4a57600012c&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/ezhTpE7U-QT6oJtElY4clw/big_and_tall.jpg',
+    },
+    {
+      name: 'Figuration',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=520baa99a09a678af00000cc&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/ezhTpE7U-QT6oJtElY4clw/big_and_tall.jpg',
     },
   ])
   return (
@@ -103,7 +124,7 @@ export default function Filter({ onTopicClick, active }) {
           style={{
             backgroundImage:
               'url(' +
-              topicApi.href +
+              topicApi.image +
               '), linear-gradient(transparent, #525252)',
           }}
           key={topicApi.urlApi}

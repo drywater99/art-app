@@ -8,6 +8,7 @@ import {
   getArtistByArtworkData,
   getSimilarArtworksToArtworkData,
   getArtworkGenesData,
+  getArtworkByHrefData,
 } from '../services'
 
 const PageGrid = styled.section`
@@ -146,6 +147,17 @@ export default function PageArtwork({ onBookmark, props, id }) {
   useEffect(() => {
     getArtwork()
   }, [])
+
+  // async function getArtworkByHref() {
+  //   setIsLoading(true)
+  //   await getArtworkByHrefData(href).then(res => {
+  //     setArtwork([res.data])
+  //   })
+  //   setIsLoading(false)
+  // }
+  // useEffect(() => {
+  //   getArtworkByHref()
+  // }, [])
 
   // if (xxx !== props.location) {
   //   useEffect(() => {
