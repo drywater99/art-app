@@ -201,13 +201,9 @@ function App() {
         <Route
           path="/gene/:id"
           render={({ match }) => (
-            <PageGene
-              onBookmark={toggleBookmark}
-              id={match.params.id}
-            />
+            <PageGene onBookmark={toggleBookmark} id={match.params.id} />
           )}
         />
-        <Route path="/artsy" component={ArtsyCards} />
         <Nav>
           <StyledLink exact to="/">
             HOME

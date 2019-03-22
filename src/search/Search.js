@@ -40,20 +40,22 @@ export default function Search() {
   const [data, setData] = useState([])
   const [suggestions, setSuggestions] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [searchString, setSearchString] = useState(null)
 
-  async function getSearchQuery(event) {
-    if (event) {
-      const urlString = `https://api.artsy.net/api/search?q=${
-        event.target.value
-      }&offset=0&size=10&type=gene`
-      setIsLoading(true)
-      await getSearchQueryData(urlString)
-        .then(res => {
-          setData(res.data._embedded.results)
-        })
-        .catch(err => console.log(err))
-      setIsLoading(false)
-    }
+  function onSearchInputChange(e) {
+    setSearchString(e.target.value)
+    getSearchQuery()
+  }
+
+  async function getSearchQuery() {
+    const urlString = `https://api.artsy.net/api/search?q=${searchString}&offset=0&size=10&type=artist`
+    setIsLoading(true)
+    await getSearchQueryData(urlString)
+      .then(res => {
+        setData(res.data._embedded.results)
+      })
+      .catch(err => console.log(err))
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -76,7 +78,7 @@ export default function Search() {
   console.log(data)
 
   function SearchContent() {
-    if (isLoading) {
+    if (!searchString) {
       console.log(suggestions)
       return (
         <SearchContainer>
@@ -107,7 +109,7 @@ export default function Search() {
                 }
                 key={d._links.self.href}
                 id={d._links.self.href.replace(
-                  'https://api.artsy.net/api/genes/',
+                  'https://api.artsy.net/api/artists/',
                   ''
                 )}
               />
@@ -127,7 +129,8 @@ export default function Search() {
         <StyledInput
           placeholder="Search"
           type="text"
-          onChange={e => getSearchQuery(e)}
+          value={searchString}
+          onChange={onSearchInputChange}
         />
       </StyledForm>
       <SearchContent />

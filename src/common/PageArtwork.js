@@ -21,15 +21,16 @@ const PageGrid = styled.section`
 const ContentContainer = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 0 25px 25px 25px;
+  margin: 25px 25px 0 25px;
+  padding: 0 0 25px 0;
+  border-bottom: 1px solid #bababa;
 `
 
 const ImageCard = styled.div`
   z-index: -1;
-  min-height: 250px;
-  max-height: 320px;
-  width: 100%;
-  background-size: 100%;
+  height: 450px;
+  width: 100vw;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
   margin-bottom: 20px;
@@ -85,7 +86,7 @@ const FullImage = styled.img`
   flex-direction: column;
   flex-wrap: wrap;
   align-items: flex-start;
-  padding: 0 25px 25px;
+  padding: 30px 25px 30px 25px;
   width: 100%;
   .fill {
     object-fit: fill;
@@ -104,13 +105,17 @@ const ExploreContainer = styled.section`
 const ContentTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 0 25px 25px 25px;
+  margin: 10px 25px 0px 25px;
+  padding: 0 0 25px 0;
+  border-bottom: 1px solid #bababa;
 `
 
 const SectionTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 25px 25px 0px 25px;
+  margin: 0 25px 0px 25px;
+  padding: 25px 0 0 0;
+  border-top: 1px solid #bababa;
 `
 
 const StyledLink = styled(Link)`
@@ -124,7 +129,7 @@ const ExploreContainerX = styled.section`
   overflow-x: scroll;
   scroll-padding: 0 25px 0 25px;
   height: fit-content;
-  padding: 25px;
+  padding: 25px 25px 30px 25px;
 `
 
 // export default function PageArtwork({ onBookmark, id }) {
@@ -220,13 +225,13 @@ export default function PageArtwork({ onBookmark, props, id }) {
                 <small>{a.dimensions.in.text}</small>
                 <br />
                 <small>Location: {a.collecting_institution}</small>
-                <br />
+              </ContentContainer>
+              <ContentContainer>
                 {artworkGenes.map(artworkGene => (
                   <small key={artworkGene.id}>
                     {artworkGene.display_name || artworkGene.name}
                   </small>
                 ))}
-                <div />
               </ContentContainer>
               <FullImage
                 src={a._links.image.href.replace('{image_version}', 'larger')}

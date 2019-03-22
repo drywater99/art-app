@@ -19,9 +19,9 @@ const PageGrid = styled.section`
 
 const ImageCard = styled.div`
   z-index: -1;
-  height: 320px;
-  width: 100%;
-  background-size: 110%;
+  height: 450px;
+  width: 100vw;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   margin-bottom: 25px;

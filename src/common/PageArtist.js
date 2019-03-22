@@ -20,10 +20,9 @@ const ContentContainer = styled.section`
 
 const ImageCard = styled.div`
   z-index: -1;
-  min-height: 250px;
-  max-height: 320px;
-  width: 100%;
-  background-size: 120%;
+  height: 450px;
+  width: 100vw;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
   margin-bottom: 25px;

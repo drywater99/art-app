@@ -14,9 +14,9 @@ const StyledLink = styled(Link)`
 const ProfileImage = styled.div`
   height: 150px;
   width: 150px;
-  background-size: 105%;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center top;
   border-radius: 100%;
   position: relative;
 `
