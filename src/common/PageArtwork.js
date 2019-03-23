@@ -62,7 +62,7 @@ const CloseLink = styled.button`
 const BookmarkContainer = styled.section`
   display: flex;
   justify-content: flex-end;
-  height: 30px;
+  height: 20px;
   margin: 0 25px 0;
 `
 
@@ -223,10 +223,13 @@ export default function PageArtwork({ onBookmark, props, id }) {
                 <small>{a.medium}</small>
                 <small>{a.dimensions.cm.text}</small>
                 <small>{a.dimensions.in.text}</small>
-                <br />
-                <small>Location: {a.collecting_institution}</small>
               </ContentContainer>
               <ContentContainer>
+                <h3>Location</h3> <br />
+                <small>{a.collecting_institution}</small>
+              </ContentContainer>
+              <ContentContainer>
+                <h3>Categories</h3> <br />
                 {artworkGenes.map(artworkGene => (
                   <small key={artworkGene.id}>
                     {artworkGene.display_name || artworkGene.name}

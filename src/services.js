@@ -41,6 +41,10 @@ export function getArtistByArtworkData(id) {
   const urlString = `https://api.artsy.net/api/artists?artwork_id=${id}`
   return axios.get(urlString, apiToken)
 }
+export function getArtistArtworksData(id) {
+  const urlString = `https://api.artsy.net/api/artworks?artist_id=${id}&size=24`
+  return axios.get(urlString, apiToken)
+}
 
 export function getSimilarArtworksToArtworkData(id) {
   const urlString = `https://api.artsy.net/api/artworks?similar_to_artwork_id=${id}`
@@ -69,6 +73,16 @@ export function getGeneRelatedArtworksData(id) {
 
 export function getArtistData(id) {
   const urlString = `https://api.artsy.net/api/artists/${id}`
+  return axios.get(urlString, apiToken)
+}
+
+export function getArtistGenesData(id) {
+  const urlString = `https://api.artsy.net/api/genes?artist_id=${id}`
+  return axios.get(urlString, apiToken)
+}
+
+export function getArtistSimilarArtistsData(id) {
+  const urlString = `https://api.artsy.net/api/artists?similar_to_artist_id=${id}`
   return axios.get(urlString, apiToken)
 }
 

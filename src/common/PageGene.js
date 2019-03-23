@@ -92,7 +92,9 @@ const ExploreContainerX = styled.section`
 const SectionTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 25px 25px 0 25px;
+  margin: 0 25px 0px 25px;
+  padding: 25px 0 0 0;
+  border-top: 1px solid #bababa;
 `
 
 const ContentDescription = styled.small`
@@ -177,6 +179,21 @@ export default function PageGene({ onBookmark, id }) {
               </ContentTitle>
               <ContentDescription>{g.description}</ContentDescription>
               <SectionTitle>
+                <h3>Related Artworks</h3>
+              </SectionTitle>
+              <ExploreContainerX>
+                {relatedArtworks.map(relatedArtwork => (
+                  <ThumbSimArtwork
+                    image={relatedArtwork._links.image.href.replace(
+                      '{image_version}',
+                      'large'
+                    )}
+                    key={relatedArtwork.id}
+                    id={relatedArtwork.id}
+                  />
+                ))}
+              </ExploreContainerX>
+              <SectionTitle>
                 <h3>Related Artists</h3>
               </SectionTitle>
               <ExploreContainer>
@@ -192,21 +209,6 @@ export default function PageGene({ onBookmark, id }) {
                   />
                 ))}
               </ExploreContainer>
-              <SectionTitle>
-                <h3>Related Artworks</h3>
-              </SectionTitle>
-              <ExploreContainerX>
-                {relatedArtworks.map(relatedArtwork => (
-                  <ThumbSimArtwork
-                    image={relatedArtwork._links.image.href.replace(
-                      '{image_version}',
-                      'large'
-                    )}
-                    key={relatedArtwork.id}
-                    id={relatedArtwork.id}
-                  />
-                ))}
-              </ExploreContainerX>
             </PageGrid>
           )
         })}
