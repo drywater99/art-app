@@ -29,7 +29,7 @@ const ProfileImage = styled.div`
   border-radius: 100%;
   position: relative;
   position: relative;
-  margin: 0 8px 0 8px;
+  margin: 0 16px 0 0;
 `
 const ProfileTitle = styled.div`
   display: flex;
@@ -37,7 +37,7 @@ const ProfileTitle = styled.div`
   font-weight: bold;
   font-size: 15px;
   color: #949494;
-  margin-top: 8px;
+  margin: 8px 16px 0 0;
 `
 
 export default function ThumbSimArtistX({ image, id, name, display_name }) {

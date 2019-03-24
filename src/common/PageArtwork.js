@@ -189,94 +189,148 @@ export default function PageArtwork({ onBookmark, props, id }) {
     window.history.back()
   }
 
-  console.log(artwork)
+  // function SearchContentLocation() {
+  //   if (artwork.collecting_institution !== '') {
+  //     return (
+  //       <ContentContainer>
+  //         {artwork.map(a => {
+  //           return (
+  //             <React.Fragment>
+  //               <h3>Location</h3>
+  //               <br />
+  //               <small>{artwork.collecting_institution}</small>
+  //             </React.Fragment>
+  //           )
+  //         })}
+  //       </ContentContainer>
+  //     )
+  //   } else {
+  //     return null
+  //   }
+  // }
 
-  let PageArtworkContent
-  if (isLoading) {
-    PageArtworkContent = 'Loading'
-  } else {
-    PageArtworkContent = (
-      <React.Fragment>
-        {artwork.map(a => {
-          const image = a._links.image.href.replace('{image_version}', 'large')
-          return (
-            <PageGrid key={a.id}>
-              <CloseLink onClick={goBack}>x</CloseLink>
-              <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
-              <BookmarkContainer>
-                <Bookmark active={a.bookmarked} onClick={() => onBookmark(a)} />
-              </BookmarkContainer>
-              <ContentTitle>
-                {artworkArtist.map(homeArtist => (
-                  <StyledLink
-                    to={`/artist/${homeArtist.id}`}
-                    key={homeArtist.id}
-                  >
-                    <h3>{homeArtist.name} ❯</h3>
-                  </StyledLink>
-                ))}
-                <p>{a.title}</p>
-                <h3>{a.date}</h3>
-              </ContentTitle>
-              <ContentContainer>
-                <small>{a.category}</small>
-                <small>{a.medium}</small>
-                <small>{a.dimensions.cm.text}</small>
-                <small>{a.dimensions.in.text}</small>
-              </ContentContainer>
-              <ContentContainer>
-                <h3>Location</h3> <br />
-                <small>{a.collecting_institution}</small>
-              </ContentContainer>
-              <ContentContainer>
-                <h3>Categories</h3> <br />
-                {artworkGenes.map(artworkGene => (
-                  <small key={artworkGene.id}>
-                    {artworkGene.display_name || artworkGene.name}
-                  </small>
-                ))}
-              </ContentContainer>
-              <FullImage
-                src={a._links.image.href.replace('{image_version}', 'larger')}
+  function SearchContentSimArtworks() {
+    if (simArtworks.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Similar Artworks</h2>
+          </SectionTitle>
+          <ExploreContainerX>
+            {simArtworks.map(simArtwork => (
+              <ThumbSimArtwork
+                image={simArtwork._links.image.href.replace(
+                  '{image_version}',
+                  'large'
+                )}
+                id={simArtwork.id}
+                key={simArtwork.id}
               />
-              <SectionTitle>
-                <h3>Similar Artworks</h3>
-              </SectionTitle>
-              <ExploreContainerX>
-                {simArtworks.map(simArtwork => (
-                  <ThumbSimArtwork
-                    image={simArtwork._links.image.href.replace(
-                      '{image_version}',
-                      'large'
-                    )}
-                    id={simArtwork.id}
-                    key={simArtwork.id}
-                  />
-                ))}
-              </ExploreContainerX>
-              <SectionTitle>
-                <h3>Related Categories</h3>
-              </SectionTitle>
-              <ExploreContainer>
-                {artworkGenes.map(artistGene => (
-                  <ThumbSimGene
-                    image={artistGene._links.image.href.replace(
-                      '{image_version}',
-                      'square500'
-                    )}
-                    id={artistGene.id}
-                    name={artistGene.name}
-                    display_name={artistGene.display_name}
-                    key={artistGene.id}
-                  />
-                ))}
-              </ExploreContainer>
-            </PageGrid>
-          )
-        })}
-      </React.Fragment>
-    )
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
   }
 
-  return <React.Fragment>{PageArtworkContent}</React.Fragment>
+  function SearchContentSimCategories() {
+    if (artworkGenes.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Related Categories</h2>
+          </SectionTitle>
+          <ExploreContainer>
+            {artworkGenes.map(artistGene => (
+              <ThumbSimGene
+                image={artistGene._links.image.href.replace(
+                  '{image_version}',
+                  'square500'
+                )}
+                id={artistGene.id}
+                name={artistGene.name}
+                display_name={artistGene.display_name}
+                key={artistGene.id}
+              />
+            ))}
+          </ExploreContainer>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function PageGeneContent() {
+    if (isLoading && artwork.length > 0) {
+      return 'Loading'
+    } else {
+      return (
+        <React.Fragment>
+          {artwork.map(a => {
+            const image = a._links.image.href.replace(
+              '{image_version}',
+              'large'
+            )
+            return (
+              <PageGrid key={a.id}>
+                <CloseLink onClick={goBack}>x</CloseLink>
+                <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
+                <BookmarkContainer>
+                  <Bookmark
+                    active={a.bookmarked}
+                    onClick={() => onBookmark(a)}
+                  />
+                </BookmarkContainer>
+                <ContentTitle>
+                  {artworkArtist.map(homeArtist => (
+                    <StyledLink
+                      to={`/artist/${homeArtist.id}`}
+                      key={homeArtist.id}
+                    >
+                      <h3>{homeArtist.name} ❯</h3>
+                    </StyledLink>
+                  ))}
+                  <p>{a.title}</p>
+                  <h3>{a.date}</h3>
+                </ContentTitle>
+                <ContentContainer>
+                  <small>{a.category}</small>
+                  <small>{a.medium}</small>
+                  <small>{a.dimensions.cm.text}</small>
+                  <small>{a.dimensions.in.text}</small>
+                </ContentContainer>
+                <ContentContainer>
+                  <h3>Location</h3>
+                  <br />
+                  <small>{a.collecting_institution}</small>
+                </ContentContainer>
+                <ContentContainer>
+                  <h3>Categories</h3> <br />
+                  {artworkGenes.map(artworkGene => (
+                    <small key={artworkGene.id}>
+                      {artworkGene.display_name || artworkGene.name}
+                    </small>
+                  ))}
+                </ContentContainer>
+                <FullImage
+                  src={a._links.image.href.replace('{image_version}', 'larger')}
+                />
+                <SearchContentSimArtworks />
+                <SearchContentSimCategories />
+              </PageGrid>
+            )
+          })}
+        </React.Fragment>
+      )
+    }
+  }
+
+  return (
+    <React.Fragment>
+      <PageGeneContent />
+    </React.Fragment>
+  )
 }

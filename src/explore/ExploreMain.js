@@ -12,12 +12,13 @@ const PageGrid = styled.div`
 
 const ExploreContainer = styled.section`
   display: grid;
-  grid-template-columns: 150px 150px;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto;
-  grid-column-gap: 21px;
-  grid-row-gap: 18px;
-  padding: 25px;
+  grid-column-gap: 5px;
+  grid-row-gap: 5px;
+  padding: 15px 5px 5px 5px;
   overflow-y: scroll;
+  border-top: 1px solid #d0d0d0;
 `
 
 export default function ExploreMain({ onTopicClick, topics, isLoading }) {
@@ -30,7 +31,7 @@ export default function ExploreMain({ onTopicClick, topics, isLoading }) {
       <ExploreContainer>
         {topics.map(topic => (
           <ExploreThumb
-            image={topic._links.image.href.replace('{image_version}', 'large')}
+            image={topic._links.image.href.replace('{image_version}', 'small')}
             {...topic}
             key={topic.id}
           />

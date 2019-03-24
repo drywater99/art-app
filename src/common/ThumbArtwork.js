@@ -25,6 +25,14 @@ const ProfileTitle = styled.div`
   align-items: flex-end;
   font-weight: bold;
   font-size: 15px;
+  color: #383838;
+  margin-top: 8px;
+`
+const ProfileDate = styled.div`
+  display: flex;
+  align-items: flex-end;
+  font-weight: bold;
+  font-size: 15px;
   color: #949494;
   margin-top: 8px;
 `
@@ -34,7 +42,7 @@ export default function ThumbSimGene({ image, date, title, id }) {
     <StyledLink to={`/artwork/${id}`}>
       <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
       <ProfileTitle>{title}</ProfileTitle>
-      <ProfileTitle>{date}</ProfileTitle>
+      <ProfileDate>{date}</ProfileDate>
     </StyledLink>
   )
 }

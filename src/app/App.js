@@ -7,7 +7,6 @@ import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
 import ExploreMain from '../explore/ExploreMain'
-import Search from '../search/Search'
 import SearchTest from '../search/SearchTest'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
@@ -16,8 +15,8 @@ import {
   getTrendingArtworkData,
   getGeneData,
   getTrendingArtistsData,
+  getShowData,
 } from '../services'
-import ArtsyCards from '../testapi/ArtsyCards'
 //import Icon from './Icon'
 
 const Grid = styled.div`
@@ -57,7 +56,21 @@ function App() {
   const [trendingArtists, setTrendingArtists] = useState([])
   const [topics, setTopics] = useState([])
   const [genes, setGenes] = useState([])
+  const [shows, setShows] = useState([])
   const [isLoading, setIsLoading] = useState()
+
+  async function getShows() {
+    setIsLoading(true)
+    await getShowData().then(res => {
+      const results = res.data._embedded.shows
+      setShows(results)
+    })
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    getShows()
+  }, [])
 
   async function getTrendingArtists() {
     setIsLoading(true)
@@ -130,6 +143,8 @@ function App() {
             <HomeMain
               isLoading={isLoading}
               artworks={artworks.filter(artwork => !artwork.bookmarked)}
+              shows={shows.filter(show => !show.bookmarked)}
+              trendingArtists={trendingArtists}
               onBookmark={toggleBookmark}
             />
           )}
@@ -164,7 +179,7 @@ function App() {
             />
           )}
         />
-        <Route
+        {/* <Route
           path="/search"
           render={() => (
             <Search
@@ -172,9 +187,9 @@ function App() {
               onBookmark={toggleBookmark}
             />
           )}
-        />
+        /> */}
         <Route
-          path="/searchTest"
+          path="/search"
           render={() => (
             <SearchTest
               artworks={artworks.filter(artwork => artwork.bookmarked)}
@@ -212,8 +227,7 @@ function App() {
           <StyledLink to="/explore">EXPLORE</StyledLink>
           {/* <StyledLink to="/genes">GENRE</StyledLink> */}
           <StyledLink to="/search">SEARCH</StyledLink>
-          <StyledLink to="/searchTest">TEST</StyledLink>
-          {/* <StyledLink to="/saved">SAVED</StyledLink> */}
+          <StyledLink to="/saved">SAVED</StyledLink>
         </Nav>
         <GlobalStyle />
       </Grid>

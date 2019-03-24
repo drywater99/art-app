@@ -23,12 +23,23 @@ export function getGeneData() {
 }
 
 export function getTrendingArtworkData() {
-  const urlString = 'https://api.artsy.net/api/artworks?size=12'
+  const urlString = 'https://api.artsy.net/api/artworks?size=4'
   return axios.get(urlString, apiToken)
 }
 
 export function getTrendingArtistsData() {
-  const urlString = 'https://api.artsy.net/api/artists?size=16&sort=-trending'
+  const urlString =
+    'https://api.artsy.net/api/artists?similarity_type=contemporary&artworks=true&sort=-trending&size=8'
+  return axios.get(urlString, apiToken)
+}
+
+export function getShowData() {
+  const urlString = 'https://api.artsy.net/api/shows?status=running'
+  return axios.get(urlString, apiToken)
+}
+
+export function getArtworksByArtistsData(id) {
+  const urlString = `https://api.artsy.net/api/artworks?artist_id=${id}`
   return axios.get(urlString, apiToken)
 }
 

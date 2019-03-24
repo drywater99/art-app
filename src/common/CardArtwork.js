@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { getArtistByArtworkData } from '../services'
 
 const BorderCard = styled.section`
   padding: 30px 0 0;
@@ -23,7 +24,7 @@ const ImageCard = styled.div`
 
 const ContentCard = styled.section`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 325px;
   padding: 22px 20px 20px 22px;
@@ -36,7 +37,7 @@ const Bookmark = styled.div`
   height: 10px;
   background: ${p => (p.active ? '#007aff' : '#383838')};
   transition: all 0.4s ease;
-  margin-top: -50px;
+  margin-top: 4px;
 
   &:after {
     transition: all 0.4s ease;
@@ -48,7 +49,7 @@ const Bookmark = styled.div`
   }
 `
 
-HomeCard.propTypes = {
+CardArtwork.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
   tags: PropTypes.arrayOf(PropTypes.string),
@@ -56,13 +57,13 @@ HomeCard.propTypes = {
   onBookmark: PropTypes.func,
 }
 
-HomeCard.defaultProps = {
+CardArtwork.defaultProps = {
   title: 'No title defined',
   content: 'No content defined',
   bookmarked: false,
 }
 
-export default function HomeCard({
+export default function CardArtwork({
   title,
   image,
   id,
@@ -71,6 +72,17 @@ export default function HomeCard({
   date,
   collecting_institution,
 }) {
+  const [artworkArtist, setArtworkArtist] = useState([])
+
+  async function getArtistByArtwork() {
+    await getArtistByArtworkData(id).then(res => {
+      setArtworkArtist(res.data._embedded.artists)
+    })
+  }
+  useEffect(() => {
+    getArtistByArtwork()
+  }, [])
+
   return (
     <StyledLink to={`/artwork/${id}`}>
       <BorderCard>
@@ -80,7 +92,11 @@ export default function HomeCard({
         />
         <ContentCard data-cy="card-content">
           <div>
-            <h3>{date}</h3>
+            <React.Fragment>
+              {artworkArtist.map(homeArtist => (
+                <h3 key={homeArtist.name}>{homeArtist.name}</h3>
+              ))}
+            </React.Fragment>
             <p>{title}</p>
             <small>{collecting_institution}</small>
           </div>

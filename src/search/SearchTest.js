@@ -21,7 +21,7 @@ const HeadlineContainer = styled.div`
   padding: 25px 25px 10px 25px;
 `
 
-const SearchContainer = styled.section`
+const ResultContainer = styled.section`
   display: grid;
   grid-template-columns: 150px 150px;
   grid-template-rows: auto;
@@ -81,8 +81,9 @@ export default function SearchTest() {
   const [searchString, setSearchString] = useState(null)
   const [searchOption, setSearchOption] = useState('artist')
 
+  console.log(suggestedArtists)
+
   async function onSearchOptionClick(option) {
-    console.log(option)
     setSearchOption(option)
 
     getSearchQuery()
@@ -174,7 +175,7 @@ export default function SearchTest() {
           <HeadlineContainer>
             <h3>Suggested</h3>
           </HeadlineContainer>
-          <SearchContainer>
+          <ResultContainer>
             {suggestedGenes.map(suggestedGene => (
               <React.Fragment key={suggestedGene.id}>
                 {suggestedGene.name}
@@ -188,12 +189,12 @@ export default function SearchTest() {
                 />
               </React.Fragment>
             ))}
-          </SearchContainer>
+          </ResultContainer>
         </React.Fragment>
       )
     } else if (dataGenes.length > 0) {
       return (
-        <SearchContainer>
+        <ResultContainer>
           {dataGenes.map(dataGene => (
             <React.Fragment key={dataGene._links.self.href}>
               {dataGene.title}
@@ -211,7 +212,7 @@ export default function SearchTest() {
               />
             </React.Fragment>
           ))}
-        </SearchContainer>
+        </ResultContainer>
       )
     } else {
       return <div>No results found</div>
@@ -224,7 +225,7 @@ export default function SearchTest() {
           <HeadlineContainer>
             <h3>Suggested</h3>
           </HeadlineContainer>
-          <SearchContainer>
+          <ResultContainer>
             {suggestedArtists.map(suggestedArtist => (
               <React.Fragment key={suggestedArtist.id}>
                 {suggestedArtist.name}
@@ -233,17 +234,18 @@ export default function SearchTest() {
                     '{image_version}',
                     'large'
                   )}
+                  name={suggestedArtist.name}
                   key={suggestedArtist.id}
                   id={suggestedArtist.id}
                 />
               </React.Fragment>
             ))}
-          </SearchContainer>
+          </ResultContainer>
         </React.Fragment>
       )
     } else if (dataArtists.length > 0) {
       return (
-        <SearchContainer>
+        <ResultContainer>
           {dataArtists.map(dataArtist => (
             <React.Fragment key={dataArtist._links.self.href}>
               {dataArtist.title}
@@ -253,6 +255,7 @@ export default function SearchTest() {
                     ? dataArtist._links.thumbnail.href
                     : 'https://via.placeholder.com/150'
                 }
+                title={dataArtist.title}
                 key={dataArtist._links.self.href}
                 id={dataArtist._links.self.href.replace(
                   'https://api.artsy.net/api/genes/',
@@ -261,7 +264,7 @@ export default function SearchTest() {
               />
             </React.Fragment>
           ))}
-        </SearchContainer>
+        </ResultContainer>
       )
     } else {
       return <div>No results found</div>
@@ -274,7 +277,7 @@ export default function SearchTest() {
           <HeadlineContainer>
             <h3>Suggested</h3>
           </HeadlineContainer>
-          <SearchContainer>
+          <ResultContainer>
             {suggestedShows.map(suggestedShow => (
               <React.Fragment key={suggestedShow.id}>
                 {suggestedShow.name}
@@ -285,12 +288,12 @@ export default function SearchTest() {
                 />
               </React.Fragment>
             ))}
-          </SearchContainer>
+          </ResultContainer>
         </React.Fragment>
       )
     } else if (dataShows.length > 0) {
       return (
-        <SearchContainer>
+        <ResultContainer>
           {dataShows.map(dataShow => (
             <React.Fragment key={dataShow._links.self.href}>
               {dataShow.title}
@@ -308,16 +311,12 @@ export default function SearchTest() {
               />
             </React.Fragment>
           ))}
-        </SearchContainer>
+        </ResultContainer>
       )
     } else {
       return <div>No results found</div>
     }
   }
-
-  console.log(dataGenes, dataArtists, dataShows)
-
-  console.log(searchOption)
 
   const ArtistSearch = () => (
     <SearchContentArtists style={{ height: '100vh', 'overflow-y': 'scroll' }} />

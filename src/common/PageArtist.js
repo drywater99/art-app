@@ -18,11 +18,6 @@ const PageGrid = styled.section`
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 `
-const ContentContainer = styled.section`
-  display: grid;
-  align-content: flex-start;
-  padding: 0 25px 25px 25px;
-`
 
 const ImageCard = styled.div`
   z-index: -1;
@@ -91,13 +86,16 @@ const ExploreContainer = styled.section`
 const ContentTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 0 25px 25px 25px;
+  margin: 10px 25px 0px 25px;
+  padding: 0 0 25px 0;
 `
 
 const SectionTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 25px 25px 0px 25px;
+  margin: 0 25px 0px 25px;
+  padding: 25px 0 0 0;
+  border-top: 1px solid #bababa;
 `
 
 const ExploreContainerX = styled.section`
@@ -115,7 +113,7 @@ const ExploreContainerX = styled.section`
 // `
 
 export default function ArtistPage({ onBookmark, id }) {
-  const [homeArtists, setHomeArtist] = useState([])
+  const [artist, setHomeArtist] = useState([])
   const [artistGenes, setArtistGenes] = useState([])
   const [similarArtists, setSimilarArtists] = useState([])
   const [artistArtworks, setArtistArtworks] = useState([])
@@ -177,95 +175,111 @@ export default function ArtistPage({ onBookmark, id }) {
     window.history.back()
   }
 
-  console.log(artistArtworks)
+  function SearchContentGenes() {
+    if (artistGenes.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Related Categories</h2>
+          </SectionTitle>
+          <ExploreContainerX>
+            {artistGenes.map(artistGene => (
+              <ThumbSimGeneX
+                image={artistGene._links.image.href.replace(
+                  '{image_version}',
+                  'square500'
+                )}
+                name={artistGene.name}
+                key={artistGene.id}
+                id={artistGene.id}
+              />
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+  function SearchContentArtworks() {
+    if (artistArtworks.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Artworks</h2>
+          </SectionTitle>
+          <ExploreContainer>
+            {artistArtworks.map(artistArtwork => (
+              <ThumbArtwork
+                image={artistArtwork._links.image.href.replace(
+                  '{image_version}',
+                  'medium'
+                )}
+                title={artistArtwork.title}
+                date={artistArtwork.date}
+                key={artistArtwork.id}
+                id={artistArtwork.id}
+              />
+            ))}
+          </ExploreContainer>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function SearchContentSimilarArtist() {
+    if (similarArtists.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Similar Artists</h2>
+          </SectionTitle>
+          <ExploreContainerX>
+            {similarArtists.map(similarArtists => (
+              <ThumbSimArtistX
+                image={similarArtists._links.image.href.replace(
+                  '{image_version}',
+                  'square'
+                )}
+                name={similarArtists.name}
+                key={similarArtists.id}
+                id={similarArtists.id}
+              />
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
 
   return (
     <PageGrid>
-      {homeArtists.map(homeArtist => {
-        const image = homeArtist._links.image.href.replace(
-          '{image_version}',
-          'large'
-        )
+      {artist.map(a => {
+        const image = a._links.image.href.replace('{image_version}', 'large')
         return (
-          <div key={homeArtist.id}>
+          <div key={a.id}>
             <CloseLink onClick={goBack}>x</CloseLink>
             <ImageCard
-              image={homeArtist._links.image.href.replace(
-                '{image_version}',
-                'large'
-              )}
+              image={a._links.image.href.replace('{image_version}', 'large')}
               style={{ backgroundImage: 'url(' + image + ')' }}
             />
             <BookmarkContainer>
-              <Bookmark
-                active={homeArtist.bookmarked}
-                onClick={() => onBookmark(homeArtist)}
-              />
+              <Bookmark active={a.bookmarked} onClick={() => onBookmark(a)} />
             </BookmarkContainer>
             <ContentTitle>
-              <p>{homeArtist.name}</p>
-            </ContentTitle>
-            <ContentContainer>
-              <small>{homeArtist.nationality}</small>
-              <br />
+              <p>{a.name}</p>
               <small>
-                {homeArtist.birthday}-{homeArtist.deathday}
+                {a.birthday}-{a.deathday}
               </small>
-              <br />
-              <small>{homeArtist.hometown}</small>
-              <br />
-              <div />
-            </ContentContainer>
-
-            <SectionTitle>
-              <h3>Related Categories</h3>
-            </SectionTitle>
-            <ExploreContainerX>
-              {artistGenes.map(artistGene => (
-                <ThumbSimGeneX
-                  image={artistGene._links.image.href.replace(
-                    '{image_version}',
-                    'square500'
-                  )}
-                  name={artistGene.name}
-                  key={artistGene.id}
-                  id={artistGene.id}
-                />
-              ))}
-            </ExploreContainerX>
-            <SectionTitle>
-              <h3>Similar Artists</h3>
-            </SectionTitle>
-            <ExploreContainerX>
-              {similarArtists.map(similarArtists => (
-                <ThumbSimArtistX
-                  image={similarArtists._links.image.href.replace(
-                    '{image_version}',
-                    'square'
-                  )}
-                  name={similarArtists.name}
-                  key={similarArtists.id}
-                  id={similarArtists.id}
-                />
-              ))}
-            </ExploreContainerX>
-            <SectionTitle>
-              <h3>Artworks</h3>
-            </SectionTitle>
-            <ExploreContainer>
-              {artistArtworks.map(artistArtwork => (
-                <ThumbArtwork
-                  image={artistArtwork._links.image.href.replace(
-                    '{image_version}',
-                    'medium'
-                  )}
-                  title={artistArtwork.title}
-                  date={artistArtwork.date}
-                  key={artistArtwork.id}
-                  id={artistArtwork.id}
-                />
-              ))}
-            </ExploreContainer>
+              <small>{a.nationality}</small>
+            </ContentTitle>
+            <SearchContentGenes />
+            <SearchContentArtworks />
+            <SearchContentSimilarArtist />
           </div>
         )
       })}

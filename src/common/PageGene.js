@@ -153,68 +153,103 @@ export default function PageGene({ onBookmark, id }) {
     window.history.back()
   }
 
-  let PageGeneContent
-  if (isLoading) {
-    PageGeneContent = 'Loading'
-  } else {
-    PageGeneContent = (
-      <React.Fragment>
-        {gene.map(g => {
-          const image = g._links.image.href.replace(
-            '{image_version}',
-            'square500'
-          )
-          return (
-            <PageGrid key={g.id}>
-              <CloseLink onClick={goBack}>x</CloseLink>
-              <ImageCard
-                image={g._links.image.href.replace('{image_version}', 'large')}
-                style={{ backgroundImage: 'url(' + image + ')' }}
+  function SearchContentSimArtists() {
+    if (relatedArtworks.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h3>Related Artworks</h3>
+          </SectionTitle>
+          <ExploreContainerX>
+            {relatedArtworks.map(relatedArtwork => (
+              <ThumbSimArtwork
+                image={relatedArtwork._links.image.href.replace(
+                  '{image_version}',
+                  'large'
+                )}
+                key={relatedArtwork.id}
+                id={relatedArtwork.id}
               />
-              <BookmarkContainer>
-                <Bookmark active={g.bookmarked} onClick={() => onBookmark(g)} />
-              </BookmarkContainer>
-              <ContentTitle>
-                <p>{g.display_name || g.name}</p>
-              </ContentTitle>
-              <ContentDescription>{g.description}</ContentDescription>
-              <SectionTitle>
-                <h3>Related Artworks</h3>
-              </SectionTitle>
-              <ExploreContainerX>
-                {relatedArtworks.map(relatedArtwork => (
-                  <ThumbSimArtwork
-                    image={relatedArtwork._links.image.href.replace(
-                      '{image_version}',
-                      'large'
-                    )}
-                    key={relatedArtwork.id}
-                    id={relatedArtwork.id}
-                  />
-                ))}
-              </ExploreContainerX>
-              <SectionTitle>
-                <h3>Related Artists</h3>
-              </SectionTitle>
-              <ExploreContainer>
-                {relatedArtists.map(relatedArtist => (
-                  <ThumbSimArtist
-                    image={relatedArtist._links.image.href.replace(
-                      '{image_version}',
-                      'square'
-                    )}
-                    id={relatedArtist.id}
-                    name={relatedArtist.name}
-                    key={relatedArtist.id}
-                  />
-                ))}
-              </ExploreContainer>
-            </PageGrid>
-          )
-        })}
-      </React.Fragment>
-    )
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
   }
 
-  return <React.Fragment>{PageGeneContent}</React.Fragment>
+  function SearchContentSimArtworks() {
+    if (relatedArtists.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h3>Related Artists</h3>
+          </SectionTitle>
+          <ExploreContainer>
+            {relatedArtists.map(relatedArtist => (
+              <ThumbSimArtist
+                image={relatedArtist._links.image.href.replace(
+                  '{image_version}',
+                  'square'
+                )}
+                id={relatedArtist.id}
+                name={relatedArtist.name}
+                key={relatedArtist.id}
+              />
+            ))}
+          </ExploreContainer>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function PageGeneContent() {
+    if (isLoading) {
+      return 'Loading'
+    } else {
+      return (
+        <React.Fragment>
+          {gene.map(g => {
+            const image = g._links.image.href.replace(
+              '{image_version}',
+              'square500'
+            )
+            return (
+              <PageGrid key={g.id}>
+                <CloseLink onClick={goBack}>x</CloseLink>
+                <ImageCard
+                  image={g._links.image.href.replace(
+                    '{image_version}',
+                    'large'
+                  )}
+                  style={{ backgroundImage: 'url(' + image + ')' }}
+                />
+                <BookmarkContainer>
+                  <Bookmark
+                    active={g.bookmarked}
+                    onClick={() => onBookmark(g)}
+                  />
+                </BookmarkContainer>
+                <ContentTitle>
+                  <p>{g.display_name || g.name}</p>
+                </ContentTitle>
+                <ContentDescription>{g.description}</ContentDescription>
+                <SearchContentSimArtists />
+                <SearchContentSimArtworks />
+              </PageGrid>
+            )
+          })}
+        </React.Fragment>
+      )
+    }
+  }
+
+  return (
+    <React.Fragment>
+      <PageGeneContent />
+    </React.Fragment>
+  )
 }

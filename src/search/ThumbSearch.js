@@ -12,7 +12,7 @@ const ImageCard = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 12px;
+  border-radius: 100%;
   position: relative;
 `
 const ProfileTitle = styled.div`
@@ -24,11 +24,11 @@ const ProfileTitle = styled.div`
   margin-top: 8px;
 `
 
-export default function ThumbSearch({ image, id, name }) {
+export default function ThumbSearch({ image, id, title, name }) {
   return (
     <StyledLink to={`/artist/${id}`}>
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
-      <ProfileTitle>{name}</ProfileTitle>
+      <ProfileTitle>{title || name}</ProfileTitle>
     </StyledLink>
   )
 }

@@ -10,7 +10,7 @@ const ThumbContainer = styled.section`
   scroll-snap-align: start;
   scroll-snap-stop: always;
   cursor: default;
-  height: 250px;
+  height: 230px;
 `
 
 const StyledLink = styled(Link)`

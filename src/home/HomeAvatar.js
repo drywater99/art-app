@@ -2,7 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-const ThumbContainer = styled.section``
+const ThumbContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  scroll-padding: 20px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  cursor: default;
+  height: 265px;
+`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -12,28 +21,32 @@ const StyledLink = styled(Link)`
 `
 
 const ProfileImage = styled.div`
-  height: 150px;
-  width: 150px;
-  background-size: 105%;
+  height: 250px;
+  width: 250px;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center top;
   border-radius: 100%;
   position: relative;
+  position: relative;
+  margin: 0 12px 0 0;
 `
 const ProfileTitle = styled.div`
+  display: flex;
+  justify-content: center;
   font-weight: bold;
+  font-size: 15px;
   color: #949494;
-  text-align: center;
-  margin-top: 12px;
+  margin: 8px 16px 0 0;
 `
 
-export default function HomeAvatar({ image, name, id }) {
+export default function HomeAvatar({ image, id, name, display_name }) {
   return (
-    <ThumbContainer>
-      <StyledLink to={`/home/artist/${id}`}>
+    <StyledLink to={`/artist/${id}`}>
+      <ThumbContainer>
         <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
-        <ProfileTitle>{name}</ProfileTitle>
-      </StyledLink>
-    </ThumbContainer>
+        <ProfileTitle>{display_name || name}</ProfileTitle>
+      </ThumbContainer>
+    </StyledLink>
   )
 }

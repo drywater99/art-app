@@ -75,11 +75,8 @@ export default function Search() {
     getSuggestions()
   }, [])
 
-  console.log(data)
-
   function SearchContent() {
     if (!searchString) {
-      console.log(suggestions)
       return (
         <SearchContainer>
           {suggestions.map(s => (
@@ -95,7 +92,6 @@ export default function Search() {
         </SearchContainer>
       )
     } else if (data.length > 0) {
-      console.log(data)
       return (
         <SearchContainer>
           {data.map(d => (
