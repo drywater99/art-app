@@ -11,13 +11,12 @@ import {
 } from '../services'
 
 const PageGrid = styled.section`
-  display: grid;
   position: relative;
-  width: 100vw;
   align-content: flex-start;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 `
+
 const ContentContainer = styled.section`
   display: grid;
   align-content: flex-start;
@@ -139,7 +138,7 @@ export default function PageArtwork({ onBookmark, props, id }) {
   const [artworkGenes, setArtworkGenes] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
   const [isLoading, setIsLoading] = useState()
-  // const [xxx] = useState(props.location)
+  const [locationState, setLocationState] = useState(props.location)
 
   async function getArtwork() {
     setIsLoading(true)
@@ -153,9 +152,10 @@ export default function PageArtwork({ onBookmark, props, id }) {
   }, [])
 
   // if (xxx !== props.location) {
-  //   useEffect(() => {
-  //     getArtworks()
-  //   }, [])
+  useEffect(() => {
+    setLocationState(props.location)
+    getArtwork()
+  }, [locationState !== props.location])
   // }
 
   async function getArtistByArtwork() {
@@ -188,26 +188,6 @@ export default function PageArtwork({ onBookmark, props, id }) {
   function goBack() {
     window.history.back()
   }
-
-  // function SearchContentLocation() {
-  //   if (artwork.collecting_institution !== '') {
-  //     return (
-  //       <ContentContainer>
-  //         {artwork.map(a => {
-  //           return (
-  //             <React.Fragment>
-  //               <h3>Location</h3>
-  //               <br />
-  //               <small>{artwork.collecting_institution}</small>
-  //             </React.Fragment>
-  //           )
-  //         })}
-  //       </ContentContainer>
-  //     )
-  //   } else {
-  //     return null
-  //   }
-  // }
 
   function SearchContentSimArtworks() {
     if (simArtworks.length > 0) {
@@ -307,14 +287,16 @@ export default function PageArtwork({ onBookmark, props, id }) {
                   <br />
                   <small>{a.collecting_institution}</small>
                 </ContentContainer>
-                <ContentContainer>
-                  <h3>Categories</h3> <br />
-                  {artworkGenes.map(artworkGene => (
-                    <small key={artworkGene.id}>
-                      {artworkGene.display_name || artworkGene.name}
-                    </small>
-                  ))}
-                </ContentContainer>
+                {artworkGenes ? (
+                  <ContentContainer>
+                    <h3>Categories</h3> <br />
+                    {artworkGenes.map(artworkGene => (
+                      <small key={artworkGene.id}>
+                        {artworkGene.display_name || artworkGene.name}
+                      </small>
+                    ))}
+                  </ContentContainer>
+                ) : null}
                 <FullImage
                   src={a._links.image.href.replace('{image_version}', 'larger')}
                 />

@@ -7,7 +7,7 @@ import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
 import ExploreMain from '../explore/ExploreMain'
-import SearchTest from '../search/SearchTest'
+import SearchTest from '../search/Search'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
 import {
@@ -17,7 +17,7 @@ import {
   getTrendingArtistsData,
   getShowData,
 } from '../services'
-//import Icon from './Icon'
+import Icon from './Icon'
 
 const Grid = styled.div`
   display: grid;
@@ -41,9 +41,9 @@ const StyledLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 48px;
   font-weight: bold;
   font-size: 12px;
-  margin: 15px 24px;
   color: #383838;
   text-decoration: none;
   &.active {
@@ -221,13 +221,17 @@ function App() {
         />
         <Nav>
           <StyledLink exact to="/">
-            HOME
-            {/* <Icon name="home" height="20px" width="20px" /> */}
+            <Icon name="home" height="35px" width="35px" />
           </StyledLink>
-          <StyledLink to="/explore">EXPLORE</StyledLink>
-          {/* <StyledLink to="/genes">GENRE</StyledLink> */}
-          <StyledLink to="/search">SEARCH</StyledLink>
-          <StyledLink to="/saved">SAVED</StyledLink>
+          <StyledLink to="/explore">
+            <Icon name="explore" height="35px" width="35px" />
+          </StyledLink>
+          <StyledLink to="/search/artists">
+            <Icon name="search" height="35px" width="35px" />
+          </StyledLink>
+          <StyledLink to="/saved">
+            <Icon name="heart" height="40px" width="40px" />
+          </StyledLink>
         </Nav>
         <GlobalStyle />
       </Grid>

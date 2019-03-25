@@ -6,7 +6,7 @@ import HomeAvatar from './HomeAvatar'
 import Title from '../common/Title'
 
 const PageGrid = styled.div`
-  grid-template-rows: auto auto 1fr;
+  grid-template-rows: auto 1fr;
   overflow: scroll;
 `
 const CardContainer = styled.section`
