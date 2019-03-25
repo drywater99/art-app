@@ -10,6 +10,7 @@ import ExploreMain from '../explore/ExploreMain'
 import SearchTest from '../search/Search'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
+import Icon from './Icon'
 import {
   getTopicData,
   getTrendingArtworkData,
@@ -17,7 +18,6 @@ import {
   getTrendingArtistsData,
   getShowData,
 } from '../services'
-import Icon from './Icon'
 
 const Grid = styled.div`
   display: grid;
@@ -227,10 +227,10 @@ function App() {
             <Icon name="explore" height="35px" width="35px" />
           </StyledLink>
           <StyledLink to="/search/artists">
-            <Icon name="search" height="35px" width="35px" />
+            <Icon name="search" height="43px" width="43px" />
           </StyledLink>
           <StyledLink to="/saved">
-            <Icon name="heart" height="40px" width="40px" />
+            <Icon name="heart" height="30px" width="30px" />
           </StyledLink>
         </Nav>
         <GlobalStyle />
