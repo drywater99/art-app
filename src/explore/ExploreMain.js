@@ -3,11 +3,17 @@ import styled from 'styled-components'
 import Filter from '../common/Filter'
 import ExploreThumb from './ExploreThumb'
 import Title from '../common/Title'
+import Roller from '../images/Roller.svg'
 
 const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr;
   overflow: hidden;
+`
+const LoadingContainer = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const ExploreContainer = styled.section`
@@ -23,21 +29,30 @@ const ExploreContainer = styled.section`
 
 export default function ExploreMain({ onTopicClick, topics, isLoading }) {
   const [activeTag, setActiveTag] = useState('all')
-  let exploreContent
-  if (isLoading) {
-    exploreContent = 'Loading'
-  } else {
-    exploreContent = (
-      <ExploreContainer>
-        {topics.map(topic => (
-          <ExploreThumb
-            image={topic._links.image.href.replace('{image_version}', 'small')}
-            {...topic}
-            key={topic.id}
-          />
-        ))}
-      </ExploreContainer>
-    )
+
+  function ExploreContent() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else {
+      return (
+        <ExploreContainer>
+          {topics.map(topic => (
+            <ExploreThumb
+              image={topic._links.image.href.replace(
+                '{image_version}',
+                'small'
+              )}
+              {...topic}
+              key={topic.id}
+            />
+          ))}
+        </ExploreContainer>
+      )
+    }
   }
 
   return (
@@ -48,7 +63,7 @@ export default function ExploreMain({ onTopicClick, topics, isLoading }) {
         activeTag={activeTag}
         setActiveTag={setActiveTag}
       />
-      {exploreContent}
+      <ExploreContent />
     </PageGrid>
   )
 }

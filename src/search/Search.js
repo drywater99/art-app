@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
-
 import styled from 'styled-components'
 import Title from '../common/Title'
 import { getSearchQueryData, getSuggestionsData } from '../services'
 import ThumbSearch from './ThumbSearch'
+import Roller from '../images/Roller.svg'
+import Scope from '../images/Scope.svg'
 
 const PageGrid = styled.div`
   display: grid;
@@ -31,6 +31,12 @@ const ResultContainer = styled.section`
   overflow-y: scroll;
 `
 
+const LoadingContainer = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 const StyledForm = styled.form`
   display: flex;
   justify-content: center;
@@ -39,6 +45,10 @@ const StyledForm = styled.form`
 
 const StyledInput = styled.input`
   background-color: #ededed;
+  background-image: url(${Scope});
+  background-size: 7%;
+  background-position: 10px 7px  ;
+  background-repeat: no-repeat;
   width: 85vw;
   height: 40px;
   border-radius: 25px;
@@ -53,21 +63,24 @@ const LinkContainer = styled.div`
   justify-content: center;
   height: 40px;
   border-bottom: 1px solid #d0d0d0;
-  padding: 0 20px;
+  margin: 0 20px;
 `
 
 const StyledLink = styled(NavLink)`
+  display: flex;
+  justify-content: center;
   color: #949494;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: bold;
   font-size: 16px;
   text-decoration: none;
+  width: 150%;
   &.active {
-    border-bottom: 4px solid #383838;
+    border-bottom: 2px solid #383838;
     color: #383838;
+    padding: 9px;
   }
-  margin: 10px 20px 10px 20px;
 `
 
 export default function Search() {
@@ -79,8 +92,6 @@ export default function Search() {
   const [suggestedShows, setSuggestedShows] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [searchString, setSearchString] = useState(null)
-
-  console.log(suggestedArtists)
 
   function onSearchInputChange(e) {
     //debounce
@@ -113,12 +124,14 @@ export default function Search() {
   }
 
   async function getSuggestionsArtists() {
+    setIsLoading(true)
     const urlString = `https://api.artsy.net/api/artists?size=10&sort=-trending`
     await getSuggestionsData(urlString)
       .then(res => {
         setsuggestedArtists(res.data._embedded.artists)
       })
       .catch(err => console.log(err))
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -126,6 +139,7 @@ export default function Search() {
   }, [])
 
   async function getSuggestionsGenes() {
+    setIsLoading(true)
     const urlString = `https://api.artsy.net/api/genes?size=10
     `
     await getSuggestionsData(urlString)
@@ -133,6 +147,7 @@ export default function Search() {
         setSuggestedGenes(res.data._embedded.genes)
       })
       .catch(err => console.log(err))
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -140,12 +155,14 @@ export default function Search() {
   }, [])
 
   async function getSuggestionsShows() {
+    setIsLoading(true)
     const urlString = `https://api.artsy.net/api/shows?status=current&size=10`
     await getSuggestionsData(urlString)
       .then(res => {
         setSuggestedShows(res.data._embedded.shows)
       })
       .catch(err => console.log(err))
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -156,23 +173,31 @@ export default function Search() {
     if (!searchString) {
       return (
         <React.Fragment>
-          <HeadlineContainer>
-            <h3>Suggested</h3>
-          </HeadlineContainer>
-          <ResultContainer>
-            {suggestedGenes.map(suggestedGene => (
-              <React.Fragment key={suggestedGene.id}>
-                <ThumbSearch
-                  image={suggestedGene._links.image.href.replace(
-                    '{image_version}',
-                    'square500'
-                  )}
-                  key={suggestedGene.id}
-                  id={suggestedGene.id}
-                />
-              </React.Fragment>
-            ))}
-          </ResultContainer>
+          {isLoading ? (
+            <LoadingContainer>
+              <img alt="Roller" src={Roller} width="60px" height="60px" />
+            </LoadingContainer>
+          ) : (
+            <React.Fragment>
+              <HeadlineContainer>
+                <h3>Suggested</h3>
+              </HeadlineContainer>
+              <ResultContainer>
+                {suggestedGenes.map(suggestedGene => (
+                  <React.Fragment key={suggestedGene.id}>
+                    <ThumbSearch
+                      image={suggestedGene._links.image.href.replace(
+                        '{image_version}',
+                        'square500'
+                      )}
+                      key={suggestedGene.id}
+                      id={suggestedGene.id}
+                    />
+                  </React.Fragment>
+                ))}
+              </ResultContainer>
+            </React.Fragment>
+          )}
         </React.Fragment>
       )
     } else if (dataGenes.length > 0) {
@@ -198,31 +223,43 @@ export default function Search() {
         </ResultContainer>
       )
     } else {
-      return <div>No results found</div>
+      return (
+        <HeadlineContainer>
+          <h3>No results found</h3>
+        </HeadlineContainer>
+      )
     }
   }
   function SearchContentArtists() {
     if (!searchString) {
       return (
         <React.Fragment>
-          <HeadlineContainer>
-            <h3>Suggested</h3>
-          </HeadlineContainer>
-          <ResultContainer>
-            {suggestedArtists.map(suggestedArtist => (
-              <React.Fragment key={suggestedArtist.id}>
-                <ThumbSearch
-                  image={suggestedArtist._links.image.href.replace(
-                    '{image_version}',
-                    'large'
-                  )}
-                  name={suggestedArtist.name}
-                  key={suggestedArtist.id}
-                  id={suggestedArtist.id}
-                />
-              </React.Fragment>
-            ))}
-          </ResultContainer>
+          {isLoading ? (
+            <LoadingContainer>
+              <img alt="Roller" src={Roller} width="60px" height="60px" />
+            </LoadingContainer>
+          ) : (
+            <React.Fragment>
+              <HeadlineContainer>
+                <h3>Suggested</h3>
+              </HeadlineContainer>
+              <ResultContainer>
+                {suggestedArtists.map(suggestedArtist => (
+                  <React.Fragment key={suggestedArtist.id}>
+                    <ThumbSearch
+                      image={suggestedArtist._links.image.href.replace(
+                        '{image_version}',
+                        'large'
+                      )}
+                      name={suggestedArtist.name}
+                      key={suggestedArtist.id}
+                      id={suggestedArtist.id}
+                    />
+                  </React.Fragment>
+                ))}
+              </ResultContainer>
+            </React.Fragment>
+          )}
         </React.Fragment>
       )
     } else if (dataArtists.length > 0) {
@@ -248,28 +285,40 @@ export default function Search() {
         </ResultContainer>
       )
     } else {
-      return <div>No results found</div>
+      return (
+        <HeadlineContainer>
+          <h3>No results found</h3>
+        </HeadlineContainer>
+      )
     }
   }
   function SearchContentShows() {
     if (!searchString) {
       return (
         <React.Fragment>
-          <HeadlineContainer>
-            <h3>Suggested</h3>
-          </HeadlineContainer>
-          <ResultContainer>
-            {suggestedShows.map(suggestedShow => (
-              <React.Fragment key={suggestedShow.id}>
-                {suggestedShow.name}
-                <ThumbSearch
-                  image={suggestedShow._links.thumbnail.href}
-                  key={suggestedShow.id}
-                  id={suggestedShow.id}
-                />
-              </React.Fragment>
-            ))}
-          </ResultContainer>
+          {isLoading ? (
+            <LoadingContainer>
+              <img alt="Roller" src={Roller} width="60px" height="60px" />
+            </LoadingContainer>
+          ) : (
+            <React.Fragment>
+              <HeadlineContainer>
+                <h3>Suggested</h3>
+              </HeadlineContainer>
+              <ResultContainer>
+                {suggestedShows.map(suggestedShow => (
+                  <React.Fragment key={suggestedShow.id}>
+                    {suggestedShow.name}
+                    <ThumbSearch
+                      image={suggestedShow._links.thumbnail.href}
+                      key={suggestedShow.id}
+                      id={suggestedShow.id}
+                    />
+                  </React.Fragment>
+                ))}
+              </ResultContainer>
+            </React.Fragment>
+          )}
         </React.Fragment>
       )
     } else if (dataShows.length > 0) {
@@ -295,7 +344,11 @@ export default function Search() {
         </ResultContainer>
       )
     } else {
-      return <div>No results found</div>
+      return (
+        <HeadlineContainer>
+          <h3>No results found</h3>
+        </HeadlineContainer>
+      )
     }
   }
 
@@ -317,22 +370,20 @@ export default function Search() {
         <Title>Search</Title>
         <StyledForm>
           <StyledInput
-            placeholder="   Search"
+            placeholder={Search}
             type="text"
             onChange={onSearchInputChange}
           />
         </StyledForm>
-
         <LinkContainer>
-          <StyledLink to="/search/artists">Artists</StyledLink>
-
+          <StyledLink to="/search/artists"> Artists </StyledLink>
           <StyledLink to="/search/genre">Genre</StyledLink>
-
           <StyledLink to="/search/shows">Shows</StyledLink>
         </LinkContainer>
-
         {isLoading ? (
-          'LOADING'
+          <LoadingContainer>
+            <img alt="Roller" src={Roller} width="60px" height="60px" />
+          </LoadingContainer>
         ) : (
           <SwipeableRoutes>
             <Route path="/search/artists" component={ArtistSearch} />
