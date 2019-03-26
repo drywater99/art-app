@@ -6,7 +6,7 @@ import PageGene from '../common/PageGene'
 import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
-import ExploreMain from '../explore/ExploreMain'
+import ExploreMain from '../explore/ExploreMainTest'
 import SearchTest from '../search/Search'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
@@ -179,15 +179,6 @@ function App() {
             />
           )}
         />
-        {/* <Route
-          path="/search"
-          render={() => (
-            <Search
-              artworks={artworks.filter(artwork => artwork.bookmarked)}
-              onBookmark={toggleBookmark}
-            />
-          )}
-        /> */}
         <Route
           path="/search"
           render={() => (
@@ -209,14 +200,22 @@ function App() {
         />
         <Route
           path="/artist/:id"
-          render={({ match }) => (
-            <PageArtist onBookmark={toggleBookmark} id={match.params.id} />
+          render={props => (
+            <PageArtist
+              props={props}
+              onBookmark={toggleBookmark}
+              id={props.match.params.id}
+            />
           )}
         />
         <Route
           path="/gene/:id"
-          render={({ match }) => (
-            <PageGene onBookmark={toggleBookmark} id={match.params.id} />
+          render={props => (
+            <PageGene
+              props={props}
+              onBookmark={toggleBookmark}
+              id={props.match.params.id}
+            />
           )}
         />
         <Nav>

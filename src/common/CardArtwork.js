@@ -35,7 +35,7 @@ const ContentCard = styled.section`
 const Bookmark = styled.div`
   width: 20px;
   height: 10px;
-  background: ${p => (p.active ? '#007aff' : '#383838')};
+  background: ${p => (p.active ? '#b8847d' : '#383838')};
   transition: all 0.4s ease;
   margin-top: 4px;
 
@@ -44,7 +44,7 @@ const Bookmark = styled.div`
     display: block;
     top: 100%;
     content: '';
-    border: 10px solid ${p => (p.active ? '#007aff' : '#383838')};
+    border: 10px solid ${p => (p.active ? '#b8847d' : '#383838')};
     border-bottom-color: transparent;
   }
 `
@@ -69,7 +69,6 @@ export default function CardArtwork({
   id,
   onBookmark,
   bookmarked,
-  date,
   collecting_institution,
 }) {
   const [artworkArtist, setArtworkArtist] = useState([])
@@ -84,25 +83,25 @@ export default function CardArtwork({
   }, [])
 
   return (
-    <StyledLink to={`/artwork/${id}`}>
-      <BorderCard>
+    <BorderCard>
+      <StyledLink to={`/artwork/${id}`}>
         <ImageCard
           data-cy="card-image"
           style={{ backgroundImage: 'url(' + image + ')' }}
         />
-        <ContentCard data-cy="card-content">
-          <div>
-            <React.Fragment>
-              {artworkArtist.map(homeArtist => (
-                <h3 key={homeArtist.name}>{homeArtist.name}</h3>
-              ))}
-            </React.Fragment>
-            <p>{title}</p>
-            <small>{collecting_institution}</small>
-          </div>
-          {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
-        </ContentCard>
-      </BorderCard>
-    </StyledLink>
+      </StyledLink>
+      <ContentCard data-cy="card-content">
+        <StyledLink to={`/artwork/${id}`}>
+          <React.Fragment>
+            {artworkArtist.map(homeArtist => (
+              <h3 key={homeArtist.name}>{homeArtist.name}</h3>
+            ))}
+          </React.Fragment>
+          <p>{title}</p>
+          <small>{collecting_institution}</small>
+        </StyledLink>
+        {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
+      </ContentCard>
+    </BorderCard>
   )
 }

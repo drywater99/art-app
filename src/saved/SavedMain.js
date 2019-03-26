@@ -36,7 +36,7 @@ export default function SavedMain({ onBookmark, artworks }) {
             )}
             {...artwork}
             key={artwork.id}
-            onBookmark={() => onBookmark(artwork)}
+            onBookmark={onBookmark}
           />
         ))}
       </CardContainer>

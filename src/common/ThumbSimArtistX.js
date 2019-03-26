@@ -38,6 +38,7 @@ const ProfileTitle = styled.div`
   font-size: 15px;
   color: #949494;
   margin: 8px 16px 0 0;
+  text-align: center;
 `
 
 export default function ThumbSimArtistX({ image, id, name, display_name }) {

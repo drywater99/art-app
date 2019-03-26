@@ -97,11 +97,54 @@ export function getArtistSimilarArtistsData(id) {
   return axios.get(urlString, apiToken)
 }
 
-export function getSearchQueryData(urlString) {
+export function getSearchQueryArtistData(searchString) {
+  const urlString = `https://api.artsy.net/api/search?q=${searchString}&offset=0&size=10&type=artist`
+  return axios.get(urlString, apiToken)
+}
+export function getSearchQueryGeneData(searchString) {
+  const urlString = `https://api.artsy.net/api/search?q=${searchString}
+  &offset=0&size=10&type=gene`
+  return axios.get(urlString, apiToken)
+}
+export function getSearchQueryShowData(searchString) {
+  const urlString = `https://api.artsy.net/api/search?q=${searchString}&offset=0&size=10&type=show`
   return axios.get(urlString, apiToken)
 }
 
-export function getSuggestionsData(urlString) {
+export function getSuggestionsArtistData() {
+  const urlString = `https://api.artsy.net/api/artists?similarity_type=contemporary&artworks=true&sort=-trending&size=10
+  `
+  return axios.get(urlString, apiToken)
+}
+
+export function getSuggestionsGenesData() {
+  const urlString = `https://api.artsy.net/api/genes?size=10
+  `
+  return axios.get(urlString, apiToken)
+}
+
+export function getSuggestionsShowData() {
+  const urlString = `https://api.artsy.net/api/shows?status=current&size=10
+  `
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsAData() {
+  const urlString =
+    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=150'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsBData() {
+  const urlString =
+    'https://api.artsy.net/api/artists?gene_id=53863e3a1a1e86845300031a&size=50'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsOldMastersData() {
+  const urlString =
+    'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=50'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsRandomData() {
+  const urlString = 'https://api.artsy.net/api/artworks?size=50'
   return axios.get(urlString, apiToken)
 }
 

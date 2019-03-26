@@ -4,24 +4,26 @@ import { Link } from 'react-router-dom'
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 `
 
 const ImageCard = styled.div`
-  height: 150px;
-  width: 150px;
+  height: 140px;
+  width: 140px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
-  border-radius: 100%;
+  background-position: center top;
+  border-radius: 12px;
   position: relative;
 `
 const ProfileTitle = styled.div`
-  display: flex;
-  align-items: flex-end;
   font-weight: bold;
   font-size: 15px;
   color: #949494;
   margin-top: 8px;
+  text-align: center;
 `
 
 export default function ThumbSearch({ image, id, title, name }) {

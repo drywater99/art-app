@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import ThumbSimGene from './ThumbSimGene'
 import ThumbSimArtwork from './ThumbSimArtwork'
+import Roller from '../images/Roller.svg'
 import {
   getArtworkData,
   getArtistByArtworkData,
@@ -69,13 +71,13 @@ const Bookmark = styled.div`
   right: 30px;
   width: 20px;
   height: 10px;
-  background: ${p => (p.active ? '#007aff' : '#383838')};
+  background: ${p => (p.active ? '#b8847d' : '#383838')};
   transition: all 0.4s ease;
   &:after {
     transition: all 0.4s ease;
     display: block;
     content: '';
-    border: 10px solid ${p => (p.active ? '#007aff' : '#383838')};
+    border: 10px solid ${p => (p.active ? '#b8847d' : '#383838')};
     border-bottom-color: transparent;
   }
 `
@@ -130,9 +132,26 @@ const ExploreContainerX = styled.section`
   height: fit-content;
   padding: 25px 25px 30px 25px;
 `
+const LoadingContainer = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+PageArtwork.propTypes = {
+  title: PropTypes.string,
+  content: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string),
+  bookmarked: PropTypes.bool,
+  onBookmark: PropTypes.func,
+}
 
-// export default function PageArtwork({ onBookmark, id }) {
-export default function PageArtwork({ onBookmark, props, id }) {
+PageArtwork.defaultProps = {
+  title: 'No title defined',
+  content: 'No content defined',
+  bookmarked: false,
+}
+
+export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
   const [artwork, setArtwork] = useState([])
   const [artworkArtist, setArtworkArtist] = useState([])
   const [artworkGenes, setArtworkGenes] = useState([])
@@ -148,49 +167,58 @@ export default function PageArtwork({ onBookmark, props, id }) {
     setIsLoading(false)
   }
   useEffect(() => {
-    getArtwork()
-  }, [])
-
-  // if (xxx !== props.location) {
-  useEffect(() => {
     setLocationState(props.location)
     getArtwork()
   }, [locationState !== props.location])
-  // }
 
   async function getArtistByArtwork() {
+    setIsLoading(true)
     await getArtistByArtworkData(id).then(res => {
       setArtworkArtist(res.data._embedded.artists)
     })
+    setIsLoading(false)
   }
   useEffect(() => {
-    getArtistByArtwork()
-  }, [])
+    getArtistByArtwork(props.location)
+    getArtwork()
+  }, [locationState !== props.location])
 
   async function getSimilarArtworksToArtwork() {
+    setIsLoading(true)
     await getSimilarArtworksToArtworkData(id).then(res => {
       setSimArtworks(res.data._embedded.artworks)
     })
+    setIsLoading(false)
   }
   useEffect(() => {
+    setLocationState(props.location)
     getSimilarArtworksToArtwork()
-  }, [])
+  }, [locationState !== props.location])
 
   async function getArtworkGenes() {
+    setIsLoading(true)
     await getArtworkGenesData(id).then(res => {
       setArtworkGenes(res.data._embedded.genes)
     })
+    setIsLoading(false)
   }
   useEffect(() => {
+    setLocationState(props.location)
     getArtworkGenes()
-  }, [])
+  }, [locationState !== props.location])
 
   function goBack() {
     window.history.back()
   }
 
   function SearchContentSimArtworks() {
-    if (simArtworks.length > 0) {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (simArtworks.length > 0) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -216,7 +244,13 @@ export default function PageArtwork({ onBookmark, props, id }) {
   }
 
   function SearchContentSimCategories() {
-    if (artworkGenes.length > 0) {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artworkGenes.length > 0) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -244,9 +278,13 @@ export default function PageArtwork({ onBookmark, props, id }) {
   }
 
   function PageGeneContent() {
-    if (isLoading && artwork.length > 0) {
-      return 'Loading'
-    } else {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artwork.length > 0) {
       return (
         <React.Fragment>
           {artwork.map(a => {
@@ -259,10 +297,7 @@ export default function PageArtwork({ onBookmark, props, id }) {
                 <CloseLink onClick={goBack}>x</CloseLink>
                 <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
                 <BookmarkContainer>
-                  <Bookmark
-                    active={a.bookmarked}
-                    onClick={() => onBookmark(a)}
-                  />
+                  <Bookmark active={bookmarked} onClick={() => onBookmark} />
                 </BookmarkContainer>
                 <ContentTitle>
                   {artworkArtist.map(homeArtist => (
@@ -306,6 +341,12 @@ export default function PageArtwork({ onBookmark, props, id }) {
             )
           })}
         </React.Fragment>
+      )
+    } else {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
       )
     }
   }

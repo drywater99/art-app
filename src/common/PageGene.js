@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import ThumbSimArtist from './ThumbSimArtist'
 import ThumbSimArtwork from './ThumbSimArtwork'
+import Roller from '../images/Roller.svg'
 import {
   getGenesData,
   getGenesRelatedArtistsData,
@@ -113,48 +114,69 @@ const ContentTitle = styled.section`
   align-content: flex-start;
   padding: 0 25px 25px 25px;
 `
+const LoadingContainer = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
-export default function PageGene({ onBookmark, id }) {
+export default function PageGene({ onBookmark, id, props }) {
   const [gene, setGene] = useState([])
   const [relatedArtists, setRelatedArtists] = useState([])
   const [relatedArtworks, setRelatedArtworks] = useState([])
   const [isLoading, setIsLoading] = useState()
+  const [locationState, setLocationState] = useState(props.location)
 
-  async function getGenes() {
+  async function getGene() {
     setIsLoading(true)
     await getGenesData(id).then(res => {
       setGene([res.data])
     })
     setIsLoading(false)
   }
+
   useEffect(() => {
-    getGenes()
-  }, [])
+    setLocationState(props.location)
+    getGene()
+  }, [locationState !== props.location])
 
   async function getGeneRelatedArtists() {
+    setIsLoading(true)
     await getGenesRelatedArtistsData(id).then(res => {
       setRelatedArtists(res.data._embedded.artists)
     })
+    setIsLoading(false)
   }
+
   useEffect(() => {
-    getGeneRelatedArtists()
-  }, [])
+    getGeneRelatedArtists(props.location)
+    getGene()
+  }, [locationState !== props.location])
 
   async function getGeneRelatedArtworks() {
+    setIsLoading(true)
     await getGeneRelatedArtworksData(id).then(res => {
       setRelatedArtworks(res.data._embedded.artworks)
     })
+    setIsLoading(false)
   }
   useEffect(() => {
-    getGeneRelatedArtworks()
-  }, [])
+    getGeneRelatedArtworks(props.location)
+    getGene()
+  }, [locationState !== props.location])
 
   function goBack() {
     window.history.back()
   }
 
   function SearchContentSimArtists() {
-    if (relatedArtworks.length > 0) {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (relatedArtworks.length > 0) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -180,7 +202,13 @@ export default function PageGene({ onBookmark, id }) {
   }
 
   function SearchContentSimArtworks() {
-    if (relatedArtists.length > 0) {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (relatedArtists.length > 0) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -208,8 +236,12 @@ export default function PageGene({ onBookmark, id }) {
 
   function PageGeneContent() {
     if (isLoading) {
-      return 'Loading'
-    } else {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (gene.length > 0) {
       return (
         <React.Fragment>
           {gene.map(g => {
@@ -244,12 +276,14 @@ export default function PageGene({ onBookmark, id }) {
           })}
         </React.Fragment>
       )
+    } else {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
     }
   }
 
-  return (
-    <React.Fragment>
-      <PageGeneContent />
-    </React.Fragment>
-  )
+  return <PageGeneContent />
 }
