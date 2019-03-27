@@ -10,7 +10,7 @@ const ThumbContainer = styled.section`
   scroll-snap-align: start;
   scroll-snap-stop: always;
   cursor: default;
-  height: 265px;
+  height: 250px;
 `
 
 const StyledLink = styled(Link)`
@@ -21,15 +21,15 @@ const StyledLink = styled(Link)`
 `
 
 const ProfileImage = styled.div`
-  height: 250px;
-  width: 250px;
+  height: 235px;
+  width: 235px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
   border-radius: 100%;
   position: relative;
   position: relative;
-  margin: 0 12px 0 0;
+  margin: 0 16px 0 0;
 `
 const ProfileTitle = styled.div`
   display: flex;
@@ -38,9 +38,10 @@ const ProfileTitle = styled.div`
   font-size: 15px;
   color: #949494;
   margin: 8px 16px 0 0;
+  text-align: center;
 `
 
-export default function HomeAvatar({ image, id, name, display_name }) {
+export default function ThumbSimArtistX({ image, id, name, display_name }) {
   return (
     <StyledLink to={`/artist/${id}`}>
       <ThumbContainer>

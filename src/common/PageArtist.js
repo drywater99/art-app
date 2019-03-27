@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react'
-// import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { getArtistData, getArtistByArtworkData } from '../services'
-// import HomeGeneThumb from './HomeThumbGene'
-// import HomeThumbSimArtwork from './HomeThumbSimArtwork'
+import ThumbSimGeneX from './ThumbSimGeneX'
+import ThumbArtwork from './ThumbArtwork'
+import ThumbSimArtistX from './ThumbSimArtistX'
+import Roller from '../images/Roller.svg'
+import {
+  getArtistData,
+  getArtistByArtworkData,
+  getArtistGenesData,
+  getArtistSimilarArtistsData,
+  getArtistArtworksData,
+} from '../services'
 
 const PageGrid = styled.section`
   position: relative;
-  display: grid;
   align-content: flex-start;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 `
-const ContentContainer = styled.section`
-  display: grid;
-  align-content: flex-start;
-  padding: 0 25px 25px 25px;
-`
 
 const ImageCard = styled.div`
   z-index: -1;
-  min-height: 250px;
-  max-height: 320px;
-  width: 100%;
-  background-size: 120%;
+  height: 450px;
+  width: 100vw;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
   margin-bottom: 25px;
@@ -74,206 +74,283 @@ const Bookmark = styled.div`
   }
 `
 
-// const FullImage = styled.img`
-//   display: flex;
-//   flex-direction: column;
-//   flex-wrap: wrap;
-//   align-items: flex-start;
-//   padding: 0 25px 25px;
-//   width: 100%;
-//   .fill {
-//     object-fit: fill;
-//   }
-// `
-
-// const ExploreContainer = styled.section`
-//   display: grid;
-//   grid-template-columns: 150px 150px;
-//   grid-template-rows: auto;
-//   grid-column-gap: 21px;
-//   grid-row-gap: 18px;
-//   padding: 25px;
-// `
+const ExploreContainer = styled.section`
+  display: grid;
+  grid-template-columns: 150px 150px;
+  grid-template-rows: auto;
+  grid-column-gap: 21px;
+  grid-row-gap: 18px;
+  padding: 25px;
+`
 
 const ContentTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 0 25px 25px 25px;
+  margin: 10px 25px 0px 25px;
+  padding: 0 0 25px 0;
 `
 
-// const SectionTitle = styled.section`
-//   display: grid;
-//   align-content: flex-start;
-//   padding: 25px 25px 0px 25px;
-// `
+const SectionTitle = styled.section`
+  display: grid;
+  align-content: flex-start;
+  margin: 0 25px 0px 25px;
+  padding: 25px 0 0 0;
+  border-top: 1px solid #bababa;
+`
 
-// const ExploreContainerX = styled.section`
-//   display: grid;
-//   grid-auto-flow: column;
-//   scroll-snap-type: x mandatory;
-//   overflow-x: scroll;
-//   scroll-padding: 0 25px 0 25px;
-//   height: fit-content;
-//   padding: 25px;
-// `
+const ExploreContainerX = styled.section`
+  display: grid;
+  grid-auto-flow: column;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  scroll-padding: 0 25px 0 25px;
+  height: fit-content;
+  padding: 25px;
+`
+const LoadingContainer = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
-// const StyledLink = styled(Link)`
-//   text-decoration: none;
-// `
-
-export default function ArtistPage({ onBookmark, id }) {
-  const [homeArtists, setHomeArtist] = useState([])
+export default function ArtistPage({ onBookmark, id, props }) {
+  const [artist, setHomeArtist] = useState([])
+  const [artistGenes, setArtistGenes] = useState([])
+  const [similarArtists, setSimilarArtists] = useState([])
+  const [artistArtworks, setArtistArtworks] = useState([])
+  const [isLoading, setIsLoading] = useState([])
+  const [locationState, setLocationState] = useState(props.location)
 
   async function getArtist() {
+    setIsLoading(true)
     await getArtistData(id).then(res => {
       setHomeArtist([res.data])
     })
+    setIsLoading(false)
   }
 
   useEffect(() => {
+    setLocationState(props.location)
     getArtist()
-  }, [])
+  }, [locationState !== props.location])
 
   async function getArtistByArtwork() {
+    setIsLoading(true)
     await getArtistByArtworkData(id).then(res => {
       const results = res.data._embedded.artists
       setHomeArtist(results)
     })
+    setIsLoading(false)
   }
 
   useEffect(() => {
+    setLocationState(props.location)
     getArtistByArtwork()
-  }, [])
+  }, [locationState !== props.location])
 
-  // async function getSimilarArtworks() {
-  //   const urlString = `https://api.artsy.net/api/artworks?similar_to_artwork_id=${id}`
-  //   await axios
-  //     .get(urlString, {
-  //       headers: {
-  //         'X-Xapp-Token':
-  //           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-  //       },
-  //     })
-  //     .then(res => {
-  //       const results = res.data._embedded.artworks
-  //       setSimArtworks(results)
-  //     })
-  // }
+  async function getArtistArtworks() {
+    setIsLoading(true)
+    await getArtistArtworksData(id).then(res => {
+      const results = res.data._embedded.artworks
+      setArtistArtworks(results)
+    })
+    setIsLoading(false)
+  }
 
-  // useEffect(() => {
-  //   getSimilarArtworks()
-  // }, [])
+  useEffect(() => {
+    setLocationState(props.location)
+    getArtistArtworks()
+  }, [locationState !== props.location])
 
-  // console.log(simArtworks)
+  async function getArtistSimilarArtists() {
+    setIsLoading(true)
+    await getArtistSimilarArtistsData(id).then(res => {
+      const results = res.data._embedded.artists
+      setSimilarArtists(results)
+    })
+    setIsLoading(false)
+  }
 
-  // async function getArtistsGene() {
-  //   const urlString = `https://api.artsy.net/api/genes?artwork_id=${id}`
-  //   await axios
-  //     .get(urlString, {
-  //       headers: {
-  //         'X-Xapp-Token':
-  //           'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1MzEwMzE3NSwiaWF0IjoxNTUyNDk4Mzc1LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM4OTNlYzc4YjhkYTEyYjcwZWJlZjU0In0.GpApw2zXsP2EAZtJxgw7jYGE_RBlPmeb6D3OpdnOBu4',
-  //       },
-  //     })
-  //     .then(res => {
-  //       const results = res.data._embedded.genes
-  //       setArtistsGene(results)
-  //     })
-  // }
+  useEffect(() => {
+    setLocationState(props.location)
+    getArtistSimilarArtists()
+  }, [locationState !== props.location])
 
-  // useEffect(() => {
-  //   getArtistsGene()
-  // }, [])
+  async function getArtistsGenes() {
+    setIsLoading(true)
+    await getArtistGenesData(id).then(res => {
+      const results = res.data._embedded.genes
+      setArtistGenes(results)
+    })
+    setIsLoading(false)
+  }
 
-  // console.log(pageArtworks)
+  useEffect(() => {
+    setLocationState(props.location)
+    getArtistsGenes()
+  }, [locationState !== props.location])
 
   function goBack() {
     window.history.back()
   }
 
-  console.log(homeArtists)
-
-  return (
-    <PageGrid>
-      {homeArtists.map(homeArtist => {
-        const image = homeArtist._links.image.href.replace(
-          '{image_version}',
-          'large'
-        )
-        return (
-          <div key={homeArtist.id}>
-            <CloseLink onClick={goBack}>x</CloseLink>
-            <ImageCard
-              image={homeArtist._links.image.href.replace(
-                '{image_version}',
-                'large'
-              )}
-              style={{ backgroundImage: 'url(' + image + ')' }}
-            />
-            <BookmarkContainer>
-              <Bookmark
-                active={homeArtist.bookmarked}
-                onClick={() => onBookmark(homeArtist)}
+  function SearchContentGenes() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artistGenes.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Related Categories</h2>
+          </SectionTitle>
+          <ExploreContainerX>
+            {artistGenes.map(artistGene => (
+              <ThumbSimGeneX
+                image={artistGene._links.image.href.replace(
+                  '{image_version}',
+                  'square500'
+                )}
+                name={artistGene.name}
+                key={artistGene.id}
+                id={artistGene.id}
               />
-            </BookmarkContainer>
-            <ContentTitle>
-              {/* {homeArtists.map(homeArtist => (
-                <StyledLink to={`/artist/${id}`} key={homeArtist.id}>
-                  <h3>{homeArtist.name}</h3>
-                </StyledLink>
-              ))} */}
-              <p>{homeArtist.name}</p>
-            </ContentTitle>
-            <ContentContainer>
-              <small>{homeArtist.birthday}</small>
-              <small>{homeArtist.deathday}</small>
-              <br />
-              <small>{homeArtist.hometown}</small>
-              <br />
-              {/* {artistsGene.map(artistGene => (
-                <small key={artistGene.id}>{artistGene.name}</small>
-              ))} */}
-              <div />
-            </ContentContainer>
-            {/* <FullImage
-              src={homeArtist._links.image.href.replace(
-                '{image_version}',
-                'larger'
-              )}
-            /> */}
-            {/* <SectionTitle>
-              <h3>Similar Artworks</h3>
-            </SectionTitle>
-            <ExploreContainerX>
-              {simArtworks.map(simArtwork => (
-                <HomeThumbSimArtwork
-                  image={simArtwork._links.image.href.replace(
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+  function SearchContentArtworks() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artistArtworks.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Artworks</h2>
+          </SectionTitle>
+          <ExploreContainer>
+            {artistArtworks.map(artistArtwork => (
+              <ThumbArtwork
+                image={artistArtwork._links.image.href.replace(
+                  '{image_version}',
+                  'medium'
+                )}
+                title={artistArtwork.title}
+                date={artistArtwork.date}
+                key={artistArtwork.id}
+                id={artistArtwork.id}
+              />
+            ))}
+          </ExploreContainer>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function SearchContentSimilarArtist() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (similarArtists.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Similar Artists</h2>
+          </SectionTitle>
+          <ExploreContainerX>
+            {similarArtists.map(similarArtists => (
+              <ThumbSimArtistX
+                image={similarArtists._links.image.href.replace(
+                  '{image_version}',
+                  'square'
+                )}
+                name={similarArtists.name}
+                key={similarArtists.id}
+                id={similarArtists.id}
+              />
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function PageArtistContent() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artist.length > 0) {
+      return (
+        <PageGrid>
+          {artist.map(a => {
+            const image = a._links.image.href.replace(
+              '{image_version}',
+              'large'
+            )
+            return (
+              <div key={a.id}>
+                <CloseLink onClick={goBack}>x</CloseLink>
+                <ImageCard
+                  image={a._links.image.href.replace(
                     '{image_version}',
-                    'small'
+                    'large'
                   )}
-                  name={simArtwork.name}
-                  key={simArtwork.id}
+                  style={{ backgroundImage: 'url(' + image + ')' }}
                 />
-              ))}
-            </ExploreContainerX> */}
-            {/* <SectionTitle>
-              <h3>Related Categories</h3>
-            </SectionTitle>
-            <ExploreContainer>
-              {artistsGene.map(artistsGene => (
-                <HomeGeneThumb
-                  image={artistsGene._links.image.href.replace(
-                    '{image_version}',
-                    'square500'
+                <BookmarkContainer>
+                  <Bookmark
+                    active={a.bookmarked}
+                    onClick={() => onBookmark(a)}
+                  />
+                </BookmarkContainer>
+                <ContentTitle>
+                  <p>{a.name}</p>
+                  {a.birthday ? (
+                    <small>
+                      {a.birthday}-{a.deathday}
+                    </small>
+                  ) : (
+                    ''
                   )}
-                  name={artistsGene.name}
-                  key={artistsGene.id}
-                />
-              ))}
-            </ExploreContainer> */}
-          </div>
-        )
-      })}
-    </PageGrid>
-  )
+                  {a.nationality ? <small>{a.nationality}</small> : ''}
+                </ContentTitle>
+                <SearchContentGenes />
+                <SearchContentArtworks />
+                <SearchContentSimilarArtist />
+              </div>
+            )
+          })}
+        </PageGrid>
+      )
+    } else {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    }
+  }
+
+  return <PageArtistContent />
 }

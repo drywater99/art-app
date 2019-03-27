@@ -58,7 +58,6 @@ export default function ArtsyCards() {
       })
       .then(res => {
         const results = res.data._embedded.artists
-        console.log(res.data._embedded.artists)
         setArtworks(results)
       })
   }

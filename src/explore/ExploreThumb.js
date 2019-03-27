@@ -7,13 +7,12 @@ const StyledLink = styled(Link)`
 `
 
 const ImageCard = styled.div`
-  height: 150px;
-  width: 150px;
+  height: 118px;
+  width: 118px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 12px;
-  position: relative;
 `
 
 export default function ExploreThumb({ image, id }) {

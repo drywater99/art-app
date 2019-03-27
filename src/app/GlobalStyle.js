@@ -7,7 +7,7 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    font-family: Roboto, sans-serif;
+    font-family: 'Lato', sans-serif;
     margin: 0;
     
   }
@@ -22,19 +22,30 @@ export default createGlobalStyle`
   ul, ol {
     margin: 0;
   }
+
+h2 {
+  font-weight: bold;
+    color: #949494;
+    margin: 0;
+    letter-spacing: 0.1em;
+}
+
   h3 {
     text-transform: uppercase;
     font-weight: bold;
     color: #949494;
-    font-size: 16px;
+    font-size: 15px;
     margin: 0;
+    letter-spacing: 0.1em;
   }
   p {
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: #383838;
-    font-weight: bold;
-    font-size: 24px;
+    font-weight: 900;
+    font-size: 26px;
+    line-height: 32px;
+    letter-spacing: 0.1em;
   }
   small {
     padding-bottom: 6px;

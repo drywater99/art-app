@@ -6,8 +6,8 @@ const FilterContainer = styled.header`
   grid-auto-flow: column;
   scroll-snap-type: x mandatory;
   overflow-x: scroll;
-  scroll-padding: 0 25px 0 25px;
-  padding: 5px 0 0 20px;
+  scroll-padding: 0 5px 0 5px;
+  padding: 5px 0 12px 2px;
 `
 
 const FilterButton = styled.div`
@@ -115,6 +115,111 @@ export default function Filter({ onTopicClick, active }) {
         'https://api.artsy.net/api/artworks?gene_id=520baa99a09a678af00000cc&size=50',
       image:
         'https://d32dm0rphc51dk.cloudfront.net/ezhTpE7U-QT6oJtElY4clw/big_and_tall.jpg',
+    },
+    {
+      name: 'Hyper Realism',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=4ef3aaa334c5a8000100186e&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/i7VY2-31Qw75MDgCw-V-9Q/big_and_tall.jpg',
+    },
+    {
+      name: 'Photo Realism',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=56aa638ecb4c2766730000f8&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/6AiaLPs6Dfez63XXsruEqQ/tall.jpg',
+    },
+    {
+      name: 'Art History',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=51f18d0e275b24a84d00063a&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/5RdCe-frpsgSKZU4gImgTA/big_and_tall.jpg',
+    },
+    {
+      name: 'Illustration',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=4dd6e2ae3ccb2f00010056a9&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/VfAViYUAM--cmdQDlqlMWA/big_and_tall.jpg',
+    },
+    {
+      name: 'Impressionism',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=4d90d191dcdd5f44a500004e&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/3u73ZU6Q_zbZFqI1dPlt-A/big_and_tall.jpg',
+    },
+    {
+      name: 'Physics',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=53763281cd530e163300008f&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/wKv9nQhtlRdlKFElz-uhhQ/big_and_tall.jpg',
+    },
+    {
+      name: 'Produkt Design',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=54c7cfaa7261692b6e200600',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/TYDaZWQUgXVki9t3_L6ycg/big_and_tall.jpg',
+    },
+    {
+      name: 'Interiors',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=4d90d195dcdd5f44a50000b6&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/VXOUZ3us4MSh-2ty2_I0KQ/big_and_tall.jpg',
+    },
+    {
+      name: 'Interlaced Bodies',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=50b990c41e2b6f811700015b&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/Mp94xq5tWGhBEsdhQYcVxg/big_and_tall.jpg',
+    },
+    {
+      name: '19th Century',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=51b662538b3b8190570001e2&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/OKL_2L_oP18fcCd3cyEcBQ/big_and_tall.jpg',
+    },
+    {
+      name: 'Leisure',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=4fec76fd81f8f10001002004&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/r4cPKUaHuSceIJ0DuvYpag/big_and_tall.jpg',
+    },
+    {
+      name: 'Love',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=4de292fcef72520001005fe5&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/179nvkRxrzTauvGkuRK_mQ/big_and_tall.jpg',
+    },
+    {
+      name: 'Mannerism',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=4d90d194dcdd5f44a50000ae&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/BXnI7hfWOkQqyP777vppWw/big_and_tall.jpg',
+    },
+    {
+      name: 'Mixed Media',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=4d90d18edcdd5f44a500000f&size=200',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/mV84Hu6EIOvASdZ5gOGMag/big_and_tall.jpg',
+    },
+    {
+      name: 'Modernism & Impressionism',
+      urlApi:
+        'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000006&size=50',
+      image:
+        'https://d32dm0rphc51dk.cloudfront.net/Y2fVKtk64zRDfoGWgYSkJA/big_and_tall.jpg',
     },
   ])
   return (

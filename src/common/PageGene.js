@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import ThumbSimArtist from './ThumbSimArtist'
 import ThumbSimArtwork from './ThumbSimArtwork'
+import Roller from '../images/Roller.svg'
 import {
   getGenesData,
   getGenesRelatedArtistsData,
@@ -19,9 +20,9 @@ const PageGrid = styled.section`
 
 const ImageCard = styled.div`
   z-index: -1;
-  height: 320px;
-  width: 100%;
-  background-size: 110%;
+  height: 450px;
+  width: 100vw;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   margin-bottom: 25px;
@@ -92,7 +93,9 @@ const ExploreContainerX = styled.section`
 const SectionTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 25px 25px 0 25px;
+  margin: 0 25px 0px 25px;
+  padding: 25px 0 0 0;
+  border-top: 1px solid #bababa;
 `
 
 const ContentDescription = styled.small`
@@ -111,108 +114,176 @@ const ContentTitle = styled.section`
   align-content: flex-start;
   padding: 0 25px 25px 25px;
 `
+const LoadingContainer = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
-export default function PageGene({ onBookmark, id }) {
+export default function PageGene({ onBookmark, id, props }) {
   const [gene, setGene] = useState([])
   const [relatedArtists, setRelatedArtists] = useState([])
   const [relatedArtworks, setRelatedArtworks] = useState([])
   const [isLoading, setIsLoading] = useState()
+  const [locationState, setLocationState] = useState(props.location)
 
-  async function getGenes() {
+  async function getGene() {
     setIsLoading(true)
     await getGenesData(id).then(res => {
       setGene([res.data])
     })
     setIsLoading(false)
   }
+
   useEffect(() => {
-    getGenes()
-  }, [])
+    setLocationState(props.location)
+    getGene()
+  }, [locationState !== props.location])
 
   async function getGeneRelatedArtists() {
+    setIsLoading(true)
     await getGenesRelatedArtistsData(id).then(res => {
       setRelatedArtists(res.data._embedded.artists)
     })
+    setIsLoading(false)
   }
+
   useEffect(() => {
-    getGeneRelatedArtists()
-  }, [])
+    getGeneRelatedArtists(props.location)
+    getGene()
+  }, [locationState !== props.location])
 
   async function getGeneRelatedArtworks() {
+    setIsLoading(true)
     await getGeneRelatedArtworksData(id).then(res => {
       setRelatedArtworks(res.data._embedded.artworks)
     })
+    setIsLoading(false)
   }
   useEffect(() => {
-    getGeneRelatedArtworks()
-  }, [])
+    getGeneRelatedArtworks(props.location)
+    getGene()
+  }, [locationState !== props.location])
 
   function goBack() {
     window.history.back()
   }
 
-  let PageGeneContent
-  if (isLoading) {
-    PageGeneContent = 'Loading'
-  } else {
-    PageGeneContent = (
-      <React.Fragment>
-        {gene.map(g => {
-          const image = g._links.image.href.replace(
-            '{image_version}',
-            'square500'
-          )
-          return (
-            <PageGrid key={g.id}>
-              <CloseLink onClick={goBack}>x</CloseLink>
-              <ImageCard
-                image={g._links.image.href.replace('{image_version}', 'large')}
-                style={{ backgroundImage: 'url(' + image + ')' }}
+  function SearchContentSimArtists() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (relatedArtworks.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h3>Related Artworks</h3>
+          </SectionTitle>
+          <ExploreContainerX>
+            {relatedArtworks.map(relatedArtwork => (
+              <ThumbSimArtwork
+                image={relatedArtwork._links.image.href.replace(
+                  '{image_version}',
+                  'large'
+                )}
+                key={relatedArtwork.id}
+                id={relatedArtwork.id}
               />
-              <BookmarkContainer>
-                <Bookmark active={g.bookmarked} onClick={() => onBookmark(g)} />
-              </BookmarkContainer>
-              <ContentTitle>
-                <p>{g.display_name || g.name}</p>
-              </ContentTitle>
-              <ContentDescription>{g.description}</ContentDescription>
-              <SectionTitle>
-                <h3>Related Artists</h3>
-              </SectionTitle>
-              <ExploreContainer>
-                {relatedArtists.map(relatedArtist => (
-                  <ThumbSimArtist
-                    image={relatedArtist._links.image.href.replace(
-                      '{image_version}',
-                      'square'
-                    )}
-                    id={relatedArtist.id}
-                    name={relatedArtist.name}
-                    key={relatedArtist.id}
-                  />
-                ))}
-              </ExploreContainer>
-              <SectionTitle>
-                <h3>Related Artworks</h3>
-              </SectionTitle>
-              <ExploreContainerX>
-                {relatedArtworks.map(relatedArtwork => (
-                  <ThumbSimArtwork
-                    image={relatedArtwork._links.image.href.replace(
-                      '{image_version}',
-                      'large'
-                    )}
-                    key={relatedArtwork.id}
-                    id={relatedArtwork.id}
-                  />
-                ))}
-              </ExploreContainerX>
-            </PageGrid>
-          )
-        })}
-      </React.Fragment>
-    )
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
   }
 
-  return <React.Fragment>{PageGeneContent}</React.Fragment>
+  function SearchContentSimArtworks() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (relatedArtists.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h3>Related Artists</h3>
+          </SectionTitle>
+          <ExploreContainer>
+            {relatedArtists.map(relatedArtist => (
+              <ThumbSimArtist
+                image={relatedArtist._links.image.href.replace(
+                  '{image_version}',
+                  'square'
+                )}
+                id={relatedArtist.id}
+                name={relatedArtist.name}
+                key={relatedArtist.id}
+              />
+            ))}
+          </ExploreContainer>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function PageGeneContent() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (gene.length > 0) {
+      return (
+        <React.Fragment>
+          {gene.map(g => {
+            const image = g._links.image.href.replace(
+              '{image_version}',
+              'square500'
+            )
+            return (
+              <PageGrid key={g.id}>
+                <CloseLink onClick={goBack}>x</CloseLink>
+                <ImageCard
+                  image={g._links.image.href.replace(
+                    '{image_version}',
+                    'large'
+                  )}
+                  style={{ backgroundImage: 'url(' + image + ')' }}
+                />
+                <BookmarkContainer>
+                  <Bookmark
+                    active={g.bookmarked}
+                    onClick={() => onBookmark(g)}
+                  />
+                </BookmarkContainer>
+                <ContentTitle>
+                  <p>{g.display_name || g.name}</p>
+                </ContentTitle>
+                <ContentDescription>{g.description}</ContentDescription>
+                <SearchContentSimArtists />
+                <SearchContentSimArtworks />
+              </PageGrid>
+            )
+          })}
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    }
+  }
+
+  return <PageGeneContent />
 }

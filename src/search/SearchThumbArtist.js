@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-const ThumbContainer = styled.section``
-
 const StyledLink = styled(Link)`
   text-decoration: none;
   display: flex;
@@ -11,9 +9,9 @@ const StyledLink = styled(Link)`
   flex-wrap: wrap;
 `
 
-const ProfileImage = styled.div`
-  height: 150px;
-  width: 150px;
+const ImageCard = styled.div`
+  height: 120px;
+  width: 120px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
@@ -22,18 +20,17 @@ const ProfileImage = styled.div`
 `
 const ProfileTitle = styled.div`
   font-weight: bold;
+  font-size: 15px;
   color: #949494;
+  margin-top: 8px;
   text-align: center;
-  margin-top: 12px;
 `
 
-export default function ThumbSimArtist({ image, name, id }) {
+export default function SearchThumbArtist({ image, id, title, name }) {
   return (
-    <ThumbContainer>
-      <StyledLink to={`/artist/${id}`}>
-        <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
-        <ProfileTitle>{name}</ProfileTitle>
-      </StyledLink>
-    </ThumbContainer>
+    <StyledLink to={`/artist/${id}`}>
+      <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
+      <ProfileTitle>{title || name}</ProfileTitle>
+    </StyledLink>
   )
 }

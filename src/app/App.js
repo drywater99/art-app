@@ -6,18 +6,18 @@ import PageGene from '../common/PageGene'
 import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
-import ExploreMain from '../explore/ExploreMain'
-import Search from '../search/Search'
+import ExploreMain from '../explore/ExploreMainTest'
+import SearchTest from '../search/Search'
 import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
+import Icon from './Icon'
 import {
   getTopicData,
   getTrendingArtworkData,
   getGeneData,
   getTrendingArtistsData,
+  getShowData,
 } from '../services'
-import ArtsyCards from '../testapi/ArtsyCards'
-//import Icon from './Icon'
 
 const Grid = styled.div`
   display: grid;
@@ -41,10 +41,11 @@ const StyledLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 48px;
   font-weight: bold;
   font-size: 12px;
-  margin: 15px 24px;
   color: #383838;
+  opacity: 50%;
   text-decoration: none;
   &.active {
     text-decoration: underline;
@@ -56,7 +57,22 @@ function App() {
   const [trendingArtists, setTrendingArtists] = useState([])
   const [topics, setTopics] = useState([])
   const [genes, setGenes] = useState([])
+  const [shows, setShows] = useState([])
   const [isLoading, setIsLoading] = useState()
+  const [showLogo, setShowLogo] = useState(true)
+
+  async function getShows() {
+    setIsLoading(true)
+    await getShowData().then(res => {
+      const results = res.data._embedded.shows
+      setShows(results)
+    })
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    getShows()
+  }, [])
 
   async function getTrendingArtists() {
     setIsLoading(true)
@@ -119,6 +135,7 @@ function App() {
     ])
   }
 
+  const [navClickState, setNavClickState] = useState(1)
   return (
     <Router>
       <Grid>
@@ -127,8 +144,12 @@ function App() {
           path="/"
           render={() => (
             <HomeMain
+              showLogo={showLogo}
+              setShowLogo={setShowLogo}
               isLoading={isLoading}
               artworks={artworks.filter(artwork => !artwork.bookmarked)}
+              shows={shows.filter(show => !show.bookmarked)}
+              trendingArtists={trendingArtists}
               onBookmark={toggleBookmark}
             />
           )}
@@ -166,7 +187,7 @@ function App() {
         <Route
           path="/search"
           render={() => (
-            <Search
+            <SearchTest
               artworks={artworks.filter(artwork => artwork.bookmarked)}
               onBookmark={toggleBookmark}
             />
@@ -184,29 +205,57 @@ function App() {
         />
         <Route
           path="/artist/:id"
-          render={({ match }) => (
-            <PageArtist onBookmark={toggleBookmark} id={match.params.id} />
+          render={props => (
+            <PageArtist
+              props={props}
+              onBookmark={toggleBookmark}
+              id={props.match.params.id}
+            />
           )}
         />
         <Route
           path="/gene/:id"
-          render={({ match }) => (
+          render={props => (
             <PageGene
+              props={props}
               onBookmark={toggleBookmark}
-              id={match.params.id}
+              id={props.match.params.id}
             />
           )}
         />
-        <Route path="/artsy" component={ArtsyCards} />
         <Nav>
-          <StyledLink exact to="/">
-            HOME
-            {/* <Icon name="home" height="20px" width="20px" /> */}
+          <StyledLink exact to="/" onClick={() => setNavClickState(1)}>
+            <Icon
+              fill={navClickState === 1 ? '#383838' : '#949494'}
+              name="home"
+              height="35px"
+              width="35px"
+            />
           </StyledLink>
-          <StyledLink to="/explore">EXPLORE</StyledLink>
-          <StyledLink to="/genes">GENRE</StyledLink>
-          <StyledLink to="/search">SEARCH</StyledLink>
-          {/* <StyledLink to="/saved">SAVED</StyledLink> */}
+          <StyledLink to="/explore" onClick={() => setNavClickState(2)}>
+            <Icon
+              fill={navClickState === 2 ? '#383838' : '#949494'}
+              name="explore"
+              height="35px"
+              width="35px"
+            />
+          </StyledLink>
+          <StyledLink to="/search/artists" onClick={() => setNavClickState(3)}>
+            <Icon
+              fill={navClickState === 3 ? '#383838' : '#949494'}
+              name="search"
+              height="43px"
+              width="43px"
+            />
+          </StyledLink>
+          <StyledLink to="/saved" onClick={() => setNavClickState(4)}>
+            <Icon
+              fill={navClickState === 4 ? '#383838' : '#949494'}
+              name="heart"
+              height="30px"
+              width="30px"
+            />
+          </StyledLink>
         </Nav>
         <GlobalStyle />
       </Grid>

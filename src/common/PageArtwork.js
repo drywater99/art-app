@@ -1,36 +1,37 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import ThumbSimGene from './ThumbSimGene'
 import ThumbSimArtwork from './ThumbSimArtwork'
+import Roller from '../images/Roller.svg'
 import {
   getArtworkData,
   getArtistByArtworkData,
   getSimilarArtworksToArtworkData,
   getArtworkGenesData,
-  getArtworkByHrefData,
 } from '../services'
 
 const PageGrid = styled.section`
-  display: grid;
   position: relative;
-  width: 100vw;
   align-content: flex-start;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
 `
+
 const ContentContainer = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 0 25px 25px 25px;
+  margin: 25px 25px 0 25px;
+  padding: 0 0 25px 0;
+  border-bottom: 1px solid #bababa;
 `
 
 const ImageCard = styled.div`
   z-index: -1;
-  min-height: 250px;
-  max-height: 320px;
-  width: 100%;
-  background-size: 100%;
+  height: 450px;
+  width: 100vw;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
   margin-bottom: 20px;
@@ -62,7 +63,7 @@ const CloseLink = styled.button`
 const BookmarkContainer = styled.section`
   display: flex;
   justify-content: flex-end;
-  height: 30px;
+  height: 20px;
   margin: 0 25px 0;
 `
 
@@ -70,13 +71,13 @@ const Bookmark = styled.div`
   right: 30px;
   width: 20px;
   height: 10px;
-  background: ${p => (p.active ? '#007aff' : '#383838')};
+  background: ${p => (p.active ? '#b8847d' : '#383838')};
   transition: all 0.4s ease;
   &:after {
     transition: all 0.4s ease;
     display: block;
     content: '';
-    border: 10px solid ${p => (p.active ? '#007aff' : '#383838')};
+    border: 10px solid ${p => (p.active ? '#b8847d' : '#383838')};
     border-bottom-color: transparent;
   }
 `
@@ -86,7 +87,7 @@ const FullImage = styled.img`
   flex-direction: column;
   flex-wrap: wrap;
   align-items: flex-start;
-  padding: 0 25px 25px;
+  padding: 30px 25px 30px 25px;
   width: 100%;
   .fill {
     object-fit: fill;
@@ -105,13 +106,17 @@ const ExploreContainer = styled.section`
 const ContentTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 0 25px 25px 25px;
+  margin: 10px 25px 0px 25px;
+  padding: 0 0 25px 0;
+  border-bottom: 1px solid #bababa;
 `
 
 const SectionTitle = styled.section`
   display: grid;
   align-content: flex-start;
-  padding: 25px 25px 0px 25px;
+  margin: 0 25px 0px 25px;
+  padding: 25px 0 0 0;
+  border-top: 1px solid #bababa;
 `
 
 const StyledLink = styled(Link)`
@@ -125,17 +130,34 @@ const ExploreContainerX = styled.section`
   overflow-x: scroll;
   scroll-padding: 0 25px 0 25px;
   height: fit-content;
-  padding: 25px;
+  padding: 25px 25px 30px 25px;
 `
+const LoadingContainer = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+PageArtwork.propTypes = {
+  title: PropTypes.string,
+  content: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string),
+  bookmarked: PropTypes.bool,
+  onBookmark: PropTypes.func,
+}
 
-// export default function PageArtwork({ onBookmark, id }) {
-export default function PageArtwork({ onBookmark, props, id }) {
+PageArtwork.defaultProps = {
+  title: 'No title defined',
+  content: 'No content defined',
+  bookmarked: false,
+}
+
+export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
   const [artwork, setArtwork] = useState([])
   const [artworkArtist, setArtworkArtist] = useState([])
   const [artworkGenes, setArtworkGenes] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
   const [isLoading, setIsLoading] = useState()
-  // const [xxx] = useState(props.location)
+  const [locationState, setLocationState] = useState(props.location)
 
   async function getArtwork() {
     setIsLoading(true)
@@ -145,142 +167,193 @@ export default function PageArtwork({ onBookmark, props, id }) {
     setIsLoading(false)
   }
   useEffect(() => {
+    setLocationState(props.location)
     getArtwork()
-  }, [])
-
-  // async function getArtworkByHref() {
-  //   setIsLoading(true)
-  //   await getArtworkByHrefData(href).then(res => {
-  //     setArtwork([res.data])
-  //   })
-  //   setIsLoading(false)
-  // }
-  // useEffect(() => {
-  //   getArtworkByHref()
-  // }, [])
-
-  // if (xxx !== props.location) {
-  //   useEffect(() => {
-  //     getArtworks()
-  //   }, [])
-  // }
+  }, [locationState !== props.location])
 
   async function getArtistByArtwork() {
+    setIsLoading(true)
     await getArtistByArtworkData(id).then(res => {
       setArtworkArtist(res.data._embedded.artists)
     })
+    setIsLoading(false)
   }
   useEffect(() => {
-    getArtistByArtwork()
-  }, [])
+    getArtistByArtwork(props.location)
+    getArtwork()
+  }, [locationState !== props.location])
 
   async function getSimilarArtworksToArtwork() {
+    setIsLoading(true)
     await getSimilarArtworksToArtworkData(id).then(res => {
       setSimArtworks(res.data._embedded.artworks)
     })
+    setIsLoading(false)
   }
   useEffect(() => {
+    setLocationState(props.location)
     getSimilarArtworksToArtwork()
-  }, [])
+  }, [locationState !== props.location])
 
   async function getArtworkGenes() {
+    setIsLoading(true)
     await getArtworkGenesData(id).then(res => {
       setArtworkGenes(res.data._embedded.genes)
     })
+    setIsLoading(false)
   }
   useEffect(() => {
+    setLocationState(props.location)
     getArtworkGenes()
-  }, [])
+  }, [locationState !== props.location])
 
   function goBack() {
     window.history.back()
   }
 
-  console.log(artwork)
-
-  let PageArtworkContent
-  if (isLoading) {
-    PageArtworkContent = 'Loading'
-  } else {
-    PageArtworkContent = (
-      <React.Fragment>
-        {artwork.map(a => {
-          const image = a._links.image.href.replace('{image_version}', 'large')
-          return (
-            <PageGrid key={a.id}>
-              <CloseLink onClick={goBack}>x</CloseLink>
-              <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
-              <BookmarkContainer>
-                <Bookmark active={a.bookmarked} onClick={() => onBookmark(a)} />
-              </BookmarkContainer>
-              <ContentTitle>
-                {artworkArtist.map(homeArtist => (
-                  <StyledLink
-                    to={`/artist/${homeArtist.id}`}
-                    key={homeArtist.id}
-                  >
-                    <h3>{homeArtist.name} ❯</h3>
-                  </StyledLink>
-                ))}
-                <p>{a.title}</p>
-                <h3>{a.date}</h3>
-              </ContentTitle>
-              <ContentContainer>
-                <small>{a.category}</small>
-                <small>{a.medium}</small>
-                <small>{a.dimensions.cm.text}</small>
-                <small>{a.dimensions.in.text}</small>
-                <br />
-                <small>Location: {a.collecting_institution}</small>
-                <br />
-                {artworkGenes.map(artworkGene => (
-                  <small key={artworkGene.id}>
-                    {artworkGene.display_name || artworkGene.name}
-                  </small>
-                ))}
-                <div />
-              </ContentContainer>
-              <FullImage
-                src={a._links.image.href.replace('{image_version}', 'larger')}
+  function SearchContentSimArtworks() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (simArtworks.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Similar Artworks</h2>
+          </SectionTitle>
+          <ExploreContainerX>
+            {simArtworks.map(simArtwork => (
+              <ThumbSimArtwork
+                image={simArtwork._links.image.href.replace(
+                  '{image_version}',
+                  'large'
+                )}
+                id={simArtwork.id}
+                key={simArtwork.id}
               />
-              <SectionTitle>
-                <h3>Similar Artworks</h3>
-              </SectionTitle>
-              <ExploreContainerX>
-                {simArtworks.map(simArtwork => (
-                  <ThumbSimArtwork
-                    image={simArtwork._links.image.href.replace(
-                      '{image_version}',
-                      'large'
-                    )}
-                    id={simArtwork.id}
-                    key={simArtwork.id}
-                  />
-                ))}
-              </ExploreContainerX>
-              <SectionTitle>
-                <h3>Related Categories</h3>
-              </SectionTitle>
-              <ExploreContainer>
-                {artworkGenes.map(artistGene => (
-                  <ThumbSimGene
-                    image={artistGene._links.image.href.replace(
-                      '{image_version}',
-                      'square500'
-                    )}
-                    id={artistGene.id}
-                    name={artistGene.name}
-                    display_name={artistGene.display_name}
-                    key={artistGene.id}
-                  />
-                ))}
-              </ExploreContainer>
-            </PageGrid>
-          )
-        })}
-      </React.Fragment>
-    )
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
   }
 
-  return <React.Fragment>{PageArtworkContent}</React.Fragment>
+  function SearchContentSimCategories() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artworkGenes.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Related Categories</h2>
+          </SectionTitle>
+          <ExploreContainer>
+            {artworkGenes.map(artistGene => (
+              <ThumbSimGene
+                image={artistGene._links.image.href.replace(
+                  '{image_version}',
+                  'square500'
+                )}
+                id={artistGene.id}
+                name={artistGene.name}
+                display_name={artistGene.display_name}
+                key={artistGene.id}
+              />
+            ))}
+          </ExploreContainer>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function PageGeneContent() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artwork.length > 0) {
+      return (
+        <React.Fragment>
+          {artwork.map(a => {
+            const image = a._links.image.href.replace(
+              '{image_version}',
+              'large'
+            )
+            return (
+              <PageGrid key={a.id}>
+                <CloseLink onClick={goBack}>x</CloseLink>
+                <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
+                <BookmarkContainer>
+                  <Bookmark active={bookmarked} onClick={() => onBookmark} />
+                </BookmarkContainer>
+                <ContentTitle>
+                  {artworkArtist.map(homeArtist => (
+                    <StyledLink
+                      to={`/artist/${homeArtist.id}`}
+                      key={homeArtist.id}
+                    >
+                      <h3>{homeArtist.name} ❯</h3>
+                    </StyledLink>
+                  ))}
+                  <p>{a.title}</p>
+                  <h3>{a.date}</h3>
+                </ContentTitle>
+                <ContentContainer>
+                  <small>{a.category}</small>
+                  <small>{a.medium}</small>
+                  <small>{a.dimensions.cm.text}</small>
+                  <small>{a.dimensions.in.text}</small>
+                </ContentContainer>
+                <ContentContainer>
+                  <h3>Location</h3>
+                  <br />
+                  <small>{a.collecting_institution}</small>
+                </ContentContainer>
+                {artworkGenes ? (
+                  <ContentContainer>
+                    <h3>Categories</h3> <br />
+                    {artworkGenes.map(artworkGene => (
+                      <small key={artworkGene.id}>
+                        {artworkGene.display_name || artworkGene.name}
+                      </small>
+                    ))}
+                  </ContentContainer>
+                ) : null}
+                <FullImage
+                  src={a._links.image.href.replace('{image_version}', 'larger')}
+                />
+                <SearchContentSimArtworks />
+                <SearchContentSimCategories />
+              </PageGrid>
+            )
+          })}
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    }
+  }
+
+  return (
+    <React.Fragment>
+      <PageGeneContent />
+    </React.Fragment>
+  )
 }

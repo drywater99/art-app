@@ -7,4 +7,5 @@ export default styled.div`
   font-size: 25px;
   margin: 15px 24px 0;
   color: #383838;
+  overflow: scroll;
 `

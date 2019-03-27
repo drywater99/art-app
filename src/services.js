@@ -23,12 +23,23 @@ export function getGeneData() {
 }
 
 export function getTrendingArtworkData() {
-  const urlString = 'https://api.artsy.net/api/artworks?size=12'
+  const urlString = 'https://api.artsy.net/api/artworks?size=4'
   return axios.get(urlString, apiToken)
 }
 
 export function getTrendingArtistsData() {
-  const urlString = 'https://api.artsy.net/api/artists?size=16&sort=-trending'
+  const urlString =
+    'https://api.artsy.net/api/artists?similarity_type=contemporary&artworks=true&sort=-trending&size=8'
+  return axios.get(urlString, apiToken)
+}
+
+export function getShowData() {
+  const urlString = 'https://api.artsy.net/api/shows?status=running'
+  return axios.get(urlString, apiToken)
+}
+
+export function getArtworksByArtistsData(id) {
+  const urlString = `https://api.artsy.net/api/artworks?artist_id=${id}`
   return axios.get(urlString, apiToken)
 }
 
@@ -37,13 +48,12 @@ export function getArtworkData(id) {
   return axios.get(urlString, apiToken)
 }
 
-export function getArtworkByHrefData(href) {
-  const urlString = `${href}`
-  return axios.get(urlString, apiToken)
-}
-
 export function getArtistByArtworkData(id) {
   const urlString = `https://api.artsy.net/api/artists?artwork_id=${id}`
+  return axios.get(urlString, apiToken)
+}
+export function getArtistArtworksData(id) {
+  const urlString = `https://api.artsy.net/api/artworks?artist_id=${id}&size=24`
   return axios.get(urlString, apiToken)
 }
 
@@ -77,11 +87,64 @@ export function getArtistData(id) {
   return axios.get(urlString, apiToken)
 }
 
-export function getSearchQueryData(urlString) {
+export function getArtistGenesData(id) {
+  const urlString = `https://api.artsy.net/api/genes?artist_id=${id}`
   return axios.get(urlString, apiToken)
 }
 
-export function getSuggestionsData(urlString) {
+export function getArtistSimilarArtistsData(id) {
+  const urlString = `https://api.artsy.net/api/artists?similar_to_artist_id=${id}`
+  return axios.get(urlString, apiToken)
+}
+
+export function getSearchQueryArtistData(searchString) {
+  const urlString = `https://api.artsy.net/api/search?q=${searchString}&offset=0&size=10&type=artist`
+  return axios.get(urlString, apiToken)
+}
+export function getSearchQueryGeneData(searchString) {
+  const urlString = `https://api.artsy.net/api/search?q=${searchString}
+  &offset=0&size=10&type=gene`
+  return axios.get(urlString, apiToken)
+}
+export function getSearchQueryShowData(searchString) {
+  const urlString = `https://api.artsy.net/api/search?q=${searchString}&offset=0&size=10&type=show`
+  return axios.get(urlString, apiToken)
+}
+
+export function getSuggestionsArtistData() {
+  const urlString = `https://api.artsy.net/api/artists?similarity_type=contemporary&artworks=true&sort=-trending&size=10
+  `
+  return axios.get(urlString, apiToken)
+}
+
+export function getSuggestionsGenesData() {
+  const urlString = `https://api.artsy.net/api/genes?size=10
+  `
+  return axios.get(urlString, apiToken)
+}
+
+export function getSuggestionsShowData() {
+  const urlString = `https://api.artsy.net/api/shows?status=current&size=10
+  `
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsAData() {
+  const urlString =
+    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=150'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsBData() {
+  const urlString =
+    'https://api.artsy.net/api/artists?gene_id=53863e3a1a1e86845300031a&size=50'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsOldMastersData() {
+  const urlString =
+    'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=50'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsRandomData() {
+  const urlString = 'https://api.artsy.net/api/artworks?size=50'
   return axios.get(urlString, apiToken)
 }
 
