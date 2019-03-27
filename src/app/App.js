@@ -45,6 +45,7 @@ const StyledLink = styled(NavLink)`
   font-weight: bold;
   font-size: 12px;
   color: #383838;
+  opacity: 50%;
   text-decoration: none;
   &.active {
     text-decoration: underline;
@@ -58,6 +59,7 @@ function App() {
   const [genes, setGenes] = useState([])
   const [shows, setShows] = useState([])
   const [isLoading, setIsLoading] = useState()
+  const [showLogo, setShowLogo] = useState(true)
 
   async function getShows() {
     setIsLoading(true)
@@ -133,6 +135,7 @@ function App() {
     ])
   }
 
+  const [navClickState, setNavClickState] = useState(1)
   return (
     <Router>
       <Grid>
@@ -141,6 +144,8 @@ function App() {
           path="/"
           render={() => (
             <HomeMain
+              showLogo={showLogo}
+              setShowLogo={setShowLogo}
               isLoading={isLoading}
               artworks={artworks.filter(artwork => !artwork.bookmarked)}
               shows={shows.filter(show => !show.bookmarked)}
@@ -219,17 +224,37 @@ function App() {
           )}
         />
         <Nav>
-          <StyledLink exact to="/">
-            <Icon name="home" height="35px" width="35px" />
+          <StyledLink exact to="/" onClick={() => setNavClickState(1)}>
+            <Icon
+              fill={navClickState === 1 ? '#383838' : '#949494'}
+              name="home"
+              height="35px"
+              width="35px"
+            />
           </StyledLink>
-          <StyledLink to="/explore">
-            <Icon name="explore" height="35px" width="35px" />
+          <StyledLink to="/explore" onClick={() => setNavClickState(2)}>
+            <Icon
+              fill={navClickState === 2 ? '#383838' : '#949494'}
+              name="explore"
+              height="35px"
+              width="35px"
+            />
           </StyledLink>
-          <StyledLink to="/search/artists">
-            <Icon name="search" height="43px" width="43px" />
+          <StyledLink to="/search/artists" onClick={() => setNavClickState(3)}>
+            <Icon
+              fill={navClickState === 3 ? '#383838' : '#949494'}
+              name="search"
+              height="43px"
+              width="43px"
+            />
           </StyledLink>
-          <StyledLink to="/saved">
-            <Icon name="heart" height="30px" width="30px" />
+          <StyledLink to="/saved" onClick={() => setNavClickState(4)}>
+            <Icon
+              fill={navClickState === 4 ? '#383838' : '#949494'}
+              name="heart"
+              height="30px"
+              width="30px"
+            />
           </StyledLink>
         </Nav>
         <GlobalStyle />

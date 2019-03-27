@@ -10,6 +10,39 @@ const PageGrid = styled.div`
   grid-template-rows: auto 1fr;
   overflow: scroll;
 `
+
+const WelcomeLogo = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* text-transform: translateY(-10%); */
+  text-align: center;
+  color: #383838;
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 32px;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  background: #fcfcfc;
+  z-index: 20;
+  animation: fade-out 1.5s normal ease-out;
+  animation-fill-mode: forwards;
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+`
+
 const CardContainer = styled.section`
   display: grid;
   align-content: flex-start;
@@ -53,9 +86,21 @@ export default function HomePage({
   artworks,
   trendingArtists,
   shows,
-  props,
+  isLoading,
+  showLogo,
+  setShowLogo,
 }) {
-  const [isLoading, setIsLoading] = useState()
+  setTimeout(() => {
+    setShowLogo(false)
+  }, 3500)
+
+  function ShowLogo() {
+    if (showLogo === true) {
+      return <WelcomeLogo>Art Selector</WelcomeLogo>
+    } else {
+      return null
+    }
+  }
 
   function RenderArtworks() {
     if (isLoading) {
@@ -149,6 +194,7 @@ export default function HomePage({
 
   return (
     <PageGrid>
+      <ShowLogo />
       <RenderArtworks />
       <RenderArtists />
       <RenderShows />
