@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import ThumbSimArtist from './ThumbSimArtist'
+import ThumbInstView from './ThumbInstView'
 import ThumbSimArtwork from './ThumbSimArtwork'
 import Roller from '../images/Roller.svg'
 import {
-  getGenesData,
-  getGenesRelatedArtistsData,
-  getGeneRelatedArtworksData,
+  getSingleShowData,
+  getShowImagesData,
+  getShowArtworksData,
 } from '../services'
 
 const PageGrid = styled.section`
@@ -72,7 +72,6 @@ const Bookmark = styled.div`
     border-bottom-color: transparent;
   }
 `
-
 const ExploreContainer = styled.section`
   display: grid;
   grid-template-columns: 150px 150px;
@@ -109,136 +108,85 @@ const ContentDescription = styled.small`
     color: #383838;
   }
 `
+const ContentLink = styled.small`
+  color: #949494;
+  font-size: 16px;
+  line-height: 1.4;
+  margin: 0;
+  padding: 25px;
+`
 
 const ContentTitle = styled.section`
   display: grid;
   align-content: flex-start;
   padding: 0 25px 25px 25px;
 `
+
+const ContentSection = styled.section`
+  display: grid;
+  align-content: flex-start;
+  padding: 0 0 25px 0;
+  margin: 0 25px 0 25px;
+  border-bottom: 1px solid #bababa;
+`
+
 const LoadingContainer = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
 `
 
-export default function PageGene({ onBookmark, id, props }) {
-  const [gene, setGene] = useState([])
-  const [relatedArtists, setRelatedArtists] = useState([])
-  const [relatedArtworks, setRelatedArtworks] = useState([])
+export default function PageShow({ onBookmark, id, props }) {
+  const [show, setShow] = useState([])
+  const [showImages, setShowImages] = useState([])
+  const [artworks, setArtworks] = useState([])
   const [isLoading, setIsLoading] = useState()
   const [locationState, setLocationState] = useState(props.location)
 
-  async function getGene() {
+  async function getSingleShow() {
     setIsLoading(true)
-    await getGenesData(id)
+    await getSingleShowData(id)
       .then(res => {
-        setGene([res.data])
+        setShow([res.data])
       })
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-
   useEffect(() => {
     setLocationState(props.location)
-    getGene()
+    getSingleShow()
   }, [locationState !== props.location])
 
-  async function getGeneRelatedArtists() {
+  async function getShowArtworks() {
     setIsLoading(true)
-    await getGenesRelatedArtistsData(id)
+    await getShowArtworksData(id)
       .then(res => {
-        setRelatedArtists(res.data._embedded.artists)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
-  }
-
-  useEffect(() => {
-    getGeneRelatedArtists(props.location)
-    getGene()
-  }, [locationState !== props.location])
-
-  async function getGeneRelatedArtworks() {
-    setIsLoading(true)
-    await getGeneRelatedArtworksData(id)
-      .then(res => {
-        setRelatedArtworks(res.data._embedded.artworks)
+        setArtworks(res.data._embedded.artworks)
       })
       .catch(err => console.log(err))
     setIsLoading(false)
   }
   useEffect(() => {
-    getGeneRelatedArtworks(props.location)
-    getGene()
+    setLocationState(props.location)
+    getShowArtworks()
+  }, [locationState !== props.location])
+
+  async function getShowImages() {
+    setIsLoading(true)
+    await getShowImagesData(id)
+      .then(res => {
+        setShowImages(res.data._embedded.images)
+      })
+      .catch(err => console.log(err))
+    setIsLoading(false)
+  }
+  useEffect(() => {
+    setLocationState(props.location)
+    getShowImages()
   }, [locationState !== props.location])
 
   function goBack() {
     window.history.back()
-  }
-
-  function SearchContentSimArtists() {
-    if (isLoading) {
-      return (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      )
-    } else if (relatedArtworks.length > 0) {
-      return (
-        <React.Fragment>
-          <SectionTitle>
-            <h3>Related Artworks</h3>
-          </SectionTitle>
-          <ExploreContainerX>
-            {relatedArtworks.map(relatedArtwork => (
-              <ThumbSimArtwork
-                image={relatedArtwork._links.image.href.replace(
-                  '{image_version}',
-                  'large'
-                )}
-                key={relatedArtwork.id}
-                id={relatedArtwork.id}
-              />
-            ))}
-          </ExploreContainerX>
-        </React.Fragment>
-      )
-    } else {
-      return null
-    }
-  }
-
-  function SearchContentSimArtworks() {
-    if (isLoading) {
-      return (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      )
-    } else if (relatedArtists.length > 0) {
-      return (
-        <React.Fragment>
-          <SectionTitle>
-            <h3>Related Artists</h3>
-          </SectionTitle>
-          <ExploreContainer>
-            {relatedArtists.map(relatedArtist => (
-              <ThumbSimArtist
-                image={relatedArtist._links.image.href.replace(
-                  '{image_version}',
-                  'square'
-                )}
-                id={relatedArtist.id}
-                name={relatedArtist.name}
-                key={relatedArtist.id}
-              />
-            ))}
-          </ExploreContainer>
-        </React.Fragment>
-      )
-    } else {
-      return null
-    }
   }
 
   function PageGeneContent() {
@@ -248,19 +196,19 @@ export default function PageGene({ onBookmark, id, props }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (gene.length > 0) {
+    } else if (show.length > 0) {
       return (
         <React.Fragment>
-          {gene.map(g => {
-            const image = g._links.image.href.replace(
+          {show.map(s => {
+            const image = s._links.image.href.replace(
               '{image_version}',
-              'square500'
+              'large'
             )
             return (
-              <PageGrid key={g.id}>
+              <PageGrid key={s.id}>
                 <CloseLink onClick={goBack}>x</CloseLink>
                 <ImageCard
-                  image={g._links.image.href.replace(
+                  image={s._links.image.href.replace(
                     '{image_version}',
                     'large'
                   )}
@@ -268,16 +216,27 @@ export default function PageGene({ onBookmark, id, props }) {
                 />
                 <BookmarkContainer>
                   <Bookmark
-                    active={g.bookmarked}
-                    onClick={() => onBookmark(g)}
+                    active={s.bookmarked}
+                    onClick={() => onBookmark(s)}
                   />
                 </BookmarkContainer>
                 <ContentTitle>
-                  <p>{g.display_name || g.name}</p>
+                  <p>{s.name}</p>
                 </ContentTitle>
-                <ContentDescription>{g.description}</ContentDescription>
-                <SearchContentSimArtists />
-                <SearchContentSimArtworks />
+                <ContentDescription>{s.description}</ContentDescription>
+                {s.press_release && (
+                  <ContentDescription>{s.press_release}</ContentDescription>
+                )}
+                <ContentSection>
+                  <small>
+                    {s.start_at}-{s.end_at}
+                  </small>
+                </ContentSection>
+                {s._links.permalink.href && (
+                  <ContentLink>{s._links.permalink.href}</ContentLink>
+                )}
+                <RenderShowImages />
+                <RenderShowArtworks />
               </PageGrid>
             )
           })}
@@ -289,6 +248,67 @@ export default function PageGene({ onBookmark, id, props }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
+    }
+  }
+
+  function RenderShowImages() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (showImages.length > 0) {
+      return (
+        <React.Fragment>
+          <ExploreContainerX>
+            {showImages.map(image => (
+              <ThumbInstView
+                image={image._links.image.href.replace(
+                  '{image_version}',
+                  'square'
+                )}
+                key={image.id}
+              />
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function RenderShowArtworks() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artworks.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h3>Exhibition Artworks</h3>
+          </SectionTitle>
+          <ExploreContainer>
+            {artworks.map(artwork => (
+              <ThumbSimArtwork
+                image={artwork._links.image.href.replace(
+                  '{image_version}',
+                  'square'
+                )}
+                id={artwork.id}
+                name={artwork.name}
+                key={artwork.id}
+              />
+            ))}
+          </ExploreContainer>
+        </React.Fragment>
+      )
+    } else {
+      return null
     }
   }
 

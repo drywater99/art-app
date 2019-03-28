@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import CardArtwork from '../common/CardArtwork'
 import CardShows from '../common/CardShows'
@@ -11,16 +11,15 @@ const PageGrid = styled.div`
   overflow: scroll;
 `
 
-const WelcomeLogo = styled.section`
+const StartLogo = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* text-transform: translateY(-10%); */
   text-align: center;
   color: #383838;
   font-weight: 900;
-  font-size: 26px;
-  line-height: 32px;
+  font-size: 36px;
+  line-height: 36px;
   letter-spacing: 0.1em;
   pointer-events: none;
   position: fixed;
@@ -87,8 +86,8 @@ export default function HomePage({
   trendingArtists,
   shows,
   isLoading,
-  showLogo,
   setShowLogo,
+  showLogo,
 }) {
   setTimeout(() => {
     setShowLogo(false)
@@ -96,7 +95,15 @@ export default function HomePage({
 
   function ShowLogo() {
     if (showLogo === true) {
-      return <WelcomeLogo>Art Selector</WelcomeLogo>
+      return (
+        <StartLogo>
+          Art <br />
+          Collector
+          <br />
+          <br />
+          <br />
+        </StartLogo>
+      )
     } else {
       return null
     }
@@ -116,6 +123,7 @@ export default function HomePage({
           <CardContainer>
             {artworks.map(artwork => (
               <CardArtwork
+                bookmarked={artwork.bookmarked}
                 date={artwork.date}
                 collecting_institution={artwork.collecting_institution}
                 author={artwork.author}
@@ -123,9 +131,11 @@ export default function HomePage({
                   '{image_version}',
                   'large'
                 )}
-                {...artwork}
                 key={artwork.id}
-                onBookmark={() => onBookmark(artwork)}
+                onBookmark={onBookmark}
+                artwork={artwork}
+                {...artwork}
+                id={artwork.id}
               />
             ))}
           </CardContainer>

@@ -43,13 +43,13 @@ export default function Filter({ onTopicClick, active }) {
     {
       name: 'Old Masters',
       urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=50',
+        'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=20',
       image:
         'https://d32dm0rphc51dk.cloudfront.net/o1C6-_FV3rp_ZQPVY-hPtw/big_and_tall.jpg',
     },
     {
       name: 'Random',
-      urlApi: 'https://api.artsy.net/api/artworks?size=50',
+      urlApi: 'https://api.artsy.net/api/artworks?size=20',
       image:
         'https://d32dm0rphc51dk.cloudfront.net/NOpIAwQa-3r51Cg9qXKbfA/medium.jpg',
     },
@@ -77,7 +77,7 @@ export default function Filter({ onTopicClick, active }) {
     {
       name: 'Contemporay',
       urlApi:
-        'https://api.artsy.net/api/artists?gene_id=504f7335de9164000200041a&size=50',
+        'https://api.artsy.net/api/artists?gene_id=504f7335de9164000200041a&size=40',
       image:
         'https://d32dm0rphc51dk.cloudfront.net/DsYeaxMGPVgQEC09yVj0KQ/big_and_tall.jpg',
     },

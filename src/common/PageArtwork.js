@@ -152,7 +152,7 @@ PageArtwork.defaultProps = {
 }
 
 export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
-  const [artwork, setArtwork] = useState([])
+  const [pageArtwork, setPageArtwork] = useState([])
   const [artworkArtist, setArtworkArtist] = useState([])
   const [artworkGenes, setArtworkGenes] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
@@ -161,9 +161,11 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
 
   async function getArtwork() {
     setIsLoading(true)
-    await getArtworkData(id).then(res => {
-      setArtwork([res.data])
-    })
+    await getArtworkData(id)
+      .then(res => {
+        setPageArtwork([res.data])
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
   useEffect(() => {
@@ -173,9 +175,11 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
 
   async function getArtistByArtwork() {
     setIsLoading(true)
-    await getArtistByArtworkData(id).then(res => {
-      setArtworkArtist(res.data._embedded.artists)
-    })
+    await getArtistByArtworkData(id)
+      .then(res => {
+        setArtworkArtist(res.data._embedded.artists)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
   useEffect(() => {
@@ -185,9 +189,11 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
 
   async function getSimilarArtworksToArtwork() {
     setIsLoading(true)
-    await getSimilarArtworksToArtworkData(id).then(res => {
-      setSimArtworks(res.data._embedded.artworks)
-    })
+    await getSimilarArtworksToArtworkData(id)
+      .then(res => {
+        setSimArtworks(res.data._embedded.artworks)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
   useEffect(() => {
@@ -197,9 +203,11 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
 
   async function getArtworkGenes() {
     setIsLoading(true)
-    await getArtworkGenesData(id).then(res => {
-      setArtworkGenes(res.data._embedded.genes)
-    })
+    await getArtworkGenesData(id)
+      .then(res => {
+        setArtworkGenes(res.data._embedded.genes)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
   useEffect(() => {
@@ -209,6 +217,85 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
 
   function goBack() {
     window.history.back()
+  }
+
+  function PageGeneContent() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (pageArtwork.length > 0) {
+      return (
+        <React.Fragment>
+          {pageArtwork.map(a => {
+            const image = a._links.image.href.replace(
+              '{image_version}',
+              'large'
+            )
+            return (
+              <PageGrid key={a.id}>
+                <CloseLink onClick={goBack}>x</CloseLink>
+                <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
+                <BookmarkContainer>
+                  {onBookmark && (
+                    <Bookmark
+                      active={bookmarked === true}
+                      onClick={() => onBookmark(a)}
+                    />
+                  )}
+                </BookmarkContainer>
+                <ContentTitle>
+                  {artworkArtist.map(homeArtist => (
+                    <StyledLink
+                      to={`/artist/${homeArtist.id}`}
+                      key={homeArtist.id}
+                    >
+                      <h3>{homeArtist.name} ❯</h3>
+                    </StyledLink>
+                  ))}
+                  <p>{a.title}</p>
+                  <h3>{a.date}</h3>
+                </ContentTitle>
+                <ContentContainer>
+                  <small>{a.category}</small>
+                  <small>{a.medium}</small>
+                  <small>{a.dimensions.cm.text}</small>
+                  <small>{a.dimensions.in.text}</small>
+                </ContentContainer>
+                <ContentContainer>
+                  <h3>Location</h3>
+                  <br />
+                  <small>{a.collecting_institution}</small>
+                </ContentContainer>
+                {artworkGenes ? (
+                  <ContentContainer>
+                    <h3>Categories</h3> <br />
+                    {artworkGenes.map(artworkGene => (
+                      <small key={artworkGene.id}>
+                        {artworkGene.display_name || artworkGene.name}
+                      </small>
+                    ))}
+                  </ContentContainer>
+                ) : null}
+                <FullImage
+                  src={a._links.image.href.replace('{image_version}', 'larger')}
+                />
+                <SearchContentSimArtworks />
+                <SearchContentSimCategories />
+              </PageGrid>
+            )
+          })}
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    }
   }
 
   function SearchContentSimArtworks() {
@@ -274,80 +361,6 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
       )
     } else {
       return null
-    }
-  }
-
-  function PageGeneContent() {
-    if (isLoading) {
-      return (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      )
-    } else if (artwork.length > 0) {
-      return (
-        <React.Fragment>
-          {artwork.map(a => {
-            const image = a._links.image.href.replace(
-              '{image_version}',
-              'large'
-            )
-            return (
-              <PageGrid key={a.id}>
-                <CloseLink onClick={goBack}>x</CloseLink>
-                <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
-                <BookmarkContainer>
-                  <Bookmark active={bookmarked} onClick={() => onBookmark} />
-                </BookmarkContainer>
-                <ContentTitle>
-                  {artworkArtist.map(homeArtist => (
-                    <StyledLink
-                      to={`/artist/${homeArtist.id}`}
-                      key={homeArtist.id}
-                    >
-                      <h3>{homeArtist.name} ❯</h3>
-                    </StyledLink>
-                  ))}
-                  <p>{a.title}</p>
-                  <h3>{a.date}</h3>
-                </ContentTitle>
-                <ContentContainer>
-                  <small>{a.category}</small>
-                  <small>{a.medium}</small>
-                  <small>{a.dimensions.cm.text}</small>
-                  <small>{a.dimensions.in.text}</small>
-                </ContentContainer>
-                <ContentContainer>
-                  <h3>Location</h3>
-                  <br />
-                  <small>{a.collecting_institution}</small>
-                </ContentContainer>
-                {artworkGenes ? (
-                  <ContentContainer>
-                    <h3>Categories</h3> <br />
-                    {artworkGenes.map(artworkGene => (
-                      <small key={artworkGene.id}>
-                        {artworkGene.display_name || artworkGene.name}
-                      </small>
-                    ))}
-                  </ContentContainer>
-                ) : null}
-                <FullImage
-                  src={a._links.image.href.replace('{image_version}', 'larger')}
-                />
-                <SearchContentSimArtworks />
-                <SearchContentSimCategories />
-              </PageGrid>
-            )
-          })}
-        </React.Fragment>
-      )
-    } else {
-      return (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      )
     }
   }
 

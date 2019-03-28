@@ -22,28 +22,26 @@ const ImageCard = styled.div`
   padding: 22px 20px 20px 22px;
   border-radius: 12px;
 `
+const ShowTitle = styled.p`
+  margin-top: 5px;
+  margin-bottom: 8px;
+  color: #fcfcfc;
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 32px;
+  letter-spacing: 0.1em;
+  text-shadow: 1px 1px 7px #515151;
+`
 
-// const Subtitle = styled.div`
-//   text-transform: uppercase;
-//   font-weight: bold;
-//   color: #fcfcfc;
-//   font-size: 16px;
-//   margin: 0;
-//   letter-spacing: 0.1em;
-// `
-
-// const Title = styled.div`
-//   display: flex;
-//   align-items: flex-start;
-//   justify-content: space-between;
-//   margin-top: 5px;
-//   margin-bottom: 10px;
-//   color: #fcfcfc;
-//   font-weight: 900;
-//   font-size: 24px;
-//   letter-spacing: 0.1em;
-//   text-shadow: 1px 1px 8px #343434;
-// `
+const Category = styled.p`
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #fcfcfc;
+  font-size: 15px;
+  margin: 0;
+  letter-spacing: 0.1em;
+  text-shadow: 1px 1px 7px #515151;
+`
 
 CardShows.propTypes = {
   title: PropTypes.string,
@@ -64,8 +62,8 @@ export default function CardShows({ name, id, image }) {
     <StyledLink to={`/show/${id}`}>
       <BorderCard>
         <ImageCard style={{ backgroundImage: 'url(' + image + ')' }}>
-          <p>{name}</p>
-          <h3>Show</h3>
+          <ShowTitle>{name}</ShowTitle>
+          <Category>Show</Category>
         </ImageCard>
       </BorderCard>
     </StyledLink>

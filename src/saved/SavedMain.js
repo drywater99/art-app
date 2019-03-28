@@ -20,6 +20,7 @@ const CardContainer = styled.section`
 
 export default function SavedMain({ onBookmark, artworks }) {
   //const [activeTag, setActiveTag] = useState('all')
+  console.log(artworks)
 
   return (
     <PageGrid>
@@ -28,6 +29,7 @@ export default function SavedMain({ onBookmark, artworks }) {
         {artworks.map(artwork => (
           <HomeCard
             date={artwork.date}
+            bookmarked={artwork.bookmarked}
             collecting_institution={artwork.collecting_institution}
             author={artwork.author}
             image={artwork._links.image.href.replace(
@@ -35,6 +37,7 @@ export default function SavedMain({ onBookmark, artworks }) {
               'large'
             )}
             {...artwork}
+            artwork={artwork}
             key={artwork.id}
             onBookmark={onBookmark}
           />

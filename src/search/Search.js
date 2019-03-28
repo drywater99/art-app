@@ -100,7 +100,7 @@ const StyledLink = styled(NavLink)`
   }
 `
 
-export default function Search() {
+export default function Search(props) {
   const [dataArtists, setDataArtists] = useState([])
   const [dataGenes, setDataGenes] = useState([])
   const [dataShows, setDataShows] = useState([])
@@ -109,6 +109,7 @@ export default function Search() {
   const [suggestedShows, setSuggestedShows] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [searchString, setSearchString] = useState(null)
+  const [locationState, setLocationState] = useState(props.location)
 
   console.log(dataShows)
 
@@ -147,10 +148,10 @@ export default function Search() {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-
   useEffect(() => {
+    setLocationState(props.location)
     getSuggestionsArtists()
-  }, [])
+  }, [locationState !== props.location])
 
   async function getSuggestionsGenes() {
     setIsLoading(true)
@@ -161,7 +162,6 @@ export default function Search() {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-
   useEffect(() => {
     getSuggestionsGenes()
   }, [])
@@ -204,6 +204,8 @@ export default function Search() {
                       name={suggestedArtist.name}
                       key={suggestedArtist.id}
                       id={suggestedArtist.id}
+                      location={props.location}
+                      urlCategory="artist"
                     />
                   </React.Fragment>
                 ))}
@@ -218,17 +220,14 @@ export default function Search() {
           {dataArtists.map(dataArtist => (
             <React.Fragment key={dataArtist._links.self.href}>
               <SearchThumbArtist
-                image={
-                  dataArtist._links.thumbnail.href
-                    ? dataArtist._links.thumbnail.href
-                    : 'https://via.placeholder.com/150'
-                }
+                image={dataArtist._links.thumbnail.href}
                 title={dataArtist.title}
                 key={dataArtist._links.self.href}
                 id={dataArtist._links.self.href.replace(
-                  'https://api.artsy.net/api/genes/',
+                  'https://api.artsy.net/api/artists/',
                   ''
                 )}
+                urlCategory="artist"
               />
             </React.Fragment>
           ))}
@@ -267,6 +266,7 @@ export default function Search() {
                       name={suggestedGene.name}
                       key={suggestedGene.id}
                       id={suggestedGene.id}
+                      urlCategory="gene"
                     />
                   </React.Fragment>
                 ))}
@@ -288,6 +288,7 @@ export default function Search() {
                   'https://api.artsy.net/api/genes/',
                   ''
                 )}
+                urlCategory="gene"
               />
             </React.Fragment>
           ))}
@@ -323,6 +324,7 @@ export default function Search() {
                       image={suggestedShow._links.thumbnail.href}
                       key={suggestedShow.id}
                       id={suggestedShow.id}
+                      urlCategory="show"
                     />
                   </React.Fragment>
                 ))}
@@ -337,17 +339,14 @@ export default function Search() {
           {dataShows.map(dataShow => (
             <React.Fragment key={dataShow._links.self.href}>
               <SearchThumb
-                image={
-                  dataShow._links.thumbnail.href
-                    ? dataShow._links.thumbnail.href
-                    : 'https://via.placeholder.com/150'
-                }
+                image={dataShow._links.thumbnail.href}
                 title={dataShow.title}
                 key={dataShow._links.self.href}
                 id={dataShow._links.self.href.replace(
                   'https://api.artsy.net/api/shows/',
                   ''
                 )}
+                urlCategory="show"
               />
             </React.Fragment>
           ))}
@@ -362,8 +361,11 @@ export default function Search() {
     }
   }
 
-  const ArtistSearch = () => (
-    <SearchContentArtists style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+  const ArtistSearch = props => (
+    <SearchContentArtists
+      location={props.location}
+      style={{ height: '100vh', 'overflow-y': 'scroll' }}
+    />
   )
 
   const GeneSearch = () => (
@@ -396,7 +398,11 @@ export default function Search() {
           </LoadingContainer>
         ) : (
           <SwipeableRoutes>
-            <Route path="/search/artists" component={ArtistSearch} />
+            <Route
+              path="/search/artists"
+              location={props.location}
+              component={ArtistSearch}
+            />
             <Route path="/search/genre" component={GeneSearch} />
             <Route path="/search/shows" component={ShowSearch} />
           </SwipeableRoutes>

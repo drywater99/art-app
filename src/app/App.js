@@ -3,12 +3,12 @@ import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import GlobalStyle from './GlobalStyle'
 import PageGene from '../common/PageGene'
+import PageShow from '../common/PageShow'
 import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
 import ExploreMain from '../explore/ExploreMainTest'
 import SearchTest from '../search/Search'
-import GeneMain from '../gene/GeneMain'
 import SavedMain from '../saved/SavedMain'
 import Icon from './Icon'
 import {
@@ -63,10 +63,12 @@ function App() {
 
   async function getShows() {
     setIsLoading(true)
-    await getShowData().then(res => {
-      const results = res.data._embedded.shows
-      setShows(results)
-    })
+    await getShowData()
+      .then(res => {
+        const results = res.data._embedded.shows
+        setShows(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
@@ -76,10 +78,12 @@ function App() {
 
   async function getTrendingArtists() {
     setIsLoading(true)
-    await getTrendingArtistsData().then(res => {
-      const results = res.data._embedded.artists
-      setTrendingArtists(results)
-    })
+    await getTrendingArtistsData()
+      .then(res => {
+        const results = res.data._embedded.artists
+        setTrendingArtists(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
@@ -89,10 +93,12 @@ function App() {
 
   async function getTrendingArtworks() {
     setIsLoading(true)
-    await getTrendingArtworkData().then(res => {
-      const results = res.data._embedded.artworks
-      setArtworks(results)
-    })
+    await getTrendingArtworkData()
+      .then(res => {
+        const results = res.data._embedded.artworks
+        setArtworks(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
@@ -102,10 +108,12 @@ function App() {
 
   async function getGenes() {
     setIsLoading(true)
-    await getGeneData().then(res => {
-      const results = res.data._embedded.genes
-      setGenes(results)
-    })
+    await getGeneData()
+      .then(res => {
+        const results = res.data._embedded.genes
+        setGenes(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
@@ -115,10 +123,13 @@ function App() {
 
   async function getTopics(url) {
     setIsLoading(true)
-    await getTopicData(url).then(res => {
-      const results = res.data._embedded.artworks || res.data._embedded.artists
-      setTopics(results)
-    })
+    await getTopicData(url)
+      .then(res => {
+        const results =
+          res.data._embedded.artworks || res.data._embedded.artists
+        setTopics(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
@@ -147,7 +158,7 @@ function App() {
               showLogo={showLogo}
               setShowLogo={setShowLogo}
               isLoading={isLoading}
-              artworks={artworks.filter(artwork => !artwork.bookmarked)}
+              artworks={artworks}
               shows={shows.filter(show => !show.bookmarked)}
               trendingArtists={trendingArtists}
               onBookmark={toggleBookmark}
@@ -166,12 +177,13 @@ function App() {
           )}
         />
         <Route
-          path="/genes"
-          render={() => (
-            <GeneMain
-              isLoading={isLoading}
-              genes={genes}
+          path="/search"
+          render={props => (
+            <SearchTest
+              props={props}
+              artworks={artworks.filter(artwork => artwork.bookmarked)}
               onBookmark={toggleBookmark}
+              id={props.match.params.id}
             />
           )}
         />
@@ -179,15 +191,6 @@ function App() {
           path="/saved"
           render={() => (
             <SavedMain
-              artworks={artworks.filter(artwork => artwork.bookmarked)}
-              onBookmark={toggleBookmark}
-            />
-          )}
-        />
-        <Route
-          path="/search"
-          render={() => (
-            <SearchTest
               artworks={artworks.filter(artwork => artwork.bookmarked)}
               onBookmark={toggleBookmark}
             />
@@ -207,6 +210,7 @@ function App() {
           path="/artist/:id"
           render={props => (
             <PageArtist
+              location={props.location}
               props={props}
               onBookmark={toggleBookmark}
               id={props.match.params.id}
@@ -217,6 +221,16 @@ function App() {
           path="/gene/:id"
           render={props => (
             <PageGene
+              props={props}
+              onBookmark={toggleBookmark}
+              id={props.match.params.id}
+            />
+          )}
+        />
+        <Route
+          path="/show/:id"
+          render={props => (
+            <PageShow
               props={props}
               onBookmark={toggleBookmark}
               id={props.match.params.id}

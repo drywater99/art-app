@@ -123,9 +123,11 @@ export default function ArtistPage({ onBookmark, id, props }) {
 
   async function getArtist() {
     setIsLoading(true)
-    await getArtistData(id).then(res => {
-      setHomeArtist([res.data])
-    })
+    await getArtistData(id)
+      .then(res => {
+        setHomeArtist([res.data])
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
@@ -136,10 +138,12 @@ export default function ArtistPage({ onBookmark, id, props }) {
 
   async function getArtistByArtwork() {
     setIsLoading(true)
-    await getArtistByArtworkData(id).then(res => {
-      const results = res.data._embedded.artists
-      setHomeArtist(results)
-    })
+    await getArtistByArtworkData(id)
+      .then(res => {
+        const results = res.data._embedded.artists
+        setHomeArtist(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
@@ -150,10 +154,12 @@ export default function ArtistPage({ onBookmark, id, props }) {
 
   async function getArtistArtworks() {
     setIsLoading(true)
-    await getArtistArtworksData(id).then(res => {
-      const results = res.data._embedded.artworks
-      setArtistArtworks(results)
-    })
+    await getArtistArtworksData(id)
+      .then(res => {
+        const results = res.data._embedded.artworks
+        setArtistArtworks(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
@@ -164,10 +170,12 @@ export default function ArtistPage({ onBookmark, id, props }) {
 
   async function getArtistSimilarArtists() {
     setIsLoading(true)
-    await getArtistSimilarArtistsData(id).then(res => {
-      const results = res.data._embedded.artists
-      setSimilarArtists(results)
-    })
+    await getArtistSimilarArtistsData(id)
+      .then(res => {
+        const results = res.data._embedded.artists
+        setSimilarArtists(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
@@ -178,10 +186,12 @@ export default function ArtistPage({ onBookmark, id, props }) {
 
   async function getArtistsGenes() {
     setIsLoading(true)
-    await getArtistGenesData(id).then(res => {
-      const results = res.data._embedded.genes
-      setArtistGenes(results)
-    })
+    await getArtistGenesData(id)
+      .then(res => {
+        const results = res.data._embedded.genes
+        setArtistGenes(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
