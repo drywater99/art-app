@@ -111,13 +111,15 @@ export default function Search(props) {
   const [searchString, setSearchString] = useState(null)
   const [locationState, setLocationState] = useState(props.location)
 
-  console.log(dataShows)
-
   function onSearchInputChange(e) {
     //debounce
     setSearchString(e.target.value)
     getSearchQuery()
   }
+
+  // function deleteInput() {
+  //   setSearchString((value = ''))
+  // }
 
   async function getSearchQuery() {
     setIsLoading(true)
@@ -387,6 +389,7 @@ export default function Search(props) {
             onChange={onSearchInputChange}
           />
         </StyledForm>
+        {/* <button onClick={() => deleteInput}>X</button> */}
         <LinkContainer>
           <StyledLink to="/search/artists">Artists</StyledLink>
           <StyledLink to="/search/genre">Genre</StyledLink>

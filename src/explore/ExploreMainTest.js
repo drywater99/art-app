@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
 import styled from 'styled-components'
-//import Filter from '../common/Filter'
 import ExploreThumb from './ExploreThumb'
 import Title from '../common/Title'
 import Roller from '../images/Roller.svg'
@@ -24,7 +23,7 @@ const LinkContainer = styled.header`
   scroll-snap-type: x mandatory;
   overflow-x: scroll;
   scroll-padding: 0 5px 0 5px;
-  padding: 5px 0 12px 2px;
+  padding: 10px 0 12px 2px;
 `
 const StyledLink = styled(NavLink)`
   display: flex;
@@ -39,8 +38,8 @@ const StyledLink = styled(NavLink)`
   background-blend-mode: darken;
   align-items: flex-end;
   justify-content: center;
-  margin: 4px;
-  width: 102px;
+  margin: 5px 0 0 5px;
+  width: 116px;
   height: 60px;
   padding: 24px 12px 12px 8px;
   border-radius: 6px;
@@ -64,9 +63,9 @@ const ExploreContainer = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto;
-  grid-column-gap: 5px;
-  grid-row-gap: 5px;
-  padding: 15px 5px 5px 5px;
+  grid-column-gap: 6px;
+  grid-row-gap: 6px;
+  padding: 15px 6px 6px 6px;
   overflow-y: scroll;
   border-top: 1px solid #d0d0d0;
 `
@@ -266,6 +265,14 @@ export default function ExploreMainTest({ onTopicClick, topics }) {
   const ExploreContentCompD = () => (
     <ExploreContentD style={{ height: '100vh', 'overflow-y': 'scroll' }} />
   )
+  const ExploreContentCompE = () => (
+    <ExploreContentD style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+  )
+  const ExploreContentCompF = () => (
+    <ExploreContentD style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+  )
+  const image =
+    'https://d32dm0rphc51dk.cloudfront.net/DsYeaxMGPVgQEC09yVj0KQ/big_and_tall.jpg'
 
   return (
     <Router>
@@ -276,7 +283,7 @@ export default function ExploreMainTest({ onTopicClick, topics }) {
             to="/explore/Renaissance"
             style={{
               backgroundImage:
-                'url(urlApiR), linear-gradient(transparent, #525252)',
+                'url(' + image + '), linear-gradient(transparent, #525252)',
             }}
           >
             Renaissance
@@ -285,7 +292,7 @@ export default function ExploreMainTest({ onTopicClick, topics }) {
             to="/explore/Design"
             style={{
               backgroundImage:
-                'url(urlApiD), linear-gradient(transparent, #525252)',
+                'url(' + image + '), linear-gradient(transparent, #525252)',
             }}
           >
             Design
@@ -294,7 +301,7 @@ export default function ExploreMainTest({ onTopicClick, topics }) {
             to="/explore/oldmasters"
             style={{
               backgroundImage:
-                'url(urlApiR), linear-gradient(transparent, #525252)',
+                'url(' + image + '), linear-gradient(transparent, #525252)',
             }}
           >
             Old Masters
@@ -303,7 +310,25 @@ export default function ExploreMainTest({ onTopicClick, topics }) {
             to="/explore/random"
             style={{
               backgroundImage:
-                'url(urlApiD), linear-gradient(transparent, #525252)',
+                'url(' + image + '), linear-gradient(transparent, #525252)',
+            }}
+          >
+            Old Masters
+          </StyledLink>
+          <StyledLink
+            to="/explore/random1"
+            style={{
+              backgroundImage:
+                'url(' + image + '), linear-gradient(transparent, #525252)',
+            }}
+          >
+            Old Masters
+          </StyledLink>
+          <StyledLink
+            to="/explore/random2"
+            style={{
+              backgroundImage:
+                'url(' + image + '), linear-gradient(transparent, #525252)',
             }}
           >
             Random
@@ -314,6 +339,8 @@ export default function ExploreMainTest({ onTopicClick, topics }) {
           <Route path="/explore/Design" component={ExploreContentCompB} />
           <Route path="/explore/oldmasters" component={ExploreContentCompC} />
           <Route path="/explore/random" component={ExploreContentCompD} />
+          <Route path="/explore/random1" component={ExploreContentCompE} />
+          <Route path="/explore/random2" component={ExploreContentCompF} />
         </SwipeableRoutes>
       </PageGrid>
     </Router>

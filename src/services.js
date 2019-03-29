@@ -1,10 +1,4 @@
 import axios from 'axios'
-// const ip = process.env.REACT_APP_BACKEND_IP
-// const cardsPath = `http://${ip}:4000/cards`
-
-// export function getAllCards() {
-//   return axios.get(cardsPath)
-// }
 
 const apiToken = {
   headers: {
@@ -139,7 +133,7 @@ export function getTopicsAData() {
 
 export function getTopicsBData() {
   const urlString =
-    'https://api.artsy.net/api/artists?gene_id=53863e3a1a1e86845300031a&size=50'
+    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=150'
   return axios.get(urlString, apiToken)
 }
 
@@ -168,30 +162,24 @@ export function getShowArtworksData(id) {
   return axios.get(urlString, apiToken)
 }
 
-// export function toggleCardBookmark(artwork) {
-//   return axios.patch(`${cardsPath}/${card._id}`, {
-//     bookmarked: !card.bookmarked,
-//   })
-// }
+export function saveBookmarksToStorage(data) {
+  saveToStorage('bookmarks', data)
+}
 
-// export function getCardsFromStorage() {
-//   return getFromStorage('cards') || []
-// }
+export function saveToStorage(name, data) {
+  const dataString = JSON.stringify(data)
+  localStorage.setItem(name, dataString)
+}
 
-// export function saveCardsToStorage(cards) {
-//   saveToStorage('cards', cards)
-// }
+export function getBookmarksFromStorage() {
+  return getFromStorage('bookmarks')
+}
 
-// export function saveToStorage(name, data) {
-//   const dataString = JSON.stringify(data)
-//   localStorage.setItem(name, dataString)
-// }
-
-// export function getFromStorage(name) {
-//   const dataString = localStorage.getItem(name)
-//   try {
-//     return JSON.parse(dataString)
-//   } catch (error) {
-//     console.error(error.message)
-//   }
-// }
+export function getFromStorage(name) {
+  const dataString = localStorage.getItem(name)
+  try {
+    return JSON.parse(dataString)
+  } catch (error) {
+    console.error(error.message)
+  }
+}

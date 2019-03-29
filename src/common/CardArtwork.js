@@ -96,12 +96,6 @@ export default function CardArtwork({
       </StyledLink>
       <ContentCard data-cy="card-content">
         <StyledLink to={`/artwork/${id}`}>
-          {/* <React.Fragment>
-            {/* {artworkArtist.map(homeArtist => (
-              <h3 key={homeArtist.name}>{homeArtist.name}</h3>
-            ))}
-          </React.Fragment> */}
-
           <h3>{date}</h3>
           <p>{title}</p>
           <small>{collecting_institution}</small>

@@ -151,13 +151,12 @@ PageArtwork.defaultProps = {
   bookmarked: false,
 }
 
-export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
+export default function PageArtwork({ onBookmark, bookmarked, id }) {
   const [pageArtwork, setPageArtwork] = useState([])
   const [artworkArtist, setArtworkArtist] = useState([])
   const [artworkGenes, setArtworkGenes] = useState([])
   const [simArtworks, setSimArtworks] = useState([])
   const [isLoading, setIsLoading] = useState()
-  const [locationState, setLocationState] = useState(props.location)
 
   async function getArtwork() {
     setIsLoading(true)
@@ -168,10 +167,6 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-  useEffect(() => {
-    setLocationState(props.location)
-    getArtwork()
-  }, [locationState !== props.location])
 
   async function getArtistByArtwork() {
     setIsLoading(true)
@@ -182,10 +177,6 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-  useEffect(() => {
-    getArtistByArtwork(props.location)
-    getArtwork()
-  }, [locationState !== props.location])
 
   async function getSimilarArtworksToArtwork() {
     setIsLoading(true)
@@ -196,10 +187,6 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-  useEffect(() => {
-    setLocationState(props.location)
-    getSimilarArtworksToArtwork()
-  }, [locationState !== props.location])
 
   async function getArtworkGenes() {
     setIsLoading(true)
@@ -210,10 +197,13 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
+
   useEffect(() => {
-    setLocationState(props.location)
+    getArtwork()
+    getArtistByArtwork()
+    getSimilarArtworksToArtwork()
     getArtworkGenes()
-  }, [locationState !== props.location])
+  }, [id])
 
   function goBack() {
     window.history.back()
@@ -242,7 +232,7 @@ export default function PageArtwork({ onBookmark, bookmarked, props, id }) {
                   {onBookmark && (
                     <Bookmark
                       active={bookmarked === true}
-                      onClick={() => onBookmark(a)}
+                      onClick={() => onBookmark(id)}
                     />
                   )}
                 </BookmarkContainer>

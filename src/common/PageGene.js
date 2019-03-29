@@ -121,12 +121,11 @@ const LoadingContainer = styled.section`
   justify-content: center;
 `
 
-export default function PageGene({ onBookmark, id, props }) {
+export default function PageGene({ onBookmark, id }) {
   const [gene, setGene] = useState([])
   const [relatedArtists, setRelatedArtists] = useState([])
   const [relatedArtworks, setRelatedArtworks] = useState([])
   const [isLoading, setIsLoading] = useState()
-  const [locationState, setLocationState] = useState(props.location)
 
   async function getGene() {
     setIsLoading(true)
@@ -138,11 +137,6 @@ export default function PageGene({ onBookmark, id, props }) {
     setIsLoading(false)
   }
 
-  useEffect(() => {
-    setLocationState(props.location)
-    getGene()
-  }, [locationState !== props.location])
-
   async function getGeneRelatedArtists() {
     setIsLoading(true)
     await getGenesRelatedArtistsData(id)
@@ -153,11 +147,6 @@ export default function PageGene({ onBookmark, id, props }) {
     setIsLoading(false)
   }
 
-  useEffect(() => {
-    getGeneRelatedArtists(props.location)
-    getGene()
-  }, [locationState !== props.location])
-
   async function getGeneRelatedArtworks() {
     setIsLoading(true)
     await getGeneRelatedArtworksData(id)
@@ -167,10 +156,12 @@ export default function PageGene({ onBookmark, id, props }) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
+
   useEffect(() => {
-    getGeneRelatedArtworks(props.location)
     getGene()
-  }, [locationState !== props.location])
+    getGeneRelatedArtists()
+    getGeneRelatedArtworks()
+  }, [id])
 
   function goBack() {
     window.history.back()

@@ -17,6 +17,8 @@ import {
   getGeneData,
   getTrendingArtistsData,
   getShowData,
+  saveBookmarksToStorage,
+  getBookmarksFromStorage,
 } from '../services'
 
 const Grid = styled.div`
@@ -60,6 +62,7 @@ function App() {
   const [shows, setShows] = useState([])
   const [isLoading, setIsLoading] = useState()
   const [showLogo, setShowLogo] = useState(true)
+  const [bookmarks, setBookmarks] = useState(getBookmarksFromStorage())
 
   async function getShows() {
     setIsLoading(true)
@@ -137,16 +140,19 @@ function App() {
     getTopics()
   }, [])
 
-  function toggleBookmark(artwork) {
-    const index = artworks.indexOf(artwork)
-    setArtworks([
-      ...artworks.slice(0, index),
-      { ...artwork, bookmarked: !artwork.bookmarked },
-      ...artworks.slice(index + 1),
-    ])
+  useEffect(() => {
+    saveBookmarksToStorage(bookmarks)
+  }, [bookmarks])
+
+  function toggleBookmark(id) {
+    const isBookmarked = bookmarks.indexOf(id) !== -1
+    setBookmarks(
+      isBookmarked ? bookmarks.filter(item => item !== id) : [...bookmarks, id]
+    )
   }
 
   const [navClickState, setNavClickState] = useState(1)
+
   return (
     <Router>
       <Grid>
@@ -182,8 +188,6 @@ function App() {
             <SearchTest
               props={props}
               artworks={artworks.filter(artwork => artwork.bookmarked)}
-              onBookmark={toggleBookmark}
-              id={props.match.params.id}
             />
           )}
         />
@@ -191,7 +195,9 @@ function App() {
           path="/saved"
           render={() => (
             <SavedMain
-              artworks={artworks.filter(artwork => artwork.bookmarked)}
+              artworks={bookmarks
+                .map(id => artworks.find(item => item.id === id))
+                .filter(Boolean)}
               onBookmark={toggleBookmark}
             />
           )}
@@ -201,6 +207,9 @@ function App() {
           render={props => (
             <PageArtwork
               props={props}
+              bookmarked={
+                bookmarks && bookmarks.indexOf(props.match.params.id) !== -1
+              }
               onBookmark={toggleBookmark}
               id={props.match.params.id}
             />
@@ -210,8 +219,6 @@ function App() {
           path="/artist/:id"
           render={props => (
             <PageArtist
-              location={props.location}
-              props={props}
               onBookmark={toggleBookmark}
               id={props.match.params.id}
             />
@@ -220,11 +227,7 @@ function App() {
         <Route
           path="/gene/:id"
           render={props => (
-            <PageGene
-              props={props}
-              onBookmark={toggleBookmark}
-              id={props.match.params.id}
-            />
+            <PageGene onBookmark={toggleBookmark} id={props.match.params.id} />
           )}
         />
         <Route

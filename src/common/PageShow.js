@@ -136,12 +136,11 @@ const LoadingContainer = styled.section`
   justify-content: center;
 `
 
-export default function PageShow({ onBookmark, id, props }) {
+export default function PageShow({ onBookmark, id }) {
   const [show, setShow] = useState([])
   const [showImages, setShowImages] = useState([])
   const [artworks, setArtworks] = useState([])
   const [isLoading, setIsLoading] = useState()
-  const [locationState, setLocationState] = useState(props.location)
 
   async function getSingleShow() {
     setIsLoading(true)
@@ -152,10 +151,6 @@ export default function PageShow({ onBookmark, id, props }) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-  useEffect(() => {
-    setLocationState(props.location)
-    getSingleShow()
-  }, [locationState !== props.location])
 
   async function getShowArtworks() {
     setIsLoading(true)
@@ -166,10 +161,6 @@ export default function PageShow({ onBookmark, id, props }) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-  useEffect(() => {
-    setLocationState(props.location)
-    getShowArtworks()
-  }, [locationState !== props.location])
 
   async function getShowImages() {
     setIsLoading(true)
@@ -180,10 +171,12 @@ export default function PageShow({ onBookmark, id, props }) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
+
   useEffect(() => {
-    setLocationState(props.location)
+    getSingleShow()
+    getShowArtworks()
     getShowImages()
-  }, [locationState !== props.location])
+  }, [id])
 
   function goBack() {
     window.history.back()
