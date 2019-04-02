@@ -37,7 +37,7 @@ const ButtonTitle = styled.div`
   text-decoration: ${p => (p.isActive ? 'underline' : '')};
 `
 
-export default function Filter({ onTopicClick, active }) {
+export default function Filter({ onTopicClick, active, topicApis }) {
   const [topicApis] = useState([
     {
       name: 'Old Masters',
