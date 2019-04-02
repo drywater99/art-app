@@ -7,8 +7,8 @@ const StyledLink = styled(Link)`
 `
 
 const ImageCard = styled.div`
-  height: 118px;
-  width: 118px;
+  height: 116px;
+  width: 116px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

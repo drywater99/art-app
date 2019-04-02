@@ -113,184 +113,77 @@ const LoadingContainer = styled.section`
   justify-content: center;
 `
 
-export default function ArtistPage({ onBookmark, id, props }) {
+export default function ArtistPage({ onBookmark, id }) {
   const [artist, setHomeArtist] = useState([])
   const [artistGenes, setArtistGenes] = useState([])
   const [similarArtists, setSimilarArtists] = useState([])
   const [artistArtworks, setArtistArtworks] = useState([])
   const [isLoading, setIsLoading] = useState([])
-  const [locationState, setLocationState] = useState(props.location)
 
   async function getArtist() {
     setIsLoading(true)
-    await getArtistData(id).then(res => {
-      setHomeArtist([res.data])
-    })
+    await getArtistData(id)
+      .then(res => {
+        setHomeArtist([res.data])
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
-
-  useEffect(() => {
-    setLocationState(props.location)
-    getArtist()
-  }, [locationState !== props.location])
 
   async function getArtistByArtwork() {
     setIsLoading(true)
-    await getArtistByArtworkData(id).then(res => {
-      const results = res.data._embedded.artists
-      setHomeArtist(results)
-    })
+    await getArtistByArtworkData(id)
+      .then(res => {
+        const results = res.data._embedded.artists
+        setHomeArtist(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
-
-  useEffect(() => {
-    setLocationState(props.location)
-    getArtistByArtwork()
-  }, [locationState !== props.location])
 
   async function getArtistArtworks() {
     setIsLoading(true)
-    await getArtistArtworksData(id).then(res => {
-      const results = res.data._embedded.artworks
-      setArtistArtworks(results)
-    })
+    await getArtistArtworksData(id)
+      .then(res => {
+        const results = res.data._embedded.artworks
+        setArtistArtworks(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
-
-  useEffect(() => {
-    setLocationState(props.location)
-    getArtistArtworks()
-  }, [locationState !== props.location])
 
   async function getArtistSimilarArtists() {
     setIsLoading(true)
-    await getArtistSimilarArtistsData(id).then(res => {
-      const results = res.data._embedded.artists
-      setSimilarArtists(results)
-    })
+    await getArtistSimilarArtistsData(id)
+      .then(res => {
+        const results = res.data._embedded.artists
+        setSimilarArtists(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
-
-  useEffect(() => {
-    setLocationState(props.location)
-    getArtistSimilarArtists()
-  }, [locationState !== props.location])
 
   async function getArtistsGenes() {
     setIsLoading(true)
-    await getArtistGenesData(id).then(res => {
-      const results = res.data._embedded.genes
-      setArtistGenes(results)
-    })
+    await getArtistGenesData(id)
+      .then(res => {
+        const results = res.data._embedded.genes
+        setArtistGenes(results)
+      })
+      .catch(err => console.log(err))
     setIsLoading(false)
   }
 
   useEffect(() => {
-    setLocationState(props.location)
+    getArtist()
+    getArtistArtworks()
+    getArtistByArtwork()
+    getArtistSimilarArtists()
     getArtistsGenes()
-  }, [locationState !== props.location])
+  }, [id])
 
   function goBack() {
     window.history.back()
-  }
-
-  function SearchContentGenes() {
-    if (isLoading) {
-      return (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      )
-    } else if (artistGenes.length > 0) {
-      return (
-        <React.Fragment>
-          <SectionTitle>
-            <h2>Related Categories</h2>
-          </SectionTitle>
-          <ExploreContainerX>
-            {artistGenes.map(artistGene => (
-              <ThumbSimGeneX
-                image={artistGene._links.image.href.replace(
-                  '{image_version}',
-                  'square500'
-                )}
-                name={artistGene.name}
-                key={artistGene.id}
-                id={artistGene.id}
-              />
-            ))}
-          </ExploreContainerX>
-        </React.Fragment>
-      )
-    } else {
-      return null
-    }
-  }
-  function SearchContentArtworks() {
-    if (isLoading) {
-      return (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      )
-    } else if (artistArtworks.length > 0) {
-      return (
-        <React.Fragment>
-          <SectionTitle>
-            <h2>Artworks</h2>
-          </SectionTitle>
-          <ExploreContainer>
-            {artistArtworks.map(artistArtwork => (
-              <ThumbArtwork
-                image={artistArtwork._links.image.href.replace(
-                  '{image_version}',
-                  'medium'
-                )}
-                title={artistArtwork.title}
-                date={artistArtwork.date}
-                key={artistArtwork.id}
-                id={artistArtwork.id}
-              />
-            ))}
-          </ExploreContainer>
-        </React.Fragment>
-      )
-    } else {
-      return null
-    }
-  }
-
-  function SearchContentSimilarArtist() {
-    if (isLoading) {
-      return (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      )
-    } else if (similarArtists.length > 0) {
-      return (
-        <React.Fragment>
-          <SectionTitle>
-            <h2>Similar Artists</h2>
-          </SectionTitle>
-          <ExploreContainerX>
-            {similarArtists.map(similarArtists => (
-              <ThumbSimArtistX
-                image={similarArtists._links.image.href.replace(
-                  '{image_version}',
-                  'square'
-                )}
-                name={similarArtists.name}
-                key={similarArtists.id}
-                id={similarArtists.id}
-              />
-            ))}
-          </ExploreContainerX>
-        </React.Fragment>
-      )
-    } else {
-      return null
-    }
   }
 
   function PageArtistContent() {
@@ -349,6 +242,106 @@ export default function ArtistPage({ onBookmark, id, props }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
+    }
+  }
+
+  function SearchContentArtworks() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artistArtworks.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Artworks</h2>
+          </SectionTitle>
+          <ExploreContainer>
+            {artistArtworks.map(artistArtwork => (
+              <ThumbArtwork
+                image={artistArtwork._links.image.href.replace(
+                  '{image_version}',
+                  'medium'
+                )}
+                title={artistArtwork.title}
+                date={artistArtwork.date}
+                key={artistArtwork.id}
+                id={artistArtwork.id}
+              />
+            ))}
+          </ExploreContainer>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function SearchContentGenes() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (artistGenes.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Related Categories</h2>
+          </SectionTitle>
+          <ExploreContainerX>
+            {artistGenes.map(artistGene => (
+              <ThumbSimGeneX
+                image={artistGene._links.image.href.replace(
+                  '{image_version}',
+                  'square500'
+                )}
+                name={artistGene.name}
+                key={artistGene.id}
+                id={artistGene.id}
+              />
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
+    }
+  }
+
+  function SearchContentSimilarArtist() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      )
+    } else if (similarArtists.length > 0) {
+      return (
+        <React.Fragment>
+          <SectionTitle>
+            <h2>Similar Artists</h2>
+          </SectionTitle>
+          <ExploreContainerX>
+            {similarArtists.map(similarArtists => (
+              <ThumbSimArtistX
+                image={similarArtists._links.image.href.replace(
+                  '{image_version}',
+                  'square'
+                )}
+                name={similarArtists.name}
+                key={similarArtists.id}
+                id={similarArtists.id}
+              />
+            ))}
+          </ExploreContainerX>
+        </React.Fragment>
+      )
+    } else {
+      return null
     }
   }
 

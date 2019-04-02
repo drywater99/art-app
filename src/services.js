@@ -1,15 +1,9 @@
 import axios from 'axios'
-// const ip = process.env.REACT_APP_BACKEND_IP
-// const cardsPath = `http://${ip}:4000/cards`
-
-// export function getAllCards() {
-//   return axios.get(cardsPath)
-// }
 
 const apiToken = {
   headers: {
     'X-Xapp-Token':
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1Mzc2Njc1OCwiaWF0IjoxNTUzMTYxOTU4LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM5MzVlZTY0OTVlNmQ3MTdiZmY2NzM5In0.-Oz9VmlcjMQTvpbIlrehE6en2STp1HpNhacO9roCRx0',
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1NDM3MTc1NCwiaWF0IjoxNTUzNzY2OTU0LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM5YzlhMmFmNzAwOGY1YWIzYjAwMGUwIn0.iuH-CwSe4XD_K8K2X-UXplLErMoXQq0GvSPRbyxDgI4',
   },
 }
 
@@ -101,11 +95,13 @@ export function getSearchQueryArtistData(searchString) {
   const urlString = `https://api.artsy.net/api/search?q=${searchString}&offset=0&size=10&type=artist`
   return axios.get(urlString, apiToken)
 }
+
 export function getSearchQueryGeneData(searchString) {
   const urlString = `https://api.artsy.net/api/search?q=${searchString}
   &offset=0&size=10&type=gene`
   return axios.get(urlString, apiToken)
 }
+
 export function getSearchQueryShowData(searchString) {
   const urlString = `https://api.artsy.net/api/search?q=${searchString}&offset=0&size=10&type=show`
   return axios.get(urlString, apiToken)
@@ -128,16 +124,19 @@ export function getSuggestionsShowData() {
   `
   return axios.get(urlString, apiToken)
 }
+
 export function getTopicsAData() {
   const urlString =
     'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=150'
   return axios.get(urlString, apiToken)
 }
+
 export function getTopicsBData() {
   const urlString =
-    'https://api.artsy.net/api/artists?gene_id=53863e3a1a1e86845300031a&size=50'
+    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=150'
   return axios.get(urlString, apiToken)
 }
+
 export function getTopicsOldMastersData() {
   const urlString =
     'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=50'
@@ -148,30 +147,39 @@ export function getTopicsRandomData() {
   return axios.get(urlString, apiToken)
 }
 
-// export function toggleCardBookmark(artwork) {
-//   return axios.patch(`${cardsPath}/${card._id}`, {
-//     bookmarked: !card.bookmarked,
-//   })
-// }
+export function getSingleShowData(id) {
+  const urlString = `https://api.artsy.net/api/shows/${id}`
+  return axios.get(urlString, apiToken)
+}
 
-// export function getCardsFromStorage() {
-//   return getFromStorage('cards') || []
-// }
+export function getShowImagesData(id) {
+  const urlString = `https://api.artsy.net/api/images?show_id=${id}`
+  return axios.get(urlString, apiToken)
+}
 
-// export function saveCardsToStorage(cards) {
-//   saveToStorage('cards', cards)
-// }
+export function getShowArtworksData(id) {
+  const urlString = `https://api.artsy.net/api/artworks?show_id=${id}`
+  return axios.get(urlString, apiToken)
+}
 
-// export function saveToStorage(name, data) {
-//   const dataString = JSON.stringify(data)
-//   localStorage.setItem(name, dataString)
-// }
+export function saveBookmarksToStorage(data) {
+  saveToStorage('bookmarks', data)
+}
 
-// export function getFromStorage(name) {
-//   const dataString = localStorage.getItem(name)
-//   try {
-//     return JSON.parse(dataString)
-//   } catch (error) {
-//     console.error(error.message)
-//   }
-// }
+export function saveToStorage(name, data) {
+  const dataString = JSON.stringify(data)
+  localStorage.setItem(name, dataString)
+}
+
+export function getBookmarksFromStorage() {
+  return getFromStorage('bookmarks')
+}
+
+export function getFromStorage(name) {
+  const dataString = localStorage.getItem(name)
+  try {
+    return JSON.parse(dataString)
+  } catch (error) {
+    console.error(error.message)
+  }
+}

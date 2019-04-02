@@ -65,18 +65,22 @@ CardArtwork.defaultProps = {
 
 export default function CardArtwork({
   title,
+  date,
   image,
   id,
   onBookmark,
   bookmarked,
   collecting_institution,
+  artwork,
 }) {
   const [artworkArtist, setArtworkArtist] = useState([])
 
   async function getArtistByArtwork() {
-    await getArtistByArtworkData(id).then(res => {
-      setArtworkArtist(res.data._embedded.artists)
-    })
+    await getArtistByArtworkData(id)
+      .then(res => {
+        setArtworkArtist(res.data._embedded.artists)
+      })
+      .catch(err => console.log(err))
   }
   useEffect(() => {
     getArtistByArtwork()
@@ -92,15 +96,16 @@ export default function CardArtwork({
       </StyledLink>
       <ContentCard data-cy="card-content">
         <StyledLink to={`/artwork/${id}`}>
-          <React.Fragment>
-            {artworkArtist.map(homeArtist => (
-              <h3 key={homeArtist.name}>{homeArtist.name}</h3>
-            ))}
-          </React.Fragment>
+          <h3>{date}</h3>
           <p>{title}</p>
           <small>{collecting_institution}</small>
         </StyledLink>
-        {onBookmark && <Bookmark active={bookmarked} onClick={onBookmark} />}
+        {onBookmark && (
+          <Bookmark
+            active={bookmarked === true}
+            onClick={() => onBookmark(artwork)}
+          />
+        )}
       </ContentCard>
     </BorderCard>
   )

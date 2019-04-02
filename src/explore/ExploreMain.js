@@ -44,7 +44,7 @@ export default function ExploreMain({ onTopicClick, topics, isLoading }) {
             <ExploreThumb
               image={topic._links.image.href.replace(
                 '{image_version}',
-                'small'
+                'square'
               )}
               {...topic}
               key={topic.id}
