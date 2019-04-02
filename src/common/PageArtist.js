@@ -113,7 +113,7 @@ const LoadingContainer = styled.section`
   justify-content: center;
 `
 
-export default function ArtistPage({ onBookmark, id }) {
+export default function ArtistPage({ onBookmark, bookmarked, id }) {
   const [artist, setHomeArtist] = useState([])
   const [artistGenes, setArtistGenes] = useState([])
   const [similarArtists, setSimilarArtists] = useState([])
@@ -122,55 +122,56 @@ export default function ArtistPage({ onBookmark, id }) {
 
   async function getArtist() {
     setIsLoading(true)
-    await getArtistData(id)
-      .then(res => {
-        setHomeArtist([res.data])
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistData(id)
+      setHomeArtist([res.data])
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtistByArtwork() {
     setIsLoading(true)
-    await getArtistByArtworkData(id)
-      .then(res => {
-        const results = res.data._embedded.artists
-        setHomeArtist(results)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistByArtworkData(id)
+      setHomeArtist(res.data._embedded.artists)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtistArtworks() {
     setIsLoading(true)
-    await getArtistArtworksData(id)
-      .then(res => {
-        const results = res.data._embedded.artworks
-        setArtistArtworks(results)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistArtworksData(id)
+      setArtistArtworks(res.data._embedded.artworks)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtistSimilarArtists() {
     setIsLoading(true)
-    await getArtistSimilarArtistsData(id)
-      .then(res => {
-        const results = res.data._embedded.artists
-        setSimilarArtists(results)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistSimilarArtistsData(id)
+      setSimilarArtists(res.data._embedded.artists)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtistsGenes() {
     setIsLoading(true)
-    await getArtistGenesData(id)
-      .then(res => {
-        const results = res.data._embedded.genes
-        setArtistGenes(results)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistGenesData(id)
+      setArtistGenes(res.data._embedded.genes)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
@@ -212,10 +213,12 @@ export default function ArtistPage({ onBookmark, id }) {
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
                 <BookmarkContainer>
-                  <Bookmark
-                    active={a.bookmarked}
-                    onClick={() => onBookmark(a)}
-                  />
+                  {onBookmark && (
+                    <Bookmark
+                      active={bookmarked === true}
+                      onClick={() => onBookmark(id)}
+                    />
+                  )}
                 </BookmarkContainer>
                 <ContentTitle>
                   <p>{a.name}</p>

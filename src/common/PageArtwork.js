@@ -160,41 +160,45 @@ export default function PageArtwork({ onBookmark, bookmarked, id }) {
 
   async function getArtwork() {
     setIsLoading(true)
-    await getArtworkData(id)
-      .then(res => {
-        setPageArtwork([res.data])
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtworkData(id)
+      setPageArtwork([res.data])
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtistByArtwork() {
     setIsLoading(true)
-    await getArtistByArtworkData(id)
-      .then(res => {
-        setArtworkArtist(res.data._embedded.artists)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistByArtworkData(id)
+      setArtworkArtist(res.data._embedded.artists)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getSimilarArtworksToArtwork() {
     setIsLoading(true)
-    await getSimilarArtworksToArtworkData(id)
-      .then(res => {
-        setSimArtworks(res.data._embedded.artworks)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getSimilarArtworksToArtworkData(id)
+      setSimArtworks(res.data._embedded.artworks)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtworkGenes() {
     setIsLoading(true)
-    await getArtworkGenesData(id)
-      .then(res => {
-        setArtworkGenes(res.data._embedded.genes)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtworkGenesData(id)
+      setArtworkGenes(res.data._embedded.genes)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 

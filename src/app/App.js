@@ -7,7 +7,7 @@ import PageShow from '../common/PageShow'
 import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
-import ExploreMain from '../explore/ExploreMainTest'
+import ExploreMain from '../explore/ExploreMain'
 import SearchTest from '../search/Search'
 import SavedMain from '../saved/SavedMain'
 import Icon from './Icon'
@@ -62,7 +62,7 @@ function App() {
   const [shows, setShows] = useState([])
   const [isLoading, setIsLoading] = useState()
   const [showLogo, setShowLogo] = useState(true)
-  const [bookmarks, setBookmarks] = useState(getBookmarksFromStorage())
+  const [bookmarks, setBookmarks] = useState(getBookmarksFromStorage() || [])
 
   async function getShows() {
     setIsLoading(true)
@@ -195,9 +195,10 @@ function App() {
           path="/saved"
           render={() => (
             <SavedMain
-              artworks={bookmarks
-                .map(id => artworks.find(item => item.id === id))
-                .filter(Boolean)}
+              bookmarks={bookmarks}
+              // artworks={bookmarks
+              //   .map(id => artworks.find(item => item.id === id))
+              //   .filter(Boolean)}
               onBookmark={toggleBookmark}
             />
           )}
@@ -219,6 +220,9 @@ function App() {
           path="/artist/:id"
           render={props => (
             <PageArtist
+              bookmarked={
+                bookmarks && bookmarks.indexOf(props.match.params.id) !== -1
+              }
               onBookmark={toggleBookmark}
               id={props.match.params.id}
             />

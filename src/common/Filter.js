@@ -37,7 +37,7 @@ const ButtonTitle = styled.div`
   text-decoration: ${p => (p.isActive ? 'underline' : '')};
 `
 
-export default function Filter({ onTopicClick, active, topicApis }) {
+export default function Filter({ onTopicClick, active }) {
   const [topicApis] = useState([
     {
       name: 'Old Masters',
@@ -62,7 +62,7 @@ export default function Filter({ onTopicClick, active, topicApis }) {
     {
       name: 'Renaissance',
       urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=4f26f2e004ea5c0001000167&size=50',
+        'https://api.artsy.net/api/artworks?gene_id=4f26f2e004ea5c0001000167&size=20',
       image:
         'https://d32dm0rphc51dk.cloudfront.net/XxR4YrbxOIUSZgFvte_K1A/big_and_tall.jpg',
     },

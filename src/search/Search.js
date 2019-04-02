@@ -402,12 +402,13 @@ export default function Search(props) {
         ) : (
           <SwipeableRoutes>
             <Route
+              exact
               path="/search/artists"
               location={props.location}
               component={ArtistSearch}
             />
-            <Route path="/search/genre" component={GeneSearch} />
-            <Route path="/search/shows" component={ShowSearch} />
+            <Route exact path="/search/genre" component={GeneSearch} />
+            <Route exact path="/search/shows" component={ShowSearch} />
           </SwipeableRoutes>
         )}
       </PageGrid>

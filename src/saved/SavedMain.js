@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import HomeCard from '../common/CardArtwork'
 import Title from '../common/Title'
+import { getBookmarksFromStorage, getArtworkData } from '../services'
+import Axios from 'axios'
 
 const PageGrid = styled.div`
   display: grid;
@@ -18,30 +20,44 @@ const CardContainer = styled.section`
   padding: 4px 12px 12px;
 `
 
-export default function SavedMain({ onBookmark, artworks }) {
-  //const [activeTag, setActiveTag] = useState('all')
-  console.log(artworks)
+export default function SavedMain({ onBookmark, artworks, bookmarks }) {
+  const [pageArtworks, setPageArtworks] = useState([])
+
+  function getSavedArtworks() {
+    bookmarks.map(async id => {
+      await getArtworkData(id)
+        .then(res => {
+          setPageArtworks([...pageArtworks, res.data])
+        })
+        .catch(err => console.log(err))
+    })
+  }
+
+  useEffect(() => {
+    getSavedArtworks()
+  }, [])
 
   return (
     <PageGrid>
       <Title>Saved</Title>
       <CardContainer>
-        {artworks.map(artwork => (
-          <HomeCard
-            date={artwork.date}
-            bookmarked={artwork.bookmarked}
-            collecting_institution={artwork.collecting_institution}
-            author={artwork.author}
-            image={artwork._links.image.href.replace(
-              '{image_version}',
-              'large'
-            )}
-            {...artwork}
-            artwork={artwork}
-            key={artwork.id}
-            onBookmark={onBookmark}
-          />
-        ))}
+        {pageArtworks ? (
+          pageArtworks.map(a => (
+            <HomeCard
+              date={a.date}
+              bookmarked={a.bookmarked}
+              collecting_institution={a.collecting_institution}
+              author={a.author}
+              image={a._links.image.href.replace('{image_version}', 'large')}
+              {...a}
+              a={a}
+              key={a.id}
+              onBookmark={onBookmark}
+            />
+          ))
+        ) : (
+          <h1>Loading</h1>
+        )}
       </CardContainer>
     </PageGrid>
   )
