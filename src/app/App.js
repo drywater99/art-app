@@ -193,7 +193,12 @@ function App() {
         <Route
           path="/saved"
           render={() => (
-            <SavedMain bookmarks={bookmarks} onBookmark={toggleBookmark} />
+            <SavedMain
+              artworks={bookmarks
+                .map(id => artworks.find(item => item.id === id))
+                .filter(Boolean)}
+              onBookmark={toggleBookmark}
+            />
           )}
         />
         <Route
