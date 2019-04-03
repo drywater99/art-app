@@ -1,12 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import GeneThumbnails from './GeneThumb'
-import Title from '../common/Title'
 
 const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto auto 1fr;
   overflow: hidden;
+`
+const Title = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  font-weight: bold;
+  font-size: 25px;
+  margin: 15px 24px 0;
+  color: #383838;
+  overflow: scroll;
 `
 
 const ExploreContainer = styled.section`

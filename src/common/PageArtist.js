@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 import ThumbSimGeneX from './ThumbSimGeneX'
 import ThumbArtwork from './ThumbArtwork'
 import ThumbSimArtistX from './ThumbSimArtistX'
@@ -11,109 +10,20 @@ import {
   getArtistSimilarArtistsData,
   getArtistArtworksData,
 } from '../services'
+import {
+  PageGrid,
+  ImageCard,
+  CloseLink,
+  BookmarkContainer,
+  Bookmark,
+  ExploreContainer,
+  ContentTitle,
+  SectionTitle,
+  ExploreContainerX,
+  LoadingContainer,
+} from './PageArtistStyles'
 
-const PageGrid = styled.section`
-  position: relative;
-  align-content: flex-start;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-`
-
-const ImageCard = styled.div`
-  z-index: -1;
-  height: 450px;
-  width: 100vw;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center top;
-  margin-bottom: 25px;
-`
-
-const CloseLink = styled.button`
-  position: absolute;
-  right: 25px;
-  top: 25px;
-  appearance: none;
-  border: none;
-  height: 20px;
-  width: 20px;
-  border-radius: 20px;
-  line-height: -3;
-  font-weight: bold;
-  background: rgba(255, 255, 255, 0.8);
-  color: rgba(0, 0, 0, 0.8);
-  text-align: center;
-  cursor: pointer;
-  opacity: 90;
-  transition: all 0.4s ease-in-out, background 0.3s linear, color 0.3s linear;
-  &.reverse {
-    background: rgba(0, 0, 0, 0.8);
-    color: rgba(255, 255, 255, 0.8);
-  }
-`
-
-const BookmarkContainer = styled.section`
-  display: flex;
-  justify-content: flex-end;
-  height: 30px;
-  margin: 0 25px 0;
-`
-
-const Bookmark = styled.div`
-  right: 30px;
-  width: 20px;
-  height: 10px;
-  background: ${p => (p.active ? '#007aff' : '#383838')};
-  transition: all 0.4s ease;
-  &:after {
-    transition: all 0.4s ease;
-    display: block;
-    content: '';
-    border: 10px solid ${p => (p.active ? '#007aff' : '#383838')};
-    border-bottom-color: transparent;
-  }
-`
-
-const ExploreContainer = styled.section`
-  display: grid;
-  grid-template-columns: 150px 150px;
-  grid-template-rows: auto;
-  grid-column-gap: 21px;
-  grid-row-gap: 18px;
-  padding: 25px;
-`
-
-const ContentTitle = styled.section`
-  display: grid;
-  align-content: flex-start;
-  margin: 10px 25px 0px 25px;
-  padding: 0 0 25px 0;
-`
-
-const SectionTitle = styled.section`
-  display: grid;
-  align-content: flex-start;
-  margin: 0 25px 0px 25px;
-  padding: 25px 0 0 0;
-  border-top: 1px solid #bababa;
-`
-
-const ExploreContainerX = styled.section`
-  display: grid;
-  grid-auto-flow: column;
-  scroll-snap-type: x mandatory;
-  overflow-x: scroll;
-  scroll-padding: 0 25px 0 25px;
-  height: fit-content;
-  padding: 25px;
-`
-const LoadingContainer = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-export default function ArtistPage({ onBookmark, id }) {
+export default function ArtistPage({ onBookmark, bookmarked, id }) {
   const [artist, setHomeArtist] = useState([])
   const [artistGenes, setArtistGenes] = useState([])
   const [similarArtists, setSimilarArtists] = useState([])
@@ -122,55 +32,56 @@ export default function ArtistPage({ onBookmark, id }) {
 
   async function getArtist() {
     setIsLoading(true)
-    await getArtistData(id)
-      .then(res => {
-        setHomeArtist([res.data])
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistData(id)
+      setHomeArtist([res.data])
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtistByArtwork() {
     setIsLoading(true)
-    await getArtistByArtworkData(id)
-      .then(res => {
-        const results = res.data._embedded.artists
-        setHomeArtist(results)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistByArtworkData(id)
+      setHomeArtist(res.data._embedded.artists)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtistArtworks() {
     setIsLoading(true)
-    await getArtistArtworksData(id)
-      .then(res => {
-        const results = res.data._embedded.artworks
-        setArtistArtworks(results)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistArtworksData(id)
+      setArtistArtworks(res.data._embedded.artworks)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtistSimilarArtists() {
     setIsLoading(true)
-    await getArtistSimilarArtistsData(id)
-      .then(res => {
-        const results = res.data._embedded.artists
-        setSimilarArtists(results)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistSimilarArtistsData(id)
+      setSimilarArtists(res.data._embedded.artists)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getArtistsGenes() {
     setIsLoading(true)
-    await getArtistGenesData(id)
-      .then(res => {
-        const results = res.data._embedded.genes
-        setArtistGenes(results)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getArtistGenesData(id)
+      setArtistGenes(res.data._embedded.genes)
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
@@ -212,10 +123,12 @@ export default function ArtistPage({ onBookmark, id }) {
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
                 <BookmarkContainer>
-                  <Bookmark
-                    active={a.bookmarked}
-                    onClick={() => onBookmark(a)}
-                  />
+                  {onBookmark && (
+                    <Bookmark
+                      active={bookmarked === true}
+                      onClick={() => onBookmark(id)}
+                    />
+                  )}
                 </BookmarkContainer>
                 <ContentTitle>
                   <p>{a.name}</p>

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import HomeCard from '../common/CardArtwork'
-import Title from '../common/Title'
 
 const PageGrid = styled.div`
   display: grid;
@@ -10,6 +9,16 @@ const PageGrid = styled.div`
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
 `
+const Title = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  font-weight: bold;
+  font-size: 25px;
+  margin: 15px 24px 0;
+  color: #383838;
+  overflow: scroll;
+`
+
 const CardContainer = styled.section`
   display: grid;
   align-content: flex-start;
@@ -19,29 +28,27 @@ const CardContainer = styled.section`
 `
 
 export default function SavedMain({ onBookmark, artworks }) {
-  //const [activeTag, setActiveTag] = useState('all')
-  console.log(artworks)
-
   return (
     <PageGrid>
       <Title>Saved</Title>
       <CardContainer>
-        {artworks.map(artwork => (
-          <HomeCard
-            date={artwork.date}
-            bookmarked={artwork.bookmarked}
-            collecting_institution={artwork.collecting_institution}
-            author={artwork.author}
-            image={artwork._links.image.href.replace(
-              '{image_version}',
-              'large'
-            )}
-            {...artwork}
-            artwork={artwork}
-            key={artwork.id}
-            onBookmark={onBookmark}
-          />
-        ))}
+        {artworks ? (
+          artworks.map(a => (
+            <HomeCard
+              date={a.date}
+              bookmarked={a.bookmarked}
+              collecting_institution={a.collecting_institution}
+              author={a.author}
+              image={a._links.image.href.replace('{image_version}', 'large')}
+              {...a}
+              a={a}
+              key={a.id}
+              onBookmark={onBookmark}
+            />
+          ))
+        ) : (
+          <h1>Loading</h1>
+        )}
       </CardContainer>
     </PageGrid>
   )

@@ -7,8 +7,8 @@ import PageShow from '../common/PageShow'
 import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
-import ExploreMain from '../explore/ExploreMainTest'
-import SearchTest from '../search/Search'
+import ExploreMain from '../explore/ExploreMain'
+import SearchMain from '../search/SearchMain'
 import SavedMain from '../saved/SavedMain'
 import Icon from './Icon'
 import {
@@ -62,7 +62,8 @@ function App() {
   const [shows, setShows] = useState([])
   const [isLoading, setIsLoading] = useState()
   const [showLogo, setShowLogo] = useState(true)
-  const [bookmarks, setBookmarks] = useState(getBookmarksFromStorage())
+  const [bookmarks, setBookmarks] = useState(getBookmarksFromStorage() || [])
+  const [navClickState, setNavClickState] = useState(1)
 
   async function getShows() {
     setIsLoading(true)
@@ -151,8 +152,6 @@ function App() {
     )
   }
 
-  const [navClickState, setNavClickState] = useState(1)
-
   return (
     <Router>
       <Grid>
@@ -185,7 +184,7 @@ function App() {
         <Route
           path="/search"
           render={props => (
-            <SearchTest
+            <SearchMain
               props={props}
               artworks={artworks.filter(artwork => artwork.bookmarked)}
             />
@@ -219,6 +218,9 @@ function App() {
           path="/artist/:id"
           render={props => (
             <PageArtist
+              bookmarked={
+                bookmarks && bookmarks.indexOf(props.match.params.id) !== -1
+              }
               onBookmark={toggleBookmark}
               id={props.match.params.id}
             />

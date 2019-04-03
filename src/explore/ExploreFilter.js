@@ -37,7 +37,7 @@ const ButtonTitle = styled.div`
   text-decoration: ${p => (p.isActive ? 'underline' : '')};
 `
 
-export default function Filter({ onTopicClick, active, topicApis }) {
+export default function ExploreFilter({ onTopicClick, active }) {
   const [topicApis] = useState([
     {
       name: 'Old Masters',
@@ -62,21 +62,21 @@ export default function Filter({ onTopicClick, active, topicApis }) {
     {
       name: 'Renaissance',
       urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=4f26f2e004ea5c0001000167&size=50',
+        'https://api.artsy.net/api/artworks?gene_id=4f26f2e004ea5c0001000167&size=20',
       image:
         'https://d32dm0rphc51dk.cloudfront.net/XxR4YrbxOIUSZgFvte_K1A/big_and_tall.jpg',
     },
     {
       name: 'Baroque',
       urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=4d90d194dcdd5f44a50000ad&size=50',
+        'https://api.artsy.net/api/artworks?gene_id=4d90d194dcdd5f44a50000ad&size=25',
       image:
         'https://d32dm0rphc51dk.cloudfront.net/4ly-DIuyLoH-JlrLcZjvnw/big_and_tall.jpg',
     },
     {
       name: 'Contemporay',
       urlApi:
-        'https://api.artsy.net/api/artists?gene_id=504f7335de9164000200041a&size=40',
+        'https://api.artsy.net/api/artists?gene_id=504f7335de9164000200041a&size=25',
       image:
         'https://d32dm0rphc51dk.cloudfront.net/DsYeaxMGPVgQEC09yVj0KQ/big_and_tall.jpg',
     },

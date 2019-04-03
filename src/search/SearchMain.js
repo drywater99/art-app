@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
-import styled from 'styled-components'
-import Title from '../common/Title'
 import SearchThumbArtist from './SearchThumbArtist'
 import SearchThumb from './SearchThumb'
 import Roller from '../images/Roller.svg'
-import Scope from '../images/Scope.svg'
 import {
   getSearchQueryArtistData,
   getSearchQueryGeneData,
@@ -15,92 +12,19 @@ import {
   getSuggestionsGenesData,
   getSuggestionsShowData,
 } from '../services'
+import {
+  PageGrid,
+  Title,
+  HeadlineContainer,
+  ResultContainer,
+  LoadingContainer,
+  StyledForm,
+  StyledInput,
+  LinkContainer,
+  StyledLink,
+} from './SavedMainStyles'
 
-const PageGrid = styled.div`
-  display: grid;
-  grid-template-rows: auto auto auto 1fr;
-  overflow: hidden;
-`
-const HeadlineContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 20px;
-  padding: 25px 25px 10px 25px;
-`
-
-const ResultContainer = styled.section`
-  display: grid;
-  grid-template-columns: 150px 150px;
-  grid-template-rows: auto;
-  grid-column-gap: 21px;
-  grid-row-gap: 22px;
-  padding: 25px;
-  overflow-y: scroll;
-`
-
-const LoadingContainer = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
-const StyledForm = styled.form`
-  display: flex;
-  justify-content: center;
-  margin: 10px 0 10px 0;
-`
-
-const StyledInput = styled.input`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ededed;
-  background-image: url(${Scope});
-  background-size: 6%;
-  background-position: 295px 10px;
-  background-repeat: no-repeat;
-  width: 90vw;
-  height: 40px;
-  padding: 0 16px 4px 16px;
-  border-radius: 25px;
-  border-style: none;
-  outline: none;
-  font-size: 18px;
-  font-weight: regular;
-  color: #bababa;
-  ::placeholder {
-    color: #949494;
-  }
-`
-
-const LinkContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  border-bottom: 1px solid #d0d0d0;
-  margin: 0 20px;
-`
-
-const StyledLink = styled(NavLink)`
-  display: flex;
-  justify-content: center;
-  color: #949494;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: bold;
-  font-size: 16px;
-  text-decoration: none;
-  width: 150%;
-  &.active {
-    border-bottom: 2px solid #383838;
-    color: #383838;
-    padding: 9px;
-  }
-`
-
-export default function Search(props) {
+export default function SearchMain(props) {
   const [dataArtists, setDataArtists] = useState([])
   const [dataGenes, setDataGenes] = useState([])
   const [dataShows, setDataShows] = useState([])
@@ -112,14 +36,9 @@ export default function Search(props) {
   const [locationState, setLocationState] = useState(props.location)
 
   function onSearchInputChange(e) {
-    //debounce
     setSearchString(e.target.value)
     getSearchQuery()
   }
-
-  // function deleteInput() {
-  //   setSearchString((value = ''))
-  // }
 
   async function getSearchQuery() {
     setIsLoading(true)
@@ -389,7 +308,6 @@ export default function Search(props) {
             onChange={onSearchInputChange}
           />
         </StyledForm>
-        {/* <button onClick={() => deleteInput}>X</button> */}
         <LinkContainer>
           <StyledLink to="/search/artists">Artists</StyledLink>
           <StyledLink to="/search/genre">Genre</StyledLink>
@@ -402,12 +320,13 @@ export default function Search(props) {
         ) : (
           <SwipeableRoutes>
             <Route
+              exact
               path="/search/artists"
               location={props.location}
               component={ArtistSearch}
             />
-            <Route path="/search/genre" component={GeneSearch} />
-            <Route path="/search/shows" component={ShowSearch} />
+            <Route exact path="/search/genre" component={GeneSearch} />
+            <Route exact path="/search/shows" component={ShowSearch} />
           </SwipeableRoutes>
         )}
       </PageGrid>

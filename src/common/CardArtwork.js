@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { getArtistByArtworkData } from '../services'
 
 const BorderCard = styled.section`
   padding: 30px 0 0;
@@ -32,23 +31,6 @@ const ContentCard = styled.section`
   border-radius: 0 0 12px 12px;
 `
 
-const Bookmark = styled.div`
-  width: 20px;
-  height: 10px;
-  background: ${p => (p.active ? '#b8847d' : '#383838')};
-  transition: all 0.4s ease;
-  margin-top: 4px;
-
-  &:after {
-    transition: all 0.4s ease;
-    display: block;
-    top: 100%;
-    content: '';
-    border: 10px solid ${p => (p.active ? '#b8847d' : '#383838')};
-    border-bottom-color: transparent;
-  }
-`
-
 CardArtwork.propTypes = {
   title: PropTypes.string,
   content: PropTypes.string,
@@ -68,24 +50,8 @@ export default function CardArtwork({
   date,
   image,
   id,
-  onBookmark,
-  bookmarked,
   collecting_institution,
-  artwork,
 }) {
-  const [artworkArtist, setArtworkArtist] = useState([])
-
-  async function getArtistByArtwork() {
-    await getArtistByArtworkData(id)
-      .then(res => {
-        setArtworkArtist(res.data._embedded.artists)
-      })
-      .catch(err => console.log(err))
-  }
-  useEffect(() => {
-    getArtistByArtwork()
-  }, [])
-
   return (
     <BorderCard>
       <StyledLink to={`/artwork/${id}`}>
@@ -100,12 +66,6 @@ export default function CardArtwork({
           <p>{title}</p>
           <small>{collecting_institution}</small>
         </StyledLink>
-        {onBookmark && (
-          <Bookmark
-            active={bookmarked === true}
-            onClick={() => onBookmark(artwork)}
-          />
-        )}
       </ContentCard>
     </BorderCard>
   )
