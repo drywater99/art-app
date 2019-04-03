@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Filter from '../common/Filter'
+import ExploreFilter from './ExploreFilter'
 import ExploreThumb from './ExploreThumb'
-import Title from '../common/Title'
 import Roller from '../images/Roller.svg'
 
 const PageGrid = styled.div`
@@ -25,6 +24,15 @@ const ExploreContainer = styled.section`
   padding: 15px 5px 5px 5px;
   overflow-y: scroll;
   border-top: 1px solid #d0d0d0;
+`
+const Title = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  font-weight: bold;
+  font-size: 25px;
+  margin: 15px 24px 0;
+  color: #383838;
+  overflow: scroll;
 `
 
 export default function ExploreMain({ onTopicClick, topics, isLoading }) {
@@ -58,7 +66,7 @@ export default function ExploreMain({ onTopicClick, topics, isLoading }) {
   return (
     <PageGrid>
       <Title data-cy="header-title">Explore</Title>
-      <Filter
+      <ExploreFilter
         onTopicClick={onTopicClick}
         activeTag={activeTag}
         setActiveTag={setActiveTag}

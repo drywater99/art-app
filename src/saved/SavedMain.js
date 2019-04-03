@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import HomeCard from '../common/CardArtwork'
-import Title from '../common/Title'
-import { getBookmarksFromStorage, getArtworkData } from '../services'
-import Axios from 'axios'
+import { getArtworkData } from '../services'
 
 const PageGrid = styled.div`
   display: grid;
@@ -12,6 +10,16 @@ const PageGrid = styled.div`
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
 `
+const Title = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  font-weight: bold;
+  font-size: 25px;
+  margin: 15px 24px 0;
+  color: #383838;
+  overflow: scroll;
+`
+
 const CardContainer = styled.section`
   display: grid;
   align-content: flex-start;
@@ -20,7 +28,7 @@ const CardContainer = styled.section`
   padding: 4px 12px 12px;
 `
 
-export default function SavedMain({ onBookmark, artworks, bookmarks }) {
+export default function SavedMain({ onBookmark, bookmarks }) {
   const [pageArtworks, setPageArtworks] = useState([])
 
   function getSavedArtworks() {
