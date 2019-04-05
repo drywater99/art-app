@@ -103,54 +103,46 @@ export default function SearchMain(props) {
 
   function SearchContentArtists() {
     if (!searchString) {
-      return (
+      return isLoading ? (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      ) : (
         <React.Fragment>
-          {isLoading ? (
-            <LoadingContainer>
-              <img alt="Roller" src={Roller} width="60px" height="60px" />
-            </LoadingContainer>
-          ) : (
-            <React.Fragment>
-              <HeadlineContainer>
-                <h3>Suggested</h3>
-              </HeadlineContainer>
-              <ResultContainer>
-                {suggestedArtists.map(suggestedArtist => (
-                  <React.Fragment key={suggestedArtist.id}>
-                    <SearchThumbArtist
-                      image={suggestedArtist._links.image.href.replace(
-                        '{image_version}',
-                        'large'
-                      )}
-                      name={suggestedArtist.name}
-                      key={suggestedArtist.id}
-                      id={suggestedArtist.id}
-                      location={props.location}
-                      urlCategory="artist"
-                    />
-                  </React.Fragment>
-                ))}
-              </ResultContainer>
-            </React.Fragment>
-          )}
+          <HeadlineContainer>
+            <h3>Suggested</h3>
+          </HeadlineContainer>
+          <ResultContainer>
+            {suggestedArtists.map(suggestedArtist => (
+              <SearchThumbArtist
+                key={suggestedArtist.id}
+                image={suggestedArtist._links.image.href.replace(
+                  '{image_version}',
+                  'large'
+                )}
+                name={suggestedArtist.name}
+                id={suggestedArtist.id}
+                location={props.location}
+                urlCategory="artist"
+              />
+            ))}
+          </ResultContainer>
         </React.Fragment>
       )
     } else if (dataArtists.length > 0) {
       return (
         <ResultContainer>
           {dataArtists.map(dataArtist => (
-            <React.Fragment key={dataArtist._links.self.href}>
-              <SearchThumbArtist
-                image={dataArtist._links.thumbnail.href}
-                title={dataArtist.title}
-                key={dataArtist._links.self.href}
-                id={dataArtist._links.self.href.replace(
-                  'https://api.artsy.net/api/artists/',
-                  ''
-                )}
-                urlCategory="artist"
-              />
-            </React.Fragment>
+            <SearchThumbArtist
+              key={dataArtist._links.self.href}
+              image={dataArtist._links.thumbnail.href}
+              title={dataArtist.title}
+              id={dataArtist._links.self.href.replace(
+                'https://api.artsy.net/api/artists/',
+                ''
+              )}
+              urlCategory="artist"
+            />
           ))}
         </ResultContainer>
       )
@@ -178,18 +170,16 @@ export default function SearchMain(props) {
               </HeadlineContainer>
               <ResultContainer>
                 {suggestedGenes.map(suggestedGene => (
-                  <React.Fragment key={suggestedGene.id}>
-                    <SearchThumb
-                      image={suggestedGene._links.image.href.replace(
-                        '{image_version}',
-                        'square500'
-                      )}
-                      name={suggestedGene.name}
-                      key={suggestedGene.id}
-                      id={suggestedGene.id}
-                      urlCategory="gene"
-                    />
-                  </React.Fragment>
+                  <SearchThumb
+                    key={suggestedGene.id}
+                    image={suggestedGene._links.image.href.replace(
+                      '{image_version}',
+                      'square500'
+                    )}
+                    name={suggestedGene.name}
+                    id={suggestedGene.id}
+                    urlCategory="gene"
+                  />
                 ))}
               </ResultContainer>
             </React.Fragment>
@@ -200,18 +190,16 @@ export default function SearchMain(props) {
       return (
         <ResultContainer>
           {dataGenes.map(dataGene => (
-            <React.Fragment key={dataGene._links.self.href}>
-              <SearchThumb
-                image={dataGene._links.thumbnail.href}
-                title={dataGene.title}
-                key={dataGene._links.self.href}
-                id={dataGene._links.self.href.replace(
-                  'https://api.artsy.net/api/genes/',
-                  ''
-                )}
-                urlCategory="gene"
-              />
-            </React.Fragment>
+            <SearchThumb
+              key={dataGene._links.self.href}
+              image={dataGene._links.thumbnail.href}
+              title={dataGene.title}
+              id={dataGene._links.self.href.replace(
+                'https://api.artsy.net/api/genes/',
+                ''
+              )}
+              urlCategory="gene"
+            />
           ))}
         </ResultContainer>
       )
@@ -226,50 +214,44 @@ export default function SearchMain(props) {
 
   function SearchContentShows() {
     if (!searchString) {
-      return (
+      return isLoading ? (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      ) : (
         <React.Fragment>
-          {isLoading ? (
-            <LoadingContainer>
-              <img alt="Roller" src={Roller} width="60px" height="60px" />
-            </LoadingContainer>
-          ) : (
-            <React.Fragment>
-              <HeadlineContainer>
-                <h3>Suggested</h3>
-              </HeadlineContainer>
-              <ResultContainer>
-                {suggestedShows.map(suggestedShow => (
-                  <React.Fragment key={suggestedShow.id}>
-                    <SearchThumb
-                      name={suggestedShow.name}
-                      image={suggestedShow._links.thumbnail.href}
-                      key={suggestedShow.id}
-                      id={suggestedShow.id}
-                      urlCategory="show"
-                    />
-                  </React.Fragment>
-                ))}
-              </ResultContainer>
-            </React.Fragment>
-          )}
+          <HeadlineContainer>
+            <h3>Suggested</h3>
+          </HeadlineContainer>
+          <ResultContainer>
+            {suggestedShows.map(suggestedShow => (
+              <React.Fragment key={suggestedShow.id}>
+                <SearchThumb
+                  name={suggestedShow.name}
+                  image={suggestedShow._links.thumbnail.href}
+                  key={suggestedShow.id}
+                  id={suggestedShow.id}
+                  urlCategory="show"
+                />
+              </React.Fragment>
+            ))}
+          </ResultContainer>
         </React.Fragment>
       )
     } else if (dataShows.length > 0) {
       return (
         <ResultContainer>
           {dataShows.map(dataShow => (
-            <React.Fragment key={dataShow._links.self.href}>
-              <SearchThumb
-                image={dataShow._links.thumbnail.href}
-                title={dataShow.title}
-                key={dataShow._links.self.href}
-                id={dataShow._links.self.href.replace(
-                  'https://api.artsy.net/api/shows/',
-                  ''
-                )}
-                urlCategory="show"
-              />
-            </React.Fragment>
+            <SearchThumb
+              image={dataShow._links.thumbnail.href}
+              title={dataShow.title}
+              key={dataShow._links.self.href}
+              id={dataShow._links.self.href.replace(
+                'https://api.artsy.net/api/shows/',
+                ''
+              )}
+              urlCategory="show"
+            />
           ))}
         </ResultContainer>
       )
@@ -298,38 +280,36 @@ export default function SearchMain(props) {
   )
 
   return (
-    <Router>
-      <PageGrid>
-        <Title>Search</Title>
-        <StyledForm>
-          <StyledInput
-            placeholder="type something......"
-            type="text"
-            onChange={onSearchInputChange}
+    <PageGrid>
+      <Title>Search</Title>
+      <StyledForm>
+        <StyledInput
+          placeholder="type something......"
+          type="text"
+          onChange={onSearchInputChange}
+        />
+      </StyledForm>
+      <LinkContainer>
+        <StyledLink to="/search/artists">Artists</StyledLink>
+        <StyledLink to="/search/genre">Genre</StyledLink>
+        <StyledLink to="/search/shows">Shows</StyledLink>
+      </LinkContainer>
+      {isLoading ? (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} width="60px" height="60px" />
+        </LoadingContainer>
+      ) : (
+        <SwipeableRoutes>
+          <Route
+            exact
+            path="/search/artists"
+            location={props.location}
+            component={ArtistSearch}
           />
-        </StyledForm>
-        <LinkContainer>
-          <StyledLink to="/search/artists">Artists</StyledLink>
-          <StyledLink to="/search/genre">Genre</StyledLink>
-          <StyledLink to="/search/shows">Shows</StyledLink>
-        </LinkContainer>
-        {isLoading ? (
-          <LoadingContainer>
-            <img alt="Roller" src={Roller} width="60px" height="60px" />
-          </LoadingContainer>
-        ) : (
-          <SwipeableRoutes>
-            <Route
-              exact
-              path="/search/artists"
-              location={props.location}
-              component={ArtistSearch}
-            />
-            <Route exact path="/search/genre" component={GeneSearch} />
-            <Route exact path="/search/shows" component={ShowSearch} />
-          </SwipeableRoutes>
-        )}
-      </PageGrid>
-    </Router>
+          <Route exact path="/search/genre" component={GeneSearch} />
+          <Route exact path="/search/shows" component={ShowSearch} />
+        </SwipeableRoutes>
+      )}
+    </PageGrid>
   )
 }

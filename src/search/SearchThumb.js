@@ -28,10 +28,7 @@ const ProfileTitle = styled.div`
 
 export default function ThumbSearch({ image, id, title, name, urlCategory }) {
   return (
-    <StyledLink
-      to={`/${urlCategory}/${id}`}
-      onClick={() => window.navigation.assign(`/${urlCategory}/${id}`)}
-    >
+    <StyledLink to={`/${urlCategory}/${id}`}>
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
       <ProfileTitle>{title || name}</ProfileTitle>
     </StyledLink>

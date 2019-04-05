@@ -113,20 +113,17 @@ export function getSearchQueryShowData(searchString) {
 }
 
 export function getSuggestionsArtistData() {
-  const urlString = `https://api.artsy.net/api/artists?similarity_type=contemporary&artworks=true&sort=-trending&size=10
-  `
+  const urlString = `https://api.artsy.net/api/artists?similarity_type=contemporary&artworks=true&sort=-trending&size=10`
   return axios.get(urlString, apiToken)
 }
 
 export function getSuggestionsGenesData() {
-  const urlString = `https://api.artsy.net/api/genes?size=10
-  `
+  const urlString = `https://api.artsy.net/api/genes?size=10`
   return axios.get(urlString, apiToken)
 }
 
 export function getSuggestionsShowData() {
-  const urlString = `https://api.artsy.net/api/shows?status=current&size=10
-  `
+  const urlString = `https://api.artsy.net/api/shows?status=current&size=10`
   return axios.get(urlString, apiToken)
 }
 

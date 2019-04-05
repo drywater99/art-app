@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import styled from 'styled-components'
 import HomeCard from '../common/CardArtwork'
 import { getSavedArtworkData } from '../services'
@@ -28,41 +28,49 @@ const CardContainer = styled.section`
   padding: 4px 12px 12px;
 `
 
+const Button = styled.button`
+  display: block;
+  width: 80%;
+  height: 40px;
+  border: 1px solid #999;
+  padding: 8px 16px;
+  font-size: 1em;
+  border-radius: 4px;
+  margin: 12px auto;
+`
+
 export default function SavedMain({ onBookmark, artworks, bookmarks }) {
   const [pageArtworks, setPageArtworks] = useState([])
+  const [hasError, setHasError] = useState(false)
 
-  // function getSavedArtworks() {
-  //   bookmarks.map(async id => {
-  //     await getArtworkData(id)
-  //       .then(res => {
-  //         setPageArtworks([...pageArtworks, res.data])
-  //       })
-  //       .catch(err => console.log(err))
-  //   })
-  // }
+  useMemo(() => bookmarks.length && loadBookmarks(), [bookmarks])
 
-  // useEffect(() => {
-  //   getSavedArtworks()
-  // }, [])
+  function loadBookmarks() {
+    setHasError(false)
+    const queue = bookmarks.reduce(async (promiseChain, bookmark) => {
+      const chainResults = await promiseChain
+      const currentResult = await getSavedArtworkData(bookmark)
+      return [...chainResults, currentResult.data]
+    }, Promise.resolve([]))
 
-  bookmarks.reduce(async (promise, bookmark) => {
-    await promise
-    return getSavedArtworkData(bookmark)
-      .then(res => {
-        setPageArtworks([...pageArtworks, res.data])
+    queue
+      .then(results => {
+        setPageArtworks(results)
       })
-      .catch(err => console.log(err))
-  }, Promise.resolve())
-
-  console.log(pageArtworks)
-
+      .catch(e => {
+        console.error('Could not load bookmarks: ', e)
+        setHasError(true)
+      })
+  }
   return (
     <PageGrid>
       <Title>Saved</Title>
+
       <CardContainer>
-        {pageArtworks ? (
+        {pageArtworks.length ? (
           pageArtworks.map(a => (
             <HomeCard
+              key={a.id}
               date={a.date}
               bookmarked={a.bookmarked}
               collecting_institution={a.collecting_institution}
@@ -70,12 +78,18 @@ export default function SavedMain({ onBookmark, artworks, bookmarks }) {
               image={a._links.image.href.replace('{image_version}', 'large')}
               {...a}
               a={a}
-              key={a.id}
               onBookmark={onBookmark}
             />
           ))
+        ) : hasError ? (
+          <div>
+            <h3>Could not load Bookmarks.</h3>
+            <Button onClick={loadBookmarks}>Try again</Button>
+          </div>
+        ) : bookmarks.length ? (
+          <h3>Loading ...</h3>
         ) : (
-          <h1>Loading</h1>
+          <h3>No bookmarks yet</h3>
         )}
       </CardContainer>
     </PageGrid>

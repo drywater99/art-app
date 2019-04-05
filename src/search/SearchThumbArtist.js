@@ -30,7 +30,7 @@ export default function SearchThumbArtist({ image, id, title, name }) {
   return (
     <StyledLink
       to={`/artist/${id}`}
-      onClick={() => window.navigation.assign(`/artist/${id}`)}
+      /*onClick={() => window.location.assign(`/artist/${id}`)}*/
     >
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
       <ProfileTitle>{title || name}</ProfileTitle>
