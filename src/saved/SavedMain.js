@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import HomeCard from '../common/CardArtwork'
+import { getSavedArtworkData } from '../services'
 
 const PageGrid = styled.div`
   display: grid;
@@ -27,13 +28,40 @@ const CardContainer = styled.section`
   padding: 4px 12px 12px;
 `
 
-export default function SavedMain({ onBookmark, artworks }) {
+export default function SavedMain({ onBookmark, artworks, bookmarks }) {
+  const [pageArtworks, setPageArtworks] = useState([])
+
+  // function getSavedArtworks() {
+  //   bookmarks.map(async id => {
+  //     await getArtworkData(id)
+  //       .then(res => {
+  //         setPageArtworks([...pageArtworks, res.data])
+  //       })
+  //       .catch(err => console.log(err))
+  //   })
+  // }
+
+  // useEffect(() => {
+  //   getSavedArtworks()
+  // }, [])
+
+  bookmarks.reduce(async (promise, bookmark) => {
+    await promise
+    return getSavedArtworkData(bookmark)
+      .then(res => {
+        setPageArtworks([...pageArtworks, res.data])
+      })
+      .catch(err => console.log(err))
+  }, Promise.resolve())
+
+  console.log(pageArtworks)
+
   return (
     <PageGrid>
       <Title>Saved</Title>
       <CardContainer>
-        {artworks ? (
-          artworks.map(a => (
+        {pageArtworks ? (
+          pageArtworks.map(a => (
             <HomeCard
               date={a.date}
               bookmarked={a.bookmarked}

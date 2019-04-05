@@ -3,7 +3,7 @@ import axios from 'axios'
 const apiToken = {
   headers: {
     'X-Xapp-Token':
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1NDM3MTc1NCwiaWF0IjoxNTUzNzY2OTU0LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM5YzlhMmFmNzAwOGY1YWIzYjAwMGUwIn0.iuH-CwSe4XD_K8K2X-UXplLErMoXQq0GvSPRbyxDgI4',
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1NTA2MjI2NywiaWF0IjoxNTU0NDU3NDY3LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWNhNzIzN2I3NTM2NTIyY2E0YmQ4Y2ZlIn0.QlP_bABsUS-QokKyEhOLWQiX7YAD8p3dxhnJeJUwUa4',
   },
 }
 
@@ -39,6 +39,11 @@ export function getArtworksByArtistsData(id) {
 
 export function getArtworkData(id) {
   const urlString = `https://api.artsy.net/api/artworks/${id}`
+  return axios.get(urlString, apiToken)
+}
+
+export function getSavedArtworkData(bookmark) {
+  const urlString = `https://api.artsy.net/api/artworks/${bookmark}`
   return axios.get(urlString, apiToken)
 }
 
