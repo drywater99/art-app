@@ -52,16 +52,42 @@ export default function SavedMain({ onBookmark, artworks, bookmarks }) {
       const currentResult = await getSavedArtworkData(bookmark)
       return [...chainResults, currentResult.data]
     }, Promise.resolve([]))
-
     queue
-      .then(results => {
-        setPageArtworks(results)
+      .then(Result => {
+        setPageArtworks(Result)
       })
       .catch(e => {
         console.error('Could not load bookmarks: ', e)
         setHasError(true)
       })
   }
+
+  useEffect(() => {
+    loadBookmarks()
+  }, [bookmarks])
+
+  // function loadBookmarks() {
+  //   setHasError(false)
+  //   bookmarks
+  //     .reduce((promiseChain, bookmark) => {
+  //       return promiseChain.then(chainResults =>
+  //         getSavedArtworkData(bookmark).then(currentResult => [
+  //           ...chainResults,
+  //           currentResult,
+  //         ])
+  //       )
+  //     }, Promise.resolve([]))
+  //     .then(currentResult => {
+  //       setPageArtworks(currentResult.data)
+  //     })
+  //     .catch(e => {
+  //       console.error('Could not load bookmarks: ', e)
+  //       setHasError(true)
+  //     })
+  // }
+
+  console.log(bookmarks, pageArtworks)
+
   return (
     <PageGrid>
       <Title>Saved</Title>
