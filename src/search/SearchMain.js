@@ -5,6 +5,7 @@ import { debounce } from 'debounce'
 import SearchThumbArtist from './SearchThumbArtist'
 import SearchThumb from './SearchThumb'
 import Roller from '../images/Roller.svg'
+import Icon from '../app/Icon'
 import {
   getSearchQueryArtistData,
   getSearchQueryGeneData,
@@ -21,10 +22,11 @@ import {
   LoadingContainer,
   StyledForm,
   StyledInput,
-  StyledButton,
+  IconContainer,
   LinkContainer,
   StyledLink,
-} from './SavedMainStyles'
+  Hr,
+} from './SearchMainStyles'
 
 export default function SearchMain(props) {
   const [dataArtists, setDataArtists] = useState([])
@@ -34,8 +36,9 @@ export default function SearchMain(props) {
   const [suggestedGenes, setSuggestedGenes] = useState([])
   const [suggestedShows, setSuggestedShows] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [searchString, setSearchString] = useState(null)
+  const [searchString, setSearchString] = useState('')
   const [locationState, setLocationState] = useState(props.location)
+  const [isActive, setIsActive] = useState(1)
 
   const onSearchInputChange = debounce(text => {
     setSearchString(text)
@@ -320,13 +323,34 @@ export default function SearchMain(props) {
           value={searchString}
           onChange={e => onSearchInputChange(e.target.value)}
         />
-        <StyledButton onClick={clearInput}>x</StyledButton>
+        {searchString.length ? (
+          <IconContainer onClick={clearInput}>
+            <Icon name="cancel" fill={'#949494'} height="20px" width="20px" />
+          </IconContainer>
+        ) : null}
       </StyledForm>
       <LinkContainer>
-        <StyledLink to="/search/artists">Artists</StyledLink>
-        <StyledLink to="/search/genre">Genre</StyledLink>
-        <StyledLink to="/search/shows">Shows</StyledLink>
+        <StyledLink onClick={() => setIsActive(1)} to="/search/artists">
+          Artists
+        </StyledLink>
+        <StyledLink onClick={() => setIsActive(2)} to="/search/genre">
+          Genre
+        </StyledLink>
+        <StyledLink onClick={() => setIsActive(3)} to="/search/shows">
+          Shows
+        </StyledLink>
       </LinkContainer>
+      <Hr
+        style={
+          isActive === 1
+            ? { margin: '-1% 0 0 0' }
+            : isActive === 2
+            ? { margin: '-1% 0 0 33%' }
+            : isActive === 3
+            ? { margin: '-1% 0 0 66%' }
+            : null
+        }
+      />
       {isLoading ? (
         <LoadingContainer>
           <img alt="Roller" src={Roller} width="60px" height="60px" />
