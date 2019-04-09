@@ -108,7 +108,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (pageArtwork.length > 0) {
+    } else if (pageArtwork.length) {
       return (
         <React.Fragment>
           {pageArtwork.map(a => {
@@ -187,7 +187,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (simArtworks.length > 0) {
+    } else if (simArtworks.length) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -219,7 +219,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (artworkGenes.length > 0) {
+    } else if (artworkGenes.length) {
       return (
         <React.Fragment>
           <SectionTitle>

@@ -104,7 +104,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (artist.length > 0) {
+    } else if (artist.length) {
       return (
         <PageGrid>
           {artist.map(a => {
@@ -165,7 +165,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (artistArtworks.length > 0) {
+    } else if (artistArtworks.length) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -199,7 +199,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (artistGenes.length > 0) {
+    } else if (artistGenes.length) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -232,7 +232,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (similarArtists.length > 0) {
+    } else if (similarArtists.length) {
       return (
         <React.Fragment>
           <SectionTitle>

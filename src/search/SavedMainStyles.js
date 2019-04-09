@@ -45,8 +45,18 @@ export const LoadingContainer = styled.section`
 
 export const StyledForm = styled.form`
   display: flex;
-  justify-content: center;
-  margin: 10px 0 10px 0;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px;
+  background-color: #ededed;
+  background-image: url(${Scope});
+  background-size: 6%;
+  background-position: 15px 10px;
+  background-repeat: no-repeat;
+  height: 40px;
+  padding: 0 16px 4px 50px;
+  border-radius: 25px;
+  border-style: none;
 `
 
 export const StyledInput = styled.input`
@@ -54,15 +64,8 @@ export const StyledInput = styled.input`
   align-items: center;
   justify-content: center;
   background-color: #ededed;
-  background-image: url(${Scope});
-  background-size: 6%;
-  background-position: 295px 10px;
-  background-repeat: no-repeat;
-  width: 90vw;
-  height: 40px;
-  padding: 0 16px 4px 16px;
-  border-radius: 25px;
   border-style: none;
+  width: auto;
   outline: none;
   font-size: 18px;
   font-weight: regular;
@@ -70,6 +73,13 @@ export const StyledInput = styled.input`
   ::placeholder {
     color: #949494;
   }
+`
+export const StyledButton = styled.button`
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  color: #949494;
+  font-weight: regular;
 `
 
 export const LinkContainer = styled.div`
