@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ThumbSimGene from './ThumbSimGene'
 import ThumbSimArtwork from './ThumbSimArtwork'
 import Roller from '../images/Roller.svg'
+import Icon from '../app/Icon'
 import {
   getArtworkData,
   getArtistByArtworkData,
@@ -13,7 +14,7 @@ import {
   PageGrid,
   ContentContainer,
   ImageCard,
-  CloseLink,
+  IconContainer,
   BookmarkContainer,
   Bookmark,
   FullImage,
@@ -118,7 +119,15 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
             )
             return (
               <PageGrid key={a.id}>
-                <CloseLink onClick={goBack}>x</CloseLink>
+                <IconContainer onClick={goBack}>
+                  <Icon
+                    name="cancel"
+                    style={{ opacity: '0.8' }}
+                    fill={'#949494'}
+                    height="30px"
+                    width="30px"
+                  />
+                </IconContainer>
                 <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
                 <BookmarkContainer>
                   {onBookmark && (

@@ -6,7 +6,7 @@ export const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto auto auto 1fr;
   overflow: hidden;
-  margin: 24px;
+  margin: 0 24px 0 24px;
 `
 
 export const Title = styled.div`
@@ -33,7 +33,7 @@ export const ResultContainer = styled.section`
   grid-template-rows: auto;
   grid-column-gap: 21px;
   grid-row-gap: 22px;
-  padding: 25px 0 25px 0;
+  padding-top: 25px;
   overflow-y: scroll;
 `
 

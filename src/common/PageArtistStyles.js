@@ -17,27 +17,10 @@ export const ImageCard = styled.div`
   margin-bottom: 25px;
 `
 
-export const CloseLink = styled.button`
-  position: absolute;
-  right: 25px;
-  top: 25px;
-  appearance: none;
-  border: none;
-  height: 20px;
-  width: 20px;
-  border-radius: 20px;
-  line-height: -3;
-  font-weight: bold;
-  background: rgba(255, 255, 255, 0.8);
-  color: rgba(0, 0, 0, 0.8);
-  text-align: center;
-  cursor: pointer;
-  opacity: 90;
-  transition: all 0.4s ease-in-out, background 0.3s linear, color 0.3s linear;
-  &.reverse {
-    background: rgba(0, 0, 0, 0.8);
-    color: rgba(255, 255, 255, 0.8);
-  }
+export const IconContainer = styled.div`
+  position: fixed;
+  right: 22px;
+  top: 22px;
 `
 
 export const BookmarkContainer = styled.section`

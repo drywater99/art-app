@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ThumbSimGeneX from './ThumbSimGeneX'
 import ThumbArtwork from './ThumbArtwork'
 import ThumbSimArtistX from './ThumbSimArtistX'
+import Icon from '../app/Icon'
 import Roller from '../images/Roller.svg'
 import {
   getArtistData,
@@ -13,7 +14,7 @@ import {
 import {
   PageGrid,
   ImageCard,
-  CloseLink,
+  IconContainer,
   BookmarkContainer,
   Bookmark,
   ExploreContainer,
@@ -114,7 +115,15 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
             )
             return (
               <div key={a.id}>
-                <CloseLink onClick={goBack}>x</CloseLink>
+                <IconContainer onClick={goBack}>
+                  <Icon
+                    name="cancel"
+                    style={{ opacity: '0.8' }}
+                    fill={'#949494'}
+                    height="30px"
+                    width="30px"
+                  />
+                </IconContainer>
                 <ImageCard
                   image={a._links.image.href.replace(
                     '{image_version}',

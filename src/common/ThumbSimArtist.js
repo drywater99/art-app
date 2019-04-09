@@ -18,7 +18,6 @@ const ProfileImage = styled.div`
   background-repeat: no-repeat;
   background-position: center top;
   border-radius: 100%;
-  position: relative;
 `
 const ProfileTitle = styled.div`
   font-weight: bold;

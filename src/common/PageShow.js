@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ThumbInstView from './ThumbInstView'
 import ThumbSimArtwork from './ThumbSimArtwork'
 import Roller from '../images/Roller.svg'
+import Icon from '../app/Icon'
 import {
   getSingleShowData,
   getShowImagesData,
@@ -10,7 +11,7 @@ import {
 import {
   PageGrid,
   ImageCard,
-  CloseLink,
+  IconContainer,
   BookmarkContainer,
   Bookmark,
   ExploreContainer,
@@ -89,7 +90,16 @@ export default function PageShow({ onBookmark, id }) {
             )
             return (
               <PageGrid key={s.id}>
-                <CloseLink onClick={goBack}>x</CloseLink>
+                <IconContainer onClick={goBack}>
+                  {' '}
+                  <Icon
+                    name="cancel"
+                    style={{ opacity: '0.8' }}
+                    fill={'#949494'}
+                    height="30px"
+                    width="30px"
+                  />
+                </IconContainer>
                 <ImageCard
                   image={s._links.image.href.replace(
                     '{image_version}',
