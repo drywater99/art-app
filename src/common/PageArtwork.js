@@ -39,7 +39,7 @@ PageArtwork.defaultProps = {
   bookmarked: false,
 }
 
-export default function PageArtwork({ onBookmark, bookmarked, id }) {
+export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
   const [pageArtwork, setPageArtwork] = useState([])
   const [artworkArtist, setArtworkArtist] = useState([])
   const [artworkGenes, setArtworkGenes] = useState([])
@@ -98,7 +98,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id }) {
   }, [id])
 
   function goBack() {
-    window.history.back()
+    history.goBack()
   }
 
   function PageGeneContent() {

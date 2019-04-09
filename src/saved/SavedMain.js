@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import styled from 'styled-components'
 import HomeCard from '../common/CardArtwork'
-import { getSavedArtworkData } from '../services'
+import { getSavedArtworkData, getSavedArtistData } from '../services'
 
 const PageGrid = styled.div`
   display: grid;
@@ -39,15 +39,26 @@ const Button = styled.button`
   margin: 12px auto;
 `
 
-export default function SavedMain({ onBookmark, artworks, bookmarks }) {
+export default function SavedMain({
+  onBookmark,
+  artworkBookmarks,
+  artistBookmarks,
+}) {
   const [pageArtworks, setPageArtworks] = useState([])
+  const [pageArtists, setPageArtists] = useState([])
   const [hasError, setHasError] = useState(false)
 
-  useMemo(() => bookmarks.length && loadBookmarks(), [bookmarks])
+  useMemo(() => artworkBookmarks.length && loadArtworkBookmarks(), [
+    artworkBookmarks,
+  ])
 
-  function loadBookmarks() {
+  useMemo(() => artistBookmarks.length && loadArtistBookmarks(), [
+    artistBookmarks,
+  ])
+
+  function loadArtworkBookmarks() {
     setHasError(false)
-    const queue = bookmarks.reduce(async (promiseChain, bookmark) => {
+    const queue = artworkBookmarks.reduce(async (promiseChain, bookmark) => {
       const chainResults = await promiseChain
       const currentResult = await getSavedArtworkData(bookmark)
       return [...chainResults, currentResult.data]
@@ -62,36 +73,31 @@ export default function SavedMain({ onBookmark, artworks, bookmarks }) {
       })
   }
 
+  function loadArtistBookmarks() {
+    setHasError(false)
+    const queue = artistBookmarks.reduce(async (promiseChain, bookmark) => {
+      const chainResults = await promiseChain
+      const currentResult = await getSavedArtistData(bookmark)
+      return [...chainResults, currentResult.data]
+    }, Promise.resolve([]))
+    queue
+      .then(Result => {
+        setPageArtists(Result)
+      })
+      .catch(e => {
+        console.error('Could not load bookmarks: ', e)
+        setHasError(true)
+      })
+  }
+
   useEffect(() => {
-    loadBookmarks()
-  }, [bookmarks])
-
-  // function loadBookmarks() {
-  //   setHasError(false)
-  //   bookmarks
-  //     .reduce((promiseChain, bookmark) => {
-  //       return promiseChain.then(chainResults =>
-  //         getSavedArtworkData(bookmark).then(currentResult => [
-  //           ...chainResults,
-  //           currentResult,
-  //         ])
-  //       )
-  //     }, Promise.resolve([]))
-  //     .then(currentResult => {
-  //       setPageArtworks(currentResult.data)
-  //     })
-  //     .catch(e => {
-  //       console.error('Could not load bookmarks: ', e)
-  //       setHasError(true)
-  //     })
-  // }
-
-  console.log(bookmarks, pageArtworks)
+    loadArtistBookmarks()
+    loadArtworkBookmarks()
+  }, [])
 
   return (
     <PageGrid>
       <Title>Saved</Title>
-
       <CardContainer>
         {pageArtworks.length ? (
           pageArtworks.map(a => (
@@ -109,10 +115,36 @@ export default function SavedMain({ onBookmark, artworks, bookmarks }) {
           ))
         ) : hasError ? (
           <div>
-            <h3>Could not load Bookmarks.</h3>
-            <Button onClick={loadBookmarks}>Try again</Button>
+            <h3>Could not load saved artworks.</h3>
+            <Button onClick={loadArtworkBookmarks}>Try again</Button>
           </div>
-        ) : bookmarks.length ? (
+        ) : artworkBookmarks.length ? (
+          <h3>Loading ...</h3>
+        ) : (
+          <h3>No bookmarks yet</h3>
+        )}
+      </CardContainer>
+      <CardContainer>
+        {pageArtists.length ? (
+          pageArtists.map(a => (
+            <HomeCard
+              key={a.id}
+              date={a.date}
+              bookmarked={a.bookmarked}
+              collecting_institution={a.collecting_institution}
+              author={a.author}
+              image={a._links.image.href.replace('{image_version}', 'large')}
+              {...a}
+              a={a}
+              onBookmark={onBookmark}
+            />
+          ))
+        ) : hasError ? (
+          <div>
+            <h3>Could not load saved artists.</h3>
+            <Button onClick={loadArtistBookmarks}>Try again</Button>
+          </div>
+        ) : artistBookmarks.length ? (
           <h3>Loading ...</h3>
         ) : (
           <h3>No bookmarks yet</h3>

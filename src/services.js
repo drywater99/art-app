@@ -47,6 +47,11 @@ export function getSavedArtworkData(bookmark) {
   return axios.get(urlString, apiToken)
 }
 
+export function getSavedArtistData(bookmark) {
+  const urlString = `https://api.artsy.net/api/artists/${bookmark}`
+  return axios.get(urlString, apiToken)
+}
+
 export function getArtistByArtworkData(id) {
   const urlString = `https://api.artsy.net/api/artists?artwork_id=${id}`
   return axios.get(urlString, apiToken)
@@ -164,20 +169,41 @@ export function getShowArtworksData(id) {
   return axios.get(urlString, apiToken)
 }
 
-export function saveBookmarksToStorage(data) {
-  saveToStorage('bookmarks', data)
+export function saveArtworkBookmarksToStorage(data) {
+  saveArtworksToStorage('artworkBookmarks', data)
 }
 
-export function saveToStorage(name, data) {
+export function saveArtworksToStorage(name, data) {
   const dataString = JSON.stringify(data)
   localStorage.setItem(name, dataString)
 }
 
-export function getBookmarksFromStorage() {
-  return getFromStorage('bookmarks')
+export function getArtworkBookmarksFromStorage() {
+  return getArtworksFromStorage('artworkBookmarks')
 }
 
-export function getFromStorage(name) {
+export function getArtworksFromStorage(name) {
+  const dataString = localStorage.getItem(name)
+  try {
+    return JSON.parse(dataString)
+  } catch (error) {
+    console.error(error.message)
+  }
+}
+export function saveArtistBookmarksToStorage(data) {
+  saveArtistToStorage('artistBookmarks', data)
+}
+
+export function saveArtistToStorage(name, data) {
+  const dataString = JSON.stringify(data)
+  localStorage.setItem(name, dataString)
+}
+
+export function getArtistBookmarksFromStorage() {
+  return getArtistFromStorage('artistBookmarks')
+}
+
+export function getArtistFromStorage(name) {
   const dataString = localStorage.getItem(name)
   try {
     return JSON.parse(dataString)

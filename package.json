@@ -18,6 +18,7 @@
     "react-history": "^0.18.2",
     "react-icons": "^3.5.0",
     "react-router-dom": "^4.3.1",
+    "react-router-scroll-memory": "^2.0.1",
     "react-scripts": "2.1.5",
     "react-swipeable-routes": "^0.5.1",
     "styled-components": "4.1.3",
