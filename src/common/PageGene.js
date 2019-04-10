@@ -11,7 +11,7 @@ import {
 import {
   PageGrid,
   ImageCard,
-  IconContainer,
+  CancelButtonContainer,
   BookmarkContainer,
   Bookmark,
   ExploreContainer,
@@ -22,7 +22,7 @@ import {
   LoadingContainer,
 } from './PageGeneStyles'
 
-export default function PageGene({ onBookmark, id }) {
+export default function PageGene({ onBookmark, bookmarked, id }) {
   const [gene, setGene] = useState([])
   const [relatedArtists, setRelatedArtists] = useState([])
   const [relatedArtworks, setRelatedArtworks] = useState([])
@@ -153,7 +153,7 @@ export default function PageGene({ onBookmark, id }) {
             )
             return (
               <PageGrid key={g.id}>
-                <IconContainer onClick={goBack}>
+                <CancelButtonContainer onClick={goBack}>
                   {' '}
                   <Icon
                     name="cancel"
@@ -162,7 +162,7 @@ export default function PageGene({ onBookmark, id }) {
                     height="30px"
                     width="30px"
                   />
-                </IconContainer>
+                </CancelButtonContainer>
                 <ImageCard
                   image={g._links.image.href.replace(
                     '{image_version}',
@@ -170,11 +170,18 @@ export default function PageGene({ onBookmark, id }) {
                   )}
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
-                <BookmarkContainer>
-                  <Bookmark
-                    active={g.bookmarked}
-                    onClick={() => onBookmark(g)}
-                  />
+                <BookmarkContainer onClick={() => onBookmark(g)}>
+                {bookmarked === true ? <Icon
+                  fill={ '#b8847d'}
+                  name="heart_active"
+                  height="30px"
+                  width="30px"
+                  /> : <Icon
+                  fill={ '#949494'}
+                  name="heart"
+                  height="30px"
+                  width="30px"
+                  />}
                 </BookmarkContainer>
                 <ContentTitle>
                   <p>{g.display_name || g.name}</p>

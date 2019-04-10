@@ -14,9 +14,8 @@ import {
   PageGrid,
   ContentContainer,
   ImageCard,
-  IconContainer,
+  CancelButtonContainer,
   BookmarkContainer,
-  Bookmark,
   FullImage,
   ExploreContainer,
   ContentTitle,
@@ -119,7 +118,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
             )
             return (
               <PageGrid key={a.id}>
-                <IconContainer onClick={goBack}>
+                <CancelButtonContainer onClick={goBack}>
                   <Icon
                     name="cancel"
                     style={{ opacity: '0.8' }}
@@ -127,13 +126,22 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
                     height="30px"
                     width="30px"
                   />
-                </IconContainer>
+                </CancelButtonContainer>
                 <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
-                <BookmarkContainer>
-                  {onBookmark && (
-                    <Bookmark
-                      active={bookmarked === true}
-                      onClick={() => onBookmark(id)}
+                <BookmarkContainer onClick={() => onBookmark(id)}>
+                  {bookmarked === true ? (
+                    <Icon
+                      fill={'#b8847d'}
+                      name="heart_active"
+                      height="30px"
+                      width="30px"
+                    />
+                  ) : (
+                    <Icon
+                      fill={'#949494'}
+                      name="heart"
+                      height="30px"
+                      width="30px"
                     />
                   )}
                 </BookmarkContainer>

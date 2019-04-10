@@ -19,33 +19,19 @@ export const ImageCard = styled.div`
   margin-bottom: 25px;
 `
 
-export const IconContainer = styled.div`
+export const CancelButtonContainer = styled.div`
   position: fixed;
-  right: 22px;
-  top: 22px;
+  right: 28px;
+  top: 24px;
 `
 
 export const BookmarkContainer = styled.section`
   display: flex;
   justify-content: flex-end;
   height: 30px;
-  margin: 0 25px 0;
+  margin: 0 28px 0;
 `
 
-export const Bookmark = styled.div`
-  right: 30px;
-  width: 20px;
-  height: 10px;
-  background: ${p => (p.active ? '#007aff' : '#383838')};
-  transition: all 0.4s ease;
-  &:after {
-    transition: all 0.4s ease;
-    display: block;
-    content: '';
-    border: 10px solid ${p => (p.active ? '#007aff' : '#383838')};
-    border-bottom-color: transparent;
-  }
-`
 export const ExploreContainer = styled.section`
   display: grid;
   grid-template-columns: 150px 150px;

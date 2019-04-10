@@ -11,7 +11,7 @@ import {
 import {
   PageGrid,
   ImageCard,
-  IconContainer,
+  CancelButtonContainer,
   BookmarkContainer,
   Bookmark,
   ExploreContainer,
@@ -24,7 +24,7 @@ import {
   LoadingContainer,
 } from './PageShowStyles'
 
-export default function PageShow({ onBookmark, id }) {
+export default function PageShow({ onBookmark, bookmarked, id }) {
   const [show, setShow] = useState([])
   const [showImages, setShowImages] = useState([])
   const [artworks, setArtworks] = useState([])
@@ -80,7 +80,7 @@ export default function PageShow({ onBookmark, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (show.length > 0) {
+    } else if (show.length) {
       return (
         <React.Fragment>
           {show.map(s => {
@@ -90,7 +90,7 @@ export default function PageShow({ onBookmark, id }) {
             )
             return (
               <PageGrid key={s.id}>
-                <IconContainer onClick={goBack}>
+                <CancelButtonContainer onClick={goBack}>
                   {' '}
                   <Icon
                     name="cancel"
@@ -99,7 +99,7 @@ export default function PageShow({ onBookmark, id }) {
                     height="30px"
                     width="30px"
                   />
-                </IconContainer>
+                </CancelButtonContainer>
                 <ImageCard
                   image={s._links.image.href.replace(
                     '{image_version}',
@@ -107,11 +107,22 @@ export default function PageShow({ onBookmark, id }) {
                   )}
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
-                <BookmarkContainer>
-                  <Bookmark
-                    active={s.bookmarked}
-                    onClick={() => onBookmark(s)}
-                  />
+                <BookmarkContainer onClick={() => onBookmark(s)}>
+                  {bookmarked === true ? (
+                    <Icon
+                      fill={'#b8847d'}
+                      name="heart_active"
+                      height="30px"
+                      width="30px"
+                    />
+                  ) : (
+                    <Icon
+                      fill={'#949494'}
+                      name="heart"
+                      height="30px"
+                      width="30px"
+                    />
+                  )}
                 </BookmarkContainer>
                 <ContentTitle>
                   <p>{s.name}</p>
@@ -151,7 +162,7 @@ export default function PageShow({ onBookmark, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (showImages.length > 0) {
+    } else if (showImages.length) {
       return (
         <React.Fragment>
           <ExploreContainerX>

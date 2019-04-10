@@ -12,6 +12,7 @@ import ExploreMain from '../explore/ExploreMain'
 import SearchMain from '../search/SearchMain'
 import SavedMain from '../saved/SavedMain'
 import Icon from './Icon'
+import ActiveHouse from '../images/ActiveHouse.svg'
 import {
   getTopicData,
   getTrendingArtworkData,
@@ -172,7 +173,7 @@ function App() {
           path="/"
           render={() => (
             <HomeMain
-              showLogo={showLogo}
+              // showLogo={showLogo}
               setShowLogo={setShowLogo}
               isLoading={isLoading}
               artworks={artworks}
@@ -262,36 +263,60 @@ function App() {
         />
         <Nav>
           <StyledLink exact to="/" onClick={() => setNavClickState(1)}>
-            <Icon
-              fill={navClickState === 1 ? '#383838' : '#949494'}
+          {navClickState === 1 ? 
+          <img alt="ActiveHouse" src={ActiveHouse} /> : 
+          <Icon
+              fill={'#949494'}
               name="home"
-              height="35px"
-              width="35px"
+              height="36px"
+              width="36px"
             />
+            }
           </StyledLink>
           <StyledLink to="/explore" onClick={() => setNavClickState(2)}>
-            <Icon
-              fill={navClickState === 2 ? '#383838' : '#949494'}
+          {navClickState === 2 ? 
+          <Icon
+          fill={'#383838'}
+          name="explore_active"
+          height="35px"
+          width="35px"
+        /> : 
+          <Icon
+              fill={'#949494'}
               name="explore"
               height="35px"
               width="35px"
             />
+            }
           </StyledLink>
           <StyledLink to="/search/artists" onClick={() => setNavClickState(3)}>
-            <Icon
-              fill={navClickState === 3 ? '#383838' : '#949494'}
+          {navClickState === 3 ? 
+          <Icon
+          fill={'#383838'}
+          name="search_active"
+          height="44px"
+          width="44px"
+        /> : 
+          <Icon
+              fill={'#949494'}
               name="search"
-              height="43px"
-              width="43px"
+              height="44px"
+              width="44px"
             />
+            }
           </StyledLink>
           <StyledLink to="/saved" onClick={() => setNavClickState(4)}>
-            <Icon
-              fill={navClickState === 4 ? '#383838' : '#949494'}
-              name="heart"
+            {navClickState === 4 ? <Icon
+              fill={ '#383838'}
+              name="heart_active"
               height="30px"
               width="30px"
-            />
+            /> : <Icon
+            fill={ '#949494'}
+            name="heart"
+            height="30px"
+            width="30px"
+          />}
           </StyledLink>
         </Nav>
         <GlobalStyle />

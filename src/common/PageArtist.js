@@ -14,7 +14,7 @@ import {
 import {
   PageGrid,
   ImageCard,
-  IconContainer,
+  CancelButtonContainer,
   BookmarkContainer,
   Bookmark,
   ExploreContainer,
@@ -115,7 +115,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
             )
             return (
               <div key={a.id}>
-                <IconContainer onClick={goBack}>
+                <CancelButtonContainer onClick={goBack}>
                   <Icon
                     name="cancel"
                     style={{ opacity: '0.8' }}
@@ -123,7 +123,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
                     height="30px"
                     width="30px"
                   />
-                </IconContainer>
+                </CancelButtonContainer>
                 <ImageCard
                   image={a._links.image.href.replace(
                     '{image_version}',
@@ -131,13 +131,18 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
                   )}
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
-                <BookmarkContainer>
-                  {onBookmark && (
-                    <Bookmark
-                      active={bookmarked === true}
-                      onClick={() => onBookmark(id)}
-                    />
-                  )}
+                <BookmarkContainer onClick={() => onBookmark(id)}>
+                {bookmarked === true ? <Icon
+                  fill={ '#b8847d'}
+                  name="heart_active"
+                  height="30px"
+                  width="30px"
+                  /> : <Icon
+                  fill={ '#949494'}
+                  name="heart"
+                  height="30px"
+                  width="30px"
+                  />}
                 </BookmarkContainer>
                 <ContentTitle>
                   <p>{a.name}</p>
