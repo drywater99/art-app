@@ -40,26 +40,6 @@ const ButtonTitle = styled.div`
 export default function ExploreFilter({ onTopicClick, active }) {
   const [topicApis] = useState([
     {
-      name: 'Old Masters',
-      urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=20',
-      image:
-        'https://d32dm0rphc51dk.cloudfront.net/o1C6-_FV3rp_ZQPVY-hPtw/big_and_tall.jpg',
-    },
-    {
-      name: 'Random',
-      urlApi: 'https://api.artsy.net/api/artworks?size=20',
-      image:
-        'https://d32dm0rphc51dk.cloudfront.net/NOpIAwQa-3r51Cg9qXKbfA/medium.jpg',
-    },
-    {
-      name: 'Design',
-      urlApi:
-        'https://api.artsy.net/api/artworks?gene_id=5845d1449c18db7330001c5d',
-      image:
-        'https://d32dm0rphc51dk.cloudfront.net/D9BR53JPC0tory7evDbv-Q/thumb.jpg',
-    },
-    {
       name: 'Renaissance',
       urlApi:
         'https://api.artsy.net/api/artworks?gene_id=4f26f2e004ea5c0001000167&size=20',

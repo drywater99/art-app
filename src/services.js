@@ -133,24 +133,34 @@ export function getSuggestionsShowData() {
 }
 
 export function getTopicsAData() {
-  const urlString =
-    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=150'
+  const urlString = 'https://api.artsy.net/api/artworks?size=25'
   return axios.get(urlString, apiToken)
 }
 
 export function getTopicsBData() {
   const urlString =
-    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=150'
+    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=30'
   return axios.get(urlString, apiToken)
 }
 
-export function getTopicsOldMastersData() {
+export function getTopicsCData() {
   const urlString =
-    'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=50'
+    'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=20'
   return axios.get(urlString, apiToken)
 }
-export function getTopicsRandomData() {
-  const urlString = 'https://api.artsy.net/api/artworks?size=50'
+export function getTopicsDData() {
+  const urlString =
+    'https://api.artsy.net/api/artworks?gene_id=4d9396db17cb132537000480&size=30'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsEData() {
+  const urlString =
+    'https://api.artsy.net/api/artworks?gene_id=4dcdf920522d6e00010042ca&size=20'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsFData() {
+  const urlString =
+    'https://api.artsy.net/api/artworks?gene_id=4d90d192dcdd5f44a500006b&size=20'
   return axios.get(urlString, apiToken)
 }
 

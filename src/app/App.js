@@ -8,7 +8,7 @@ import PageShow from '../common/PageShow'
 import PageArtist from '../common/PageArtist'
 import PageArtwork from '../common/PageArtwork'
 import HomeMain from '../home/HomeMain'
-import ExploreMain from '../explore/ExploreMainTEST'
+import ExploreMain from '../explore/ExploreMain'
 import SearchMain from '../search/SearchMain'
 import SavedMain from '../saved/SavedMain'
 import Icon from './Icon'
@@ -184,7 +184,7 @@ function App() {
           )}
         />
         <Route
-          path="/explore"
+          path="/explore/"
           render={props => (
             <ExploreMain
               {...props}
@@ -270,7 +270,7 @@ function App() {
               <Icon fill={'#949494'} name="home" height="36px" width="36px" />
             )}
           </StyledLink>
-          <StyledLink to="/explore" onClick={() => setNavClickState(2)}>
+          <StyledLink to="/explore/all" onClick={() => setNavClickState(2)}>
             {navClickState === 2 ? (
               <Icon
                 fill={'#383838'}
