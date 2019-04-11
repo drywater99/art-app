@@ -37,7 +37,6 @@ export default function SearchMain(props) {
   const [suggestedShows, setSuggestedShows] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [searchString, setSearchString] = useState('')
-  const [locationState, setLocationState] = useState(props.location)
   const [isActive, setIsActive] = useState(1)
 
   const onSearchInputChange = debounce(text => {
@@ -49,6 +48,16 @@ export default function SearchMain(props) {
     e.preventDefault()
     setSearchString('')
   }
+
+  useEffect(() => {
+    if (props.location.pathname.includes('search/artists')) {
+      setIsActive(1)
+    } else if (props.location.pathname.includes('search/genre')) {
+      setIsActive(2)
+    } else if (props.location.pathname.includes('search/shows')) {
+      setIsActive(3)
+    }
+  }, [props.location])
 
   async function getSearchQuery() {
     setIsLoading(true)
@@ -79,10 +88,6 @@ export default function SearchMain(props) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-  useEffect(() => {
-    setLocationState(props.location)
-    getSuggestionsArtists()
-  }, [locationState !== props.location])
 
   async function getSuggestionsGenes() {
     setIsLoading(true)
@@ -93,9 +98,6 @@ export default function SearchMain(props) {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-  useEffect(() => {
-    getSuggestionsGenes()
-  }, [])
 
   async function getSuggestionsShows() {
     setIsLoading(true)
@@ -108,6 +110,8 @@ export default function SearchMain(props) {
   }
 
   useEffect(() => {
+    getSuggestionsArtists()
+    getSuggestionsGenes()
     getSuggestionsShows()
   }, [])
 
@@ -132,7 +136,6 @@ export default function SearchMain(props) {
                 )}
                 name={suggestedArtist.name}
                 id={suggestedArtist.id}
-                location={props.location}
                 urlCategory="artist"
               />
             ))}
@@ -299,10 +302,7 @@ export default function SearchMain(props) {
   }
 
   const ArtistSearch = props => (
-    <SearchContentArtists
-      location={props.location}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
+    <SearchContentArtists style={{ height: '100vh', 'overflow-y': 'scroll' }} />
   )
 
   const GeneSearch = () => (
@@ -357,12 +357,7 @@ export default function SearchMain(props) {
         </LoadingContainer>
       ) : (
         <SwipeableRoutes>
-          <Route
-            exact
-            path="/search/artists"
-            location={props.location}
-            component={ArtistSearch}
-          />
+          <Route exact path="/search/artists" component={ArtistSearch} />
           <Route exact path="/search/genre" component={GeneSearch} />
           <Route exact path="/search/shows" component={ShowSearch} />
         </SwipeableRoutes>

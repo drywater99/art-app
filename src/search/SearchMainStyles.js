@@ -5,7 +5,7 @@ import Scope from '../images/Scope.svg'
 export const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto auto auto 1fr;
-  overflow: hidden;
+  overflow-y: hidden;
   margin: 0 24px 0 24px;
 `
 

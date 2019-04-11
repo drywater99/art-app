@@ -16,7 +16,6 @@ import {
   ImageCard,
   CancelButtonContainer,
   BookmarkContainer,
-  Bookmark,
   ExploreContainer,
   ContentTitle,
   SectionTitle,
@@ -132,17 +131,21 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
                 <BookmarkContainer onClick={() => onBookmark(id)}>
-                {bookmarked === true ? <Icon
-                  fill={ '#b8847d'}
-                  name="heart_active"
-                  height="30px"
-                  width="30px"
-                  /> : <Icon
-                  fill={ '#949494'}
-                  name="heart"
-                  height="30px"
-                  width="30px"
-                  />}
+                  {bookmarked === true ? (
+                    <Icon
+                      fill={'#b8847d'}
+                      name="heart_active"
+                      height="30px"
+                      width="30px"
+                    />
+                  ) : (
+                    <Icon
+                      fill={'#949494'}
+                      name="heart"
+                      height="30px"
+                      width="30px"
+                    />
+                  )}
                 </BookmarkContainer>
                 <ContentTitle>
                   <p>{a.name}</p>

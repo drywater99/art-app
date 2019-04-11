@@ -13,7 +13,6 @@ import {
   ImageCard,
   CancelButtonContainer,
   BookmarkContainer,
-  Bookmark,
   ExploreContainer,
   ExploreContainerX,
   SectionTitle,
