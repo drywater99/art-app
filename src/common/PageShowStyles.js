@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const PageGrid = styled.section`
-  display: grid;
   position: relative;
   width: 100vw;
   align-content: flex-start;
@@ -59,6 +58,7 @@ export const SectionTitle = styled.section`
 `
 
 export const ContentDescription = styled.small`
+  display: flex;
   color: #949494;
   font-size: 16px;
   line-height: 1.4;
@@ -69,6 +69,7 @@ export const ContentDescription = styled.small`
   }
 `
 export const ContentLink = styled.small`
+  display: flex;
   color: #949494;
   font-size: 16px;
   line-height: 1.4;

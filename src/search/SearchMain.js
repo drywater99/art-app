@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
 import { debounce } from 'debounce'
-import SearchThumbArtist from './SearchThumbArtist'
-import SearchThumb from './SearchThumb'
 import Roller from '../images/Roller.svg'
 import Icon from '../app/Icon'
 import {
@@ -17,8 +15,6 @@ import {
 import {
   PageGrid,
   Title,
-  HeadlineContainer,
-  ResultContainer,
   LoadingContainer,
   StyledForm,
   StyledInput,
@@ -27,6 +23,11 @@ import {
   StyledLink,
   Hr,
 } from './SearchMainStyles'
+import {
+  SearchContentArtists,
+  SearchContentGenes,
+  SearchContentShows,
+} from './SearchMainFunctions'
 
 export default function SearchMain(props) {
   const [dataArtists, setDataArtists] = useState([])
@@ -42,7 +43,7 @@ export default function SearchMain(props) {
   const onSearchInputChange = debounce(text => {
     setSearchString(text)
     getSearchQuery()
-  }, 300)
+  }, 100)
 
   function clearInput(e) {
     e.preventDefault()
@@ -115,202 +116,34 @@ export default function SearchMain(props) {
     getSuggestionsShows()
   }, [])
 
-  function SearchContentArtists() {
-    if (!searchString) {
-      return isLoading ? (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      ) : (
-        <React.Fragment>
-          <HeadlineContainer>
-            <h3>Suggested</h3>
-          </HeadlineContainer>
-          <ResultContainer>
-            {suggestedArtists.map(suggestedArtist => (
-              <SearchThumbArtist
-                key={suggestedArtist.id}
-                image={suggestedArtist._links.image.href.replace(
-                  '{image_version}',
-                  'large'
-                )}
-                name={suggestedArtist.name}
-                id={suggestedArtist.id}
-                urlCategory="artist"
-              />
-            ))}
-          </ResultContainer>
-        </React.Fragment>
-      )
-    } else if (dataArtists.length) {
-      return (
-        <ResultContainer>
-          {dataArtists.map(dataArtist => (
-            <SearchThumbArtist
-              key={dataArtist._links.self.href}
-              image={
-                dataArtist._links.thumbnail.href.includes(
-                  '/assets/shared/missing_image.png'
-                )
-                  ? 'https://via.placeholder.com/150'
-                  : dataArtist._links.thumbnail.href
-              }
-              title={dataArtist.title}
-              id={dataArtist._links.self.href.replace(
-                'https://api.artsy.net/api/artists/',
-                ''
-              )}
-              urlCategory="artist"
-            />
-          ))}
-        </ResultContainer>
-      )
-    } else {
-      return (
-        <HeadlineContainer>
-          <h3>No results found</h3>
-        </HeadlineContainer>
-      )
-    }
-  }
-
-  function SearchContentGenes() {
-    if (!searchString) {
-      return (
-        <React.Fragment>
-          {isLoading ? (
-            <LoadingContainer>
-              <img alt="Roller" src={Roller} width="60px" height="60px" />
-            </LoadingContainer>
-          ) : (
-            <React.Fragment>
-              <HeadlineContainer>
-                <h3>Suggested</h3>
-              </HeadlineContainer>
-              <ResultContainer>
-                {suggestedGenes.map(suggestedGene => (
-                  <SearchThumb
-                    key={suggestedGene.id}
-                    image={suggestedGene._links.image.href.replace(
-                      '{image_version}',
-                      'square500'
-                    )}
-                    name={suggestedGene.name}
-                    id={suggestedGene.id}
-                    urlCategory="gene"
-                  />
-                ))}
-              </ResultContainer>
-            </React.Fragment>
-          )}
-        </React.Fragment>
-      )
-    } else if (dataGenes.length) {
-      return (
-        <ResultContainer>
-          {dataGenes.map(dataGene => (
-            <SearchThumb
-              key={dataGene._links.self.href}
-              image={
-                dataGene._links.thumbnail.href.includes(
-                  '/assets/shared/missing_image.png'
-                )
-                  ? 'https://via.placeholder.com/150'
-                  : dataGene._links.thumbnail.href
-              }
-              title={dataGene.title}
-              id={dataGene._links.self.href.replace(
-                'https://api.artsy.net/api/genes/',
-                ''
-              )}
-              urlCategory="gene"
-            />
-          ))}
-        </ResultContainer>
-      )
-    } else {
-      return (
-        <HeadlineContainer>
-          <h3>No results found</h3>
-        </HeadlineContainer>
-      )
-    }
-  }
-
-  function SearchContentShows() {
-    if (!searchString) {
-      return isLoading ? (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      ) : (
-        <React.Fragment>
-          <HeadlineContainer>
-            <h3>Suggested</h3>
-          </HeadlineContainer>
-          <ResultContainer>
-            {suggestedShows.map(suggestedShow => (
-              <React.Fragment key={suggestedShow.id}>
-                <SearchThumb
-                  name={suggestedShow.name}
-                  image={
-                    suggestedShow._links.thumbnail.href.includes(
-                      '/assets/shared/missing_image.png'
-                    )
-                      ? 'https://via.placeholder.com/150'
-                      : suggestedShow._links.thumbnail.href
-                  }
-                  key={suggestedShow.id}
-                  id={suggestedShow.id}
-                  urlCategory="show"
-                />
-              </React.Fragment>
-            ))}
-          </ResultContainer>
-        </React.Fragment>
-      )
-    } else if (dataShows.length) {
-      return (
-        <ResultContainer>
-          {dataShows.map(dataShow => (
-            <SearchThumb
-              image={
-                dataShow._links.thumbnail.href.includes(
-                  '/assets/shared/missing_image.png'
-                )
-                  ? 'https://via.placeholder.com/150'
-                  : dataShow._links.thumbnail.href
-              }
-              title={dataShow.title}
-              key={dataShow._links.self.href}
-              id={dataShow._links.self.href.replace(
-                'https://api.artsy.net/api/shows/',
-                ''
-              )}
-              urlCategory="show"
-            />
-          ))}
-        </ResultContainer>
-      )
-    } else {
-      return (
-        <HeadlineContainer>
-          <h3>No results found</h3>
-        </HeadlineContainer>
-      )
-    }
-  }
-
-  const ArtistSearch = props => (
-    <SearchContentArtists style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+  const ArtistSearch = () => (
+    <SearchContentArtists
+      searchString={searchString}
+      isLoading={isLoading}
+      suggestedArtists={suggestedArtists}
+      dataArtists={dataArtists}
+      style={{ height: '100vh', 'overflow-y': 'scroll' }}
+    />
   )
 
   const GeneSearch = () => (
-    <SearchContentGenes style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+    <SearchContentGenes
+      searchString={searchString}
+      isLoading={isLoading}
+      suggestedGenes={suggestedGenes}
+      dataGenes={dataGenes}
+      style={{ height: '100vh', 'overflow-y': 'scroll' }}
+    />
   )
 
   const ShowSearch = () => (
-    <SearchContentShows style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+    <SearchContentShows
+      searchString={searchString}
+      isLoading={isLoading}
+      suggestedShows={suggestedShows}
+      dataShows={dataShows}
+      style={{ height: '100vh', 'overflow-y': 'scroll' }}
+    />
   )
 
   return (
