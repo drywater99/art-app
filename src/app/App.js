@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
+import ScrollMemory from 'react-router-scroll-memory'
 import styled from 'styled-components'
 import GlobalStyle from './GlobalStyle'
 import PageGene from '../common/PageGene'
@@ -11,14 +12,17 @@ import ExploreMain from '../explore/ExploreMain'
 import SearchMain from '../search/SearchMain'
 import SavedMain from '../saved/SavedMain'
 import Icon from './Icon'
+import ActiveHouse from '../images/ActiveHouse.svg'
 import {
   getTopicData,
   getTrendingArtworkData,
   getGeneData,
   getTrendingArtistsData,
   getShowData,
-  saveBookmarksToStorage,
-  getBookmarksFromStorage,
+  saveArtworkBookmarksToStorage,
+  saveArtistBookmarksToStorage,
+  getArtworkBookmarksFromStorage,
+  getArtistBookmarksFromStorage,
 } from '../services'
 
 const Grid = styled.div`
@@ -62,7 +66,12 @@ function App() {
   const [shows, setShows] = useState([])
   const [isLoading, setIsLoading] = useState()
   const [showLogo, setShowLogo] = useState(true)
-  const [bookmarks, setBookmarks] = useState(getBookmarksFromStorage() || [])
+  const [artworkBookmarks, setArtworkBookmarks] = useState(
+    getArtworkBookmarksFromStorage() || []
+  )
+  const [artistBookmarks, setArtistBookmarks] = useState(
+    getArtistBookmarksFromStorage() || []
+  )
   const [navClickState, setNavClickState] = useState(1)
 
   async function getShows() {
@@ -76,10 +85,6 @@ function App() {
     setIsLoading(false)
   }
 
-  useEffect(() => {
-    getShows()
-  }, [])
-
   async function getTrendingArtists() {
     setIsLoading(true)
     await getTrendingArtistsData()
@@ -90,10 +95,6 @@ function App() {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-
-  useEffect(() => {
-    getTrendingArtists()
-  }, [])
 
   async function getTrendingArtworks() {
     setIsLoading(true)
@@ -106,10 +107,6 @@ function App() {
     setIsLoading(false)
   }
 
-  useEffect(() => {
-    getTrendingArtworks()
-  }, [])
-
   async function getGenes() {
     setIsLoading(true)
     await getGeneData()
@@ -120,10 +117,6 @@ function App() {
       .catch(err => console.log(err))
     setIsLoading(false)
   }
-
-  useEffect(() => {
-    getGenes()
-  }, [])
 
   async function getTopics(url) {
     setIsLoading(true)
@@ -138,46 +131,67 @@ function App() {
   }
 
   useEffect(() => {
+    getShows()
+    getTrendingArtists()
+    getTrendingArtworks()
+    getGenes()
     getTopics()
   }, [])
 
   useEffect(() => {
-    saveBookmarksToStorage(bookmarks)
-  }, [bookmarks])
+    saveArtworkBookmarksToStorage(artworkBookmarks)
+  }, [artworkBookmarks])
 
-  function toggleBookmark(id) {
-    const isBookmarked = bookmarks.indexOf(id) !== -1
-    setBookmarks(
-      isBookmarked ? bookmarks.filter(item => item !== id) : [...bookmarks, id]
+  function toggleArtworkBookmark(id) {
+    const isBookmarked = artworkBookmarks.indexOf(id) !== -1
+    setArtworkBookmarks(
+      isBookmarked
+        ? artworkBookmarks.filter(item => item !== id)
+        : [...artworkBookmarks, id]
+    )
+  }
+
+  useEffect(() => {
+    saveArtistBookmarksToStorage(artistBookmarks)
+  }, [artistBookmarks])
+
+  function toggleArtistBookmark(id) {
+    const isBookmarked = artistBookmarks.indexOf(id) !== -1
+    setArtistBookmarks(
+      isBookmarked
+        ? artistBookmarks.filter(item => item !== id)
+        : [...artistBookmarks, id]
     )
   }
 
   return (
     <Router>
       <Grid>
+        <ScrollMemory />
         <Route
           exact
           path="/"
           render={() => (
             <HomeMain
-              showLogo={showLogo}
+              // showLogo={showLogo}
               setShowLogo={setShowLogo}
               isLoading={isLoading}
               artworks={artworks}
               shows={shows.filter(show => !show.bookmarked)}
               trendingArtists={trendingArtists}
-              onBookmark={toggleBookmark}
+              onBookmark={toggleArtworkBookmark}
             />
           )}
         />
         <Route
-          path="/explore"
-          render={() => (
+          path="/explore/"
+          render={props => (
             <ExploreMain
+              {...props}
               isLoading={isLoading}
               topics={topics}
               onTopicClick={getTopics}
-              onBookmark={toggleBookmark}
+              onBookmark={toggleArtworkBookmark}
             />
           )}
         />
@@ -185,7 +199,7 @@ function App() {
           path="/search"
           render={props => (
             <SearchMain
-              props={props}
+              {...props}
               artworks={artworks.filter(artwork => artwork.bookmarked)}
             />
           )}
@@ -194,10 +208,9 @@ function App() {
           path="/saved"
           render={() => (
             <SavedMain
-              artworks={bookmarks
-                .map(id => artworks.find(item => item.id === id))
-                .filter(Boolean)}
-              onBookmark={toggleBookmark}
+              artworkBookmarks={artworkBookmarks}
+              artistBookmarks={artistBookmarks}
+              onBookmark={toggleArtworkBookmark}
             />
           )}
         />
@@ -207,9 +220,11 @@ function App() {
             <PageArtwork
               props={props}
               bookmarked={
-                bookmarks && bookmarks.indexOf(props.match.params.id) !== -1
+                artworkBookmarks &&
+                artworkBookmarks.indexOf(props.match.params.id) !== -1
               }
-              onBookmark={toggleBookmark}
+              onBookmark={toggleArtworkBookmark}
+              history={props.history}
               id={props.match.params.id}
             />
           )}
@@ -218,10 +233,12 @@ function App() {
           path="/artist/:id"
           render={props => (
             <PageArtist
+              props={props}
               bookmarked={
-                bookmarks && bookmarks.indexOf(props.match.params.id) !== -1
+                artistBookmarks &&
+                artistBookmarks.indexOf(props.match.params.id) !== -1
               }
-              onBookmark={toggleBookmark}
+              onBookmark={toggleArtistBookmark}
               id={props.match.params.id}
             />
           )}
@@ -229,7 +246,10 @@ function App() {
         <Route
           path="/gene/:id"
           render={props => (
-            <PageGene onBookmark={toggleBookmark} id={props.match.params.id} />
+            <PageGene
+              onBookmark={toggleArtworkBookmark}
+              id={props.match.params.id}
+            />
           )}
         />
         <Route
@@ -237,43 +257,59 @@ function App() {
           render={props => (
             <PageShow
               props={props}
-              onBookmark={toggleBookmark}
+              onBookmark={toggleArtworkBookmark}
               id={props.match.params.id}
             />
           )}
         />
         <Nav>
           <StyledLink exact to="/" onClick={() => setNavClickState(1)}>
-            <Icon
-              fill={navClickState === 1 ? '#383838' : '#949494'}
-              name="home"
-              height="35px"
-              width="35px"
-            />
+            {navClickState === 1 ? (
+              <img alt="ActiveHouse" src={ActiveHouse} />
+            ) : (
+              <Icon fill={'#949494'} name="home" height="36px" width="36px" />
+            )}
           </StyledLink>
-          <StyledLink to="/explore" onClick={() => setNavClickState(2)}>
-            <Icon
-              fill={navClickState === 2 ? '#383838' : '#949494'}
-              name="explore"
-              height="35px"
-              width="35px"
-            />
+          <StyledLink to="/explore/all" onClick={() => setNavClickState(2)}>
+            {navClickState === 2 ? (
+              <Icon
+                fill={'#383838'}
+                name="explore_active"
+                height="35px"
+                width="35px"
+              />
+            ) : (
+              <Icon
+                fill={'#949494'}
+                name="explore"
+                height="35px"
+                width="35px"
+              />
+            )}
           </StyledLink>
           <StyledLink to="/search/artists" onClick={() => setNavClickState(3)}>
-            <Icon
-              fill={navClickState === 3 ? '#383838' : '#949494'}
-              name="search"
-              height="43px"
-              width="43px"
-            />
+            {navClickState === 3 ? (
+              <Icon
+                fill={'#383838'}
+                name="search_active"
+                height="44px"
+                width="44px"
+              />
+            ) : (
+              <Icon fill={'#949494'} name="search" height="44px" width="44px" />
+            )}
           </StyledLink>
           <StyledLink to="/saved" onClick={() => setNavClickState(4)}>
-            <Icon
-              fill={navClickState === 4 ? '#383838' : '#949494'}
-              name="heart"
-              height="30px"
-              width="30px"
-            />
+            {navClickState === 4 ? (
+              <Icon
+                fill={'#383838'}
+                name="heart_active"
+                height="30px"
+                width="30px"
+              />
+            ) : (
+              <Icon fill={'#949494'} name="heart" height="30px" width="30px" />
+            )}
           </StyledLink>
         </Nav>
         <GlobalStyle />

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ThumbSimArtist from './ThumbSimArtist'
 import ThumbSimArtwork from './ThumbSimArtwork'
 import Roller from '../images/Roller.svg'
+import Icon from '../app/Icon'
 import {
   getGenesData,
   getGenesRelatedArtistsData,
@@ -10,9 +11,8 @@ import {
 import {
   PageGrid,
   ImageCard,
-  CloseLink,
+  CancelButtonContainer,
   BookmarkContainer,
-  Bookmark,
   ExploreContainer,
   ExploreContainerX,
   SectionTitle,
@@ -21,7 +21,7 @@ import {
   LoadingContainer,
 } from './PageGeneStyles'
 
-export default function PageGene({ onBookmark, id }) {
+export default function PageGene({ onBookmark, bookmarked, id }) {
   const [gene, setGene] = useState([])
   const [relatedArtists, setRelatedArtists] = useState([])
   const [relatedArtworks, setRelatedArtworks] = useState([])
@@ -152,7 +152,16 @@ export default function PageGene({ onBookmark, id }) {
             )
             return (
               <PageGrid key={g.id}>
-                <CloseLink onClick={goBack}>x</CloseLink>
+                <CancelButtonContainer onClick={goBack}>
+                  {' '}
+                  <Icon
+                    name="cancel"
+                    style={{ opacity: '0.8' }}
+                    fill={'#949494'}
+                    height="30px"
+                    width="30px"
+                  />
+                </CancelButtonContainer>
                 <ImageCard
                   image={g._links.image.href.replace(
                     '{image_version}',
@@ -160,11 +169,22 @@ export default function PageGene({ onBookmark, id }) {
                   )}
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
-                <BookmarkContainer>
-                  <Bookmark
-                    active={g.bookmarked}
-                    onClick={() => onBookmark(g)}
-                  />
+                <BookmarkContainer onClick={() => onBookmark(g)}>
+                  {bookmarked === true ? (
+                    <Icon
+                      fill={'#b8847d'}
+                      name="heart_active"
+                      height="30px"
+                      width="30px"
+                    />
+                  ) : (
+                    <Icon
+                      fill={'#949494'}
+                      name="heart"
+                      height="30px"
+                      width="30px"
+                    />
+                  )}
                 </BookmarkContainer>
                 <ContentTitle>
                   <p>{g.display_name || g.name}</p>

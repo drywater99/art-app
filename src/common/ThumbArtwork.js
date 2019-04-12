@@ -22,7 +22,7 @@ const ProfileImage = styled.div`
 
 const ProfileTitle = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   font-weight: bold;
   font-size: 15px;
   color: #383838;
@@ -30,7 +30,7 @@ const ProfileTitle = styled.div`
 `
 const ProfileDate = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   font-weight: bold;
   font-size: 15px;
   color: #949494;

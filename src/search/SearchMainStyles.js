@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-
 import Scope from '../images/Scope.svg'
 
 export const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto auto auto 1fr;
-  overflow: hidden;
+  overflow-y: hidden;
+  margin: 0 24px 0 24px;
 `
 
 export const Title = styled.div`
@@ -14,7 +14,7 @@ export const Title = styled.div`
   justify-content: flex-start;
   font-weight: bold;
   font-size: 25px;
-  margin: 15px 24px 0;
+  margin-top: 15px;
   color: #383838;
   overflow: scroll;
 `
@@ -24,7 +24,7 @@ export const HeadlineContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   height: 20px;
-  padding: 25px 25px 10px 25px;
+  padding: 25px 0 10px 0;
 `
 
 export const ResultContainer = styled.section`
@@ -33,7 +33,7 @@ export const ResultContainer = styled.section`
   grid-template-rows: auto;
   grid-column-gap: 21px;
   grid-row-gap: 22px;
-  padding: 25px;
+  padding-top: 25px;
   overflow-y: scroll;
 `
 
@@ -45,8 +45,17 @@ export const LoadingContainer = styled.section`
 
 export const StyledForm = styled.form`
   display: flex;
-  justify-content: center;
-  margin: 10px 0 10px 0;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0 15px 0;
+  background-color: #ededed;
+  background-image: url(${Scope});
+  background-size: 6%;
+  background-position: 15px 10px;
+  background-repeat: no-repeat;
+  height: 40px;
+  padding: 0 16px 0 45px;
+  border-radius: 25px;
 `
 
 export const StyledInput = styled.input`
@@ -54,31 +63,28 @@ export const StyledInput = styled.input`
   align-items: center;
   justify-content: center;
   background-color: #ededed;
-  background-image: url(${Scope});
-  background-size: 6%;
-  background-position: 295px 10px;
-  background-repeat: no-repeat;
-  width: 90vw;
-  height: 40px;
-  padding: 0 16px 4px 16px;
-  border-radius: 25px;
   border-style: none;
+  width: auto;
   outline: none;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: regular;
-  color: #bababa;
+  color: #383838;
   ::placeholder {
     color: #949494;
   }
+`
+export const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
 `
 
 export const LinkContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 48px;
   border-bottom: 1px solid #d0d0d0;
-  margin: 0 20px;
 `
 
 export const StyledLink = styled(NavLink)`
@@ -92,8 +98,16 @@ export const StyledLink = styled(NavLink)`
   text-decoration: none;
   width: 150%;
   &.active {
-    border-bottom: 2px solid #383838;
     color: #383838;
-    padding: 9px;
+    transition: 0.4s ease-in-out;
   }
+`
+
+export const Hr = styled.div`
+  height: 0.18em;
+  width: 34%;
+  margin: 0;
+  background: #383838;
+  border: none;
+  transition: 0.2s ease-in-out;
 `

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ThumbSimGeneX from './ThumbSimGeneX'
 import ThumbArtwork from './ThumbArtwork'
 import ThumbSimArtistX from './ThumbSimArtistX'
+import Icon from '../app/Icon'
 import Roller from '../images/Roller.svg'
 import {
   getArtistData,
@@ -13,9 +14,8 @@ import {
 import {
   PageGrid,
   ImageCard,
-  CloseLink,
+  CancelButtonContainer,
   BookmarkContainer,
-  Bookmark,
   ExploreContainer,
   ContentTitle,
   SectionTitle,
@@ -104,7 +104,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (artist.length > 0) {
+    } else if (artist.length) {
       return (
         <PageGrid>
           {artist.map(a => {
@@ -114,7 +114,15 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
             )
             return (
               <div key={a.id}>
-                <CloseLink onClick={goBack}>x</CloseLink>
+                <CancelButtonContainer onClick={goBack}>
+                  <Icon
+                    name="cancel"
+                    style={{ opacity: '0.8' }}
+                    fill={'#949494'}
+                    height="30px"
+                    width="30px"
+                  />
+                </CancelButtonContainer>
                 <ImageCard
                   image={a._links.image.href.replace(
                     '{image_version}',
@@ -122,11 +130,20 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
                   )}
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
-                <BookmarkContainer>
-                  {onBookmark && (
-                    <Bookmark
-                      active={bookmarked === true}
-                      onClick={() => onBookmark(id)}
+                <BookmarkContainer onClick={() => onBookmark(id)}>
+                  {bookmarked === true ? (
+                    <Icon
+                      fill={'#b8847d'}
+                      name="heart_active"
+                      height="30px"
+                      width="30px"
+                    />
+                  ) : (
+                    <Icon
+                      fill={'#949494'}
+                      name="heart"
+                      height="30px"
+                      width="30px"
                     />
                   )}
                 </BookmarkContainer>
@@ -165,7 +182,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (artistArtworks.length > 0) {
+    } else if (artistArtworks.length) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -199,7 +216,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (artistGenes.length > 0) {
+    } else if (artistGenes.length) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -232,7 +249,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (similarArtists.length > 0) {
+    } else if (similarArtists.length) {
       return (
         <React.Fragment>
           <SectionTitle>

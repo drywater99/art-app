@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ThumbSimGene from './ThumbSimGene'
 import ThumbSimArtwork from './ThumbSimArtwork'
 import Roller from '../images/Roller.svg'
+import Icon from '../app/Icon'
 import {
   getArtworkData,
   getArtistByArtworkData,
@@ -13,9 +14,8 @@ import {
   PageGrid,
   ContentContainer,
   ImageCard,
-  CloseLink,
+  CancelButtonContainer,
   BookmarkContainer,
-  Bookmark,
   FullImage,
   ExploreContainer,
   ContentTitle,
@@ -39,7 +39,7 @@ PageArtwork.defaultProps = {
   bookmarked: false,
 }
 
-export default function PageArtwork({ onBookmark, bookmarked, id }) {
+export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
   const [pageArtwork, setPageArtwork] = useState([])
   const [artworkArtist, setArtworkArtist] = useState([])
   const [artworkGenes, setArtworkGenes] = useState([])
@@ -98,7 +98,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id }) {
   }, [id])
 
   function goBack() {
-    window.history.back()
+    history.goBack()
   }
 
   function PageGeneContent() {
@@ -108,7 +108,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (pageArtwork.length > 0) {
+    } else if (pageArtwork.length) {
       return (
         <React.Fragment>
           {pageArtwork.map(a => {
@@ -118,13 +118,30 @@ export default function PageArtwork({ onBookmark, bookmarked, id }) {
             )
             return (
               <PageGrid key={a.id}>
-                <CloseLink onClick={goBack}>x</CloseLink>
+                <CancelButtonContainer onClick={goBack}>
+                  <Icon
+                    name="cancel"
+                    style={{ opacity: '0.8' }}
+                    fill={'#949494'}
+                    height="30px"
+                    width="30px"
+                  />
+                </CancelButtonContainer>
                 <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
-                <BookmarkContainer>
-                  {onBookmark && (
-                    <Bookmark
-                      active={bookmarked === true}
-                      onClick={() => onBookmark(id)}
+                <BookmarkContainer onClick={() => onBookmark(id)}>
+                  {bookmarked === true ? (
+                    <Icon
+                      fill={'#b8847d'}
+                      name="heart_active"
+                      height="30px"
+                      width="30px"
+                    />
+                  ) : (
+                    <Icon
+                      fill={'#949494'}
+                      name="heart"
+                      height="30px"
+                      width="30px"
                     />
                   )}
                 </BookmarkContainer>
@@ -187,7 +204,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (simArtworks.length > 0) {
+    } else if (simArtworks.length) {
       return (
         <React.Fragment>
           <SectionTitle>
@@ -219,7 +236,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id }) {
           <img alt="Roller" src={Roller} width="60px" height="60px" />
         </LoadingContainer>
       )
-    } else if (artworkGenes.length > 0) {
+    } else if (artworkGenes.length) {
       return (
         <React.Fragment>
           <SectionTitle>

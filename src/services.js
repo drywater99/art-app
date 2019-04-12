@@ -3,7 +3,7 @@ import axios from 'axios'
 const apiToken = {
   headers: {
     'X-Xapp-Token':
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1NDM3MTc1NCwiaWF0IjoxNTUzNzY2OTU0LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWM5YzlhMmFmNzAwOGY1YWIzYjAwMGUwIn0.iuH-CwSe4XD_K8K2X-UXplLErMoXQq0GvSPRbyxDgI4',
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1NTA2MjI2NywiaWF0IjoxNTU0NDU3NDY3LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWNhNzIzN2I3NTM2NTIyY2E0YmQ4Y2ZlIn0.QlP_bABsUS-QokKyEhOLWQiX7YAD8p3dxhnJeJUwUa4',
   },
 }
 
@@ -39,6 +39,16 @@ export function getArtworksByArtistsData(id) {
 
 export function getArtworkData(id) {
   const urlString = `https://api.artsy.net/api/artworks/${id}`
+  return axios.get(urlString, apiToken)
+}
+
+export function getSavedArtworkData(bookmark) {
+  const urlString = `https://api.artsy.net/api/artworks/${bookmark}`
+  return axios.get(urlString, apiToken)
+}
+
+export function getSavedArtistData(bookmark) {
+  const urlString = `https://api.artsy.net/api/artists/${bookmark}`
   return axios.get(urlString, apiToken)
 }
 
@@ -108,42 +118,49 @@ export function getSearchQueryShowData(searchString) {
 }
 
 export function getSuggestionsArtistData() {
-  const urlString = `https://api.artsy.net/api/artists?similarity_type=contemporary&artworks=true&sort=-trending&size=10
-  `
+  const urlString = `https://api.artsy.net/api/artists?similarity_type=contemporary&artworks=true&sort=-trending&size=10`
   return axios.get(urlString, apiToken)
 }
 
 export function getSuggestionsGenesData() {
-  const urlString = `https://api.artsy.net/api/genes?size=10
-  `
+  const urlString = `https://api.artsy.net/api/genes?size=10`
   return axios.get(urlString, apiToken)
 }
 
 export function getSuggestionsShowData() {
-  const urlString = `https://api.artsy.net/api/shows?status=current&size=10
-  `
+  const urlString = `https://api.artsy.net/api/shows?status=current&size=10`
   return axios.get(urlString, apiToken)
 }
 
 export function getTopicsAData() {
-  const urlString =
-    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=150'
+  const urlString = 'https://api.artsy.net/api/artworks?size=25'
   return axios.get(urlString, apiToken)
 }
 
 export function getTopicsBData() {
   const urlString =
-    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=150'
+    'https://api.artsy.net/api/artists?gene_id=4d90d190dcdd5f44a500003f&size=30'
   return axios.get(urlString, apiToken)
 }
 
-export function getTopicsOldMastersData() {
+export function getTopicsCData() {
   const urlString =
-    'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=50'
+    'https://api.artsy.net/api/artworks?gene_id=50356574ab74980002000005&size=20'
   return axios.get(urlString, apiToken)
 }
-export function getTopicsRandomData() {
-  const urlString = 'https://api.artsy.net/api/artworks?size=50'
+export function getTopicsDData() {
+  const urlString =
+    'https://api.artsy.net/api/artworks?gene_id=4d9396db17cb132537000480&size=30'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsEData() {
+  const urlString =
+    'https://api.artsy.net/api/artworks?gene_id=4dcdf920522d6e00010042ca&size=20'
+  return axios.get(urlString, apiToken)
+}
+export function getTopicsFData() {
+  const urlString =
+    'https://api.artsy.net/api/artworks?gene_id=4d90d192dcdd5f44a500006b&size=20'
   return axios.get(urlString, apiToken)
 }
 
@@ -162,20 +179,41 @@ export function getShowArtworksData(id) {
   return axios.get(urlString, apiToken)
 }
 
-export function saveBookmarksToStorage(data) {
-  saveToStorage('bookmarks', data)
+export function saveArtworkBookmarksToStorage(data) {
+  saveArtworksToStorage('artworkBookmarks', data)
 }
 
-export function saveToStorage(name, data) {
+export function saveArtworksToStorage(name, data) {
   const dataString = JSON.stringify(data)
   localStorage.setItem(name, dataString)
 }
 
-export function getBookmarksFromStorage() {
-  return getFromStorage('bookmarks')
+export function getArtworkBookmarksFromStorage() {
+  return getArtworksFromStorage('artworkBookmarks')
 }
 
-export function getFromStorage(name) {
+export function getArtworksFromStorage(name) {
+  const dataString = localStorage.getItem(name)
+  try {
+    return JSON.parse(dataString)
+  } catch (error) {
+    console.error(error.message)
+  }
+}
+export function saveArtistBookmarksToStorage(data) {
+  saveArtistToStorage('artistBookmarks', data)
+}
+
+export function saveArtistToStorage(name, data) {
+  const dataString = JSON.stringify(data)
+  localStorage.setItem(name, dataString)
+}
+
+export function getArtistBookmarksFromStorage() {
+  return getArtistFromStorage('artistBookmarks')
+}
+
+export function getArtistFromStorage(name) {
   const dataString = localStorage.getItem(name)
   try {
     return JSON.parse(dataString)
