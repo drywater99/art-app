@@ -39,22 +39,31 @@ export default function ExploreMain(props) {
   const scrollRef = useRef(null)
 
   useEffect(() => {
-    console.log(props.location.pathname)
-    if (props.location.pathname.includes('explore/modern')) {
+    if (props.location.pathname.includes('explore/all')) {
+      getTopicsA()
+    } else if (props.location.pathname.includes('explore/modern')) {
+      getTopicsB()
       scrollRight1(scrollRef)
     } else if (props.location.pathname.includes('explore/oldmasters')) {
+      getTopicsC()
       scrollRight2(scrollRef)
     } else if (props.location.pathname.includes('explore/nude')) {
+      getTopicsD()
       scrollRight3(scrollRef)
     } else if (props.location.pathname.includes('explore/nature')) {
+      getTopicsE()
       scrollRight4(scrollRef)
     } else if (props.location.pathname.includes('explore/roman')) {
+      getTopicsF()
       scrollRight5(scrollRef)
     } else if (props.location.pathname.includes('explore/foo')) {
+      getTopicsB()
       scrollRight6(scrollRef)
     } else if (props.location.pathname.includes('explore/repeat')) {
+      getTopicsC()
       scrollRight7(scrollRef)
     } else if (props.location.pathname.includes('explore/test')) {
+      getTopicsD()
       scrollRight8(scrollRef)
     }
     if (props.location.pathname.includes('explore/all')) {
@@ -122,15 +131,6 @@ export default function ExploreMain(props) {
     }
     setIsLoading(false)
   }
-
-  useEffect(() => {
-    getTopicsA()
-    getTopicsB()
-    getTopicsC()
-    getTopicsD()
-    getTopicsE()
-    getTopicsF()
-  }, [])
 
   const ExploreContentCompA = () => (
     <ExploreContentA

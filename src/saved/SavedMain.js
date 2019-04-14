@@ -49,6 +49,8 @@ export default function SavedMain({
   const [pageArtists, setPageArtists] = useState([])
   const [hasError, setHasError] = useState(false)
 
+  console.log(artworkBookmarks)
+
   useMemo(() => artworkBookmarks.length && loadArtworkBookmarks(), [
     artworkBookmarks,
   ])
