@@ -71,7 +71,7 @@ export function ExploreContentC({ isLoading, topicsC }) {
       <ExploreContainer>
         {topicsC.map(topic => (
           <ExploreThumb
-            image={topic._links.image.href.replace('{image_version}', 'small')}
+            image={topic._links.image.href.replace('{image_version}', 'square')}
             {...topic}
             key={topic.id}
           />
@@ -99,7 +99,7 @@ export function ExploreContentD({ isLoading, topicsD }) {
       <ExploreContainer>
         {topicsD.map(topic => (
           <ExploreThumb
-            image={topic._links.image.href.replace('{image_version}', 'small')}
+            image={topic._links.image.href.replace('{image_version}', 'square')}
             {...topic}
             key={topic.id}
           />
@@ -127,7 +127,7 @@ export function ExploreContentE({ isLoading, topicsE }) {
       <ExploreContainer>
         {topicsE.map(topic => (
           <ExploreThumb
-            image={topic._links.image.href.replace('{image_version}', 'small')}
+            image={topic._links.image.href.replace('{image_version}', 'square')}
             {...topic}
             key={topic.id}
           />
@@ -155,7 +155,7 @@ export function ExploreContentF({ isLoading, topicsF }) {
       <ExploreContainer>
         {topicsF.map(topic => (
           <ExploreThumb
-            image={topic._links.image.href.replace('{image_version}', 'small')}
+            image={topic._links.image.href.replace('{image_version}', 'square')}
             {...topic}
             key={topic.id}
           />

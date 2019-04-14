@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { BrowserRouter as Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
 import { PageGrid, Title, LinkContainer, StyledLink } from './ExploreMainStyles'
@@ -37,6 +37,10 @@ export default function ExploreMain(props) {
   const [topicsF, setTopicsF] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const scrollRef = useRef(null)
+
+  useMemo(() => topicsA.length && getTopicsA(), [topicsA])
+  useMemo(() => topicsB.length && getTopicsB(), [topicsB])
+  useMemo(() => topicsC.length && getTopicsC(), [topicsC])
 
   useEffect(() => {
     if (props.location.pathname.includes('explore/all')) {

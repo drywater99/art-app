@@ -30,7 +30,7 @@ export function SearchContentArtists({
               key={suggestedArtist.id}
               image={suggestedArtist._links.image.href.replace(
                 '{image_version}',
-                'large'
+                'square'
               )}
               name={suggestedArtist.name}
               id={suggestedArtist.id}

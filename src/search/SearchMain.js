@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { BrowserRouter as Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
 import { debounce } from 'debounce'
@@ -115,6 +115,16 @@ export default function SearchMain(props) {
     getSuggestionsGenes()
     getSuggestionsShows()
   }, [])
+
+  // useMemo(() => suggestedArtists.length && getSuggestionsArtists(), [
+  //   suggestedArtists,
+  // ])
+  // useMemo(() => suggestedGenes.length && getSuggestionsGenes(), [
+  //   suggestedGenes,
+  // ])
+  // useMemo(() => suggestedShows.length && getSuggestionsShows(), [
+  //   suggestedShows,
+  // ])
 
   const ArtistSearch = () => (
     <SearchContentArtists

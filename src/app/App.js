@@ -206,8 +206,9 @@ function App() {
         />
         <Route
           path="/saved"
-          render={() => (
+          render={props => (
             <SavedMain
+              props={props}
               artworkBookmarks={artworkBookmarks}
               artistBookmarks={artistBookmarks}
               onBookmark={toggleArtworkBookmark}
@@ -299,7 +300,7 @@ function App() {
               <Icon fill={'#949494'} name="search" height="44px" width="44px" />
             )}
           </StyledLink>
-          <StyledLink to="/saved" onClick={() => setNavClickState(4)}>
+          <StyledLink to="/saved/artworks" onClick={() => setNavClickState(4)}>
             {navClickState === 4 ? (
               <Icon
                 fill={'#383838'}
