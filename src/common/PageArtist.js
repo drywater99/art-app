@@ -41,48 +41,31 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
     setIsLoading(false)
   }
 
-  async function getArtistByArtwork() {
+  async function getData(getter, setter, name) {
     setIsLoading(true)
     try {
-      const res = await getArtistByArtworkData(id)
-      setHomeArtist(res.data._embedded.artists)
+      const res = await getter()
+      setter(res.data._embedded[name])
     } catch (err) {
       console.log(err)
     }
     setIsLoading(false)
+  }
+
+  async function getArtistByArtwork() {
+    getData(getArtistByArtworkData, setHomeArtist, 'artists')
   }
 
   async function getArtistArtworks() {
-    setIsLoading(true)
-    try {
-      const res = await getArtistArtworksData(id)
-      setArtistArtworks(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getArtistArtworksData, setArtistArtworks, 'artworks')
   }
 
   async function getArtistSimilarArtists() {
-    setIsLoading(true)
-    try {
-      const res = await getArtistSimilarArtistsData(id)
-      setSimilarArtists(res.data._embedded.artists)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getArtistSimilarArtistsData, setSimilarArtists, 'artists')
   }
 
   async function getArtistsGenes() {
-    setIsLoading(true)
-    try {
-      const res = await getArtistGenesData(id)
-      setArtistGenes(res.data._embedded.genes)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getArtistGenesData, setArtistGenes, 'genes')
   }
 
   useEffect(() => {

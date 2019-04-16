@@ -57,37 +57,27 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     setIsLoading(false)
   }
 
-  async function getArtistByArtwork() {
+  async function getData(getter, setter, name) {
     setIsLoading(true)
     try {
-      const res = await getArtistByArtworkData(id)
-      setArtworkArtist(res.data._embedded.artists)
+      const res = await getter(id)
+      setter(res.data._embedded[name])
     } catch (err) {
       console.log(err)
     }
     setIsLoading(false)
   }
 
-  async function getSimilarArtworksToArtwork() {
-    setIsLoading(true)
-    try {
-      const res = await getSimilarArtworksToArtworkData(id)
-      setSimArtworks(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+  function getArtistByArtwork() {
+    getData(getArtistByArtworkData, setArtworkArtist, 'artists')
+  }
+
+  function getSimilarArtworksToArtwork() {
+    getData(getSimilarArtworksToArtworkData, setSimArtworks, 'artworks')
   }
 
   async function getArtworkGenes() {
-    setIsLoading(true)
-    try {
-      const res = await getArtworkGenesData(id)
-      setArtworkGenes(res.data._embedded.genes)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getArtworkGenesData, setArtworkGenes, 'genes')
   }
 
   useEffect(() => {

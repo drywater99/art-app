@@ -40,26 +40,23 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     setIsLoading(false)
   }
 
-  async function getShowArtworks() {
+  async function getData(getter, setter, name) {
     setIsLoading(true)
     try {
-      const res = await getShowArtworksData(id)
-      setArtworks(res.data._embedded.artworks)
+      const res = await getter(id)
+      setter(res.data._embedded[name])
     } catch (err) {
       console.log(err)
     }
     setIsLoading(false)
   }
 
+  async function getShowArtworks() {
+    getData(getShowArtworksData, setArtworks, 'artworks')
+  }
+
   async function getShowImages() {
-    setIsLoading(true)
-    try {
-      const res = await getShowImagesData(id)
-      setShowImages(res.data._embedded.images)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getShowImagesData, setShowImages, 'images')
   }
 
   useEffect(() => {

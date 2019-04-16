@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, NavLink, Route } from 'react-router-dom'
-import ScrollMemory from 'react-router-scroll-memory'
-import styled from 'styled-components'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import GlobalStyle from './GlobalStyle'
 import PageGene from '../common/PageGene'
 import PageShow from '../common/PageShow'
@@ -12,11 +10,10 @@ import ExploreMain from '../explore/ExploreMain'
 import SearchMain from '../search/SearchMain'
 import SavedMain from '../saved/SavedMain'
 import Icon from './Icon'
+import { Grid, Nav, StyledLink } from './AppStyles'
 import ActiveHouse from '../images/ActiveHouse.svg'
 import {
-  getTopicData,
   getTrendingArtworkData,
-  getGeneData,
   getTrendingArtistsData,
   getShowData,
   saveArtworkBookmarksToStorage,
@@ -25,44 +22,9 @@ import {
   getArtistBookmarksFromStorage,
 } from '../services'
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-rows: auto 48px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-`
-
-const Nav = styled.nav`
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 2px;
-  color: #efefef;
-  border-top: #949494 solid 1px;
-`
-
-const StyledLink = styled(NavLink)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 48px;
-  font-weight: bold;
-  font-size: 12px;
-  color: #383838;
-  opacity: 50%;
-  text-decoration: none;
-  &.active {
-    text-decoration: underline;
-  }
-`
-
 function App() {
   const [artworks, setArtworks] = useState([])
   const [trendingArtists, setTrendingArtists] = useState([])
-  const [topics, setTopics] = useState([])
-  const [genes, setGenes] = useState([])
   const [shows, setShows] = useState([])
   const [isLoading, setIsLoading] = useState()
   const [showLogo, setShowLogo] = useState(true)
@@ -74,106 +36,71 @@ function App() {
   )
   const [navClickState, setNavClickState] = useState(1)
 
-  async function getShows() {
+  async function getData(getter, setter, name) {
     setIsLoading(true)
-    await getShowData()
-      .then(res => {
-        const results = res.data._embedded.shows
-        setShows(results)
-      })
-      .catch(err => console.log(err))
+    try {
+      const res = await getter()
+      setter(res.data._embedded[name])
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
-  async function getTrendingArtists() {
-    setIsLoading(true)
-    await getTrendingArtistsData()
-      .then(res => {
-        const results = res.data._embedded.artists
-        setTrendingArtists(results)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+  function getTrendingArtworks() {
+    getData(getTrendingArtworkData, setArtworks, 'artworks')
   }
 
-  async function getTrendingArtworks() {
-    setIsLoading(true)
-    await getTrendingArtworkData()
-      .then(res => {
-        const results = res.data._embedded.artworks
-        setArtworks(results)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+  function getTrendingArtists() {
+    getData(getTrendingArtistsData, setTrendingArtists, 'artists')
   }
 
-  async function getGenes() {
-    setIsLoading(true)
-    await getGeneData()
-      .then(res => {
-        const results = res.data._embedded.genes
-        setGenes(results)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+  function getShows() {
+    getData(getShowData, setShows, 'shows')
   }
 
-  async function getTopics(url) {
-    setIsLoading(true)
-    await getTopicData(url)
-      .then(res => {
-        const results =
-          res.data._embedded.artworks || res.data._embedded.artists
-        setTopics(results)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+  function toggleBookmark(array, setter, id) {
+    const isBookmarked = array.indexOf(id) !== -1
+    setter(isBookmarked ? array.filter(item => item !== id) : [...array, id])
+  }
+
+  function toggleArtworkBookmark(id) {
+    toggleBookmark(artworkBookmarks, setArtworkBookmarks, id)
+  }
+
+  function toggleArtistBookmark(id) {
+    toggleBookmark(artistBookmarks, setArtistBookmarks, id)
   }
 
   useEffect(() => {
-    getShows()
-    getTrendingArtists()
     getTrendingArtworks()
-    getGenes()
-    getTopics()
-  }, [])
+  }, [artworks])
+
+  useEffect(() => {
+    getTrendingArtists()
+  }, [trendingArtists])
+
+  useEffect(() => {
+    getShows()
+  }, [shows])
 
   useEffect(() => {
     saveArtworkBookmarksToStorage(artworkBookmarks)
   }, [artworkBookmarks])
 
-  function toggleArtworkBookmark(id) {
-    const isBookmarked = artworkBookmarks.indexOf(id) !== -1
-    setArtworkBookmarks(
-      isBookmarked
-        ? artworkBookmarks.filter(item => item !== id)
-        : [...artworkBookmarks, id]
-    )
-  }
-
   useEffect(() => {
     saveArtistBookmarksToStorage(artistBookmarks)
   }, [artistBookmarks])
 
-  function toggleArtistBookmark(id) {
-    const isBookmarked = artistBookmarks.indexOf(id) !== -1
-    setArtistBookmarks(
-      isBookmarked
-        ? artistBookmarks.filter(item => item !== id)
-        : [...artistBookmarks, id]
-    )
-  }
-
   return (
     <Router>
       <Grid>
-        <ScrollMemory />
         <Route
           exact
           path="/"
           render={() => (
             <HomeMain
-              // showLogo={showLogo}
+              showLogo={showLogo}
               setShowLogo={setShowLogo}
               isLoading={isLoading}
               artworks={artworks}
@@ -189,8 +116,6 @@ function App() {
             <ExploreMain
               {...props}
               isLoading={isLoading}
-              topics={topics}
-              onTopicClick={getTopics}
               onBookmark={toggleArtworkBookmark}
             />
           )}

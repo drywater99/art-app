@@ -31,7 +31,7 @@ export const StartLogo = styled.section`
   width: 100vw;
   background: #fcfcfc;
   z-index: 20;
-  animation: fade-out 1.5s normal ease-out;
+  animation: fade-out 3.5s normal ease-out;
   animation-fill-mode: forwards;
   @keyframes fade-out {
     0% {

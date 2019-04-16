@@ -33,6 +33,31 @@ export default function SavedMain({
     }
   }, [props.location])
 
+  async function getData(array, getter, setter) {
+    setHasError(false)
+    const queue = array.reduce(async (promiseChain, bookmark) => {
+      const chainResults = await promiseChain
+      const currentResult = await getter(bookmark)
+      return [...chainResults, currentResult.data]
+    }, Promise.resolve([]))
+    queue
+      .then(Result => {
+        setter(Result)
+      })
+      .catch(e => {
+        console.error('Could not load bookmarks: ', e)
+        setHasError(true)
+      })
+  }
+
+  function loadArtworkBookmarks() {
+    getData(artworkBookmarks, getSavedArtworkData, setPageArtworks)
+  }
+
+  function loadArtistBookmarks() {
+    getData(artistBookmarks, getSavedArtistData, setPageArtists)
+  }
+
   useMemo(() => artworkBookmarks.length && loadArtworkBookmarks(), [
     artworkBookmarks,
   ])
@@ -40,40 +65,6 @@ export default function SavedMain({
   useMemo(() => artistBookmarks.length && loadArtistBookmarks(), [
     artistBookmarks,
   ])
-
-  function loadArtworkBookmarks() {
-    setHasError(false)
-    const queue = artworkBookmarks.reduce(async (promiseChain, bookmark) => {
-      const chainResults = await promiseChain
-      const currentResult = await getSavedArtworkData(bookmark)
-      return [...chainResults, currentResult.data]
-    }, Promise.resolve([]))
-    queue
-      .then(Result => {
-        setPageArtworks(Result)
-      })
-      .catch(e => {
-        console.error('Could not load bookmarks: ', e)
-        setHasError(true)
-      })
-  }
-
-  function loadArtistBookmarks() {
-    setHasError(false)
-    const queue = artistBookmarks.reduce(async (promiseChain, bookmark) => {
-      const chainResults = await promiseChain
-      const currentResult = await getSavedArtistData(bookmark)
-      return [...chainResults, currentResult.data]
-    }, Promise.resolve([]))
-    queue
-      .then(Result => {
-        setPageArtists(Result)
-      })
-      .catch(e => {
-        console.error('Could not load bookmarks: ', e)
-        setHasError(true)
-      })
-  }
 
   useEffect(() => {
     loadArtistBookmarks()

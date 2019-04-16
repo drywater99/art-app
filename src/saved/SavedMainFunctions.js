@@ -1,19 +1,20 @@
 import React from 'react'
-import HomeCard from '../common/CardArtwork'
-import { CardContainer, Button } from './SavedMainStyles'
+import SavedCardArtwork from './SavedCardArtwork'
+import SavedCardArtist from './SavedCardArtist'
+import { ResultContainer, Button } from './SavedMainStyles'
 
 export function SavedArtworksContent({
   hasError,
   pageArtworks,
   onBookmark,
-  loadArtworkBookmarks,
+  loadBookmarks,
   artworkBookmarks,
 }) {
   return (
-    <CardContainer>
+    <ResultContainer>
       {pageArtworks.length ? (
         pageArtworks.map(a => (
-          <HomeCard
+          <SavedCardArtwork
             key={a.id}
             date={a.date}
             bookmarked={a.bookmarked}
@@ -27,15 +28,18 @@ export function SavedArtworksContent({
         ))
       ) : hasError ? (
         <div>
-          <h3>Could not load saved artworks.</h3>
-          <Button onClick={loadArtworkBookmarks}>Try again</Button>
+          {/* <h3>Could not load saved artworks.</h3> */}
+          <Button onClick={() => loadBookmarks()}>Refresh</Button>
         </div>
       ) : artworkBookmarks.length ? (
-        <h3>Loading ...</h3>
+        <div>
+          {/* <h3>Loading ...</h3> */}
+          <Button onClick={() => loadBookmarks()}>Refresh</Button>
+        </div>
       ) : (
-        <h3>No bookmarks yet</h3>
+        <small>No bookmarks yet</small>
       )}
-    </CardContainer>
+    </ResultContainer>
   )
 }
 
@@ -43,16 +47,18 @@ export function SavedArtistsContent({
   hasError,
   pageArtists,
   onBookmark,
-  loadArtistBookmarks,
+  loadBookmarks,
   artistBookmarks,
 }) {
   return (
-    <CardContainer>
+    <ResultContainer>
       {pageArtists.length ? (
         pageArtists.map(a => (
-          <HomeCard
+          <SavedCardArtist
             key={a.id}
-            date={a.date}
+            birthday={a.birthday}
+            deathday={a.deathday}
+            name={a.name}
             bookmarked={a.bookmarked}
             collecting_institution={a.collecting_institution}
             author={a.author}
@@ -64,14 +70,17 @@ export function SavedArtistsContent({
         ))
       ) : hasError ? (
         <div>
-          <h3>Could not load saved artists.</h3>
-          <Button onClick={loadArtistBookmarks}>Try again</Button>
+          {/* <h3>Could not load saved artists.</h3> */}
+          <Button onClick={() => loadBookmarks()}>Refresh</Button>
         </div>
       ) : artistBookmarks.length ? (
-        <h3>Loading ...</h3>
+        <div>
+          {/* <h3>Loading ...</h3> */}
+          <Button onClick={() => loadBookmarks()}>Refresh</Button>
+        </div>
       ) : (
         <h3>No bookmarks yet</h3>
       )}
-    </CardContainer>
+    </ResultContainer>
   )
 }

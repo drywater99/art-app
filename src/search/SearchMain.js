@@ -42,7 +42,7 @@ export default function SearchMain(props) {
 
   const onSearchInputChange = debounce(text => {
     setSearchString(text)
-    getSearchQuery()
+    getSearchResults()
   }, 100)
 
   function clearInput(e) {
@@ -60,61 +60,56 @@ export default function SearchMain(props) {
     }
   }, [props.location])
 
-  async function getSearchQuery() {
+  async function getSearchQuery(getter, setter) {
     setIsLoading(true)
-    await getSearchQueryArtistData(searchString)
+    await getter(searchString)
       .then(res => {
-        setDataArtists(res.data._embedded.results)
+        setter(res.data._embedded.results)
       })
       .catch(err => console.log(err))
-    await getSearchQueryGeneData(searchString)
-      .then(res => {
-        setDataGenes(res.data._embedded.results)
-      })
-      .catch(err => console.log(err))
-    await getSearchQueryShowData(searchString)
-      .then(res => {
-        setDataShows(res.data._embedded.results)
-      })
-      .catch(err => console.log(err))
+    setIsLoading(false)
+  }
+
+  function getSearchResults() {
+    getSearchQuery(getSearchQueryArtistData, setDataArtists)
+    getSearchQuery(getSearchQueryGeneData, setDataGenes)
+    getSearchQuery(getSearchQueryShowData, setDataShows)
+  }
+
+  async function getData(getter, setter, name) {
+    setIsLoading(true)
+    try {
+      const res = await getter()
+      setter(res.data._embedded[name])
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getSuggestionsArtists() {
-    setIsLoading(true)
-    await getSuggestionsArtistData()
-      .then(res => {
-        setsuggestedArtists(res.data._embedded.artists)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+    getData(getSuggestionsArtistData, setsuggestedArtists, 'artists')
   }
 
   async function getSuggestionsGenes() {
-    setIsLoading(true)
-    await getSuggestionsGenesData()
-      .then(res => {
-        setSuggestedGenes(res.data._embedded.genes)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+    getData(getSuggestionsGenesData, setSuggestedGenes, 'genes')
   }
 
   async function getSuggestionsShows() {
-    setIsLoading(true)
-    await getSuggestionsShowData()
-      .then(res => {
-        setSuggestedShows(res.data._embedded.shows)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+    getData(getSuggestionsShowData, setSuggestedShows, 'shows')
   }
 
   useEffect(() => {
     getSuggestionsArtists()
+  }, [suggestedArtists])
+
+  useEffect(() => {
     getSuggestionsGenes()
+  }, [suggestedGenes])
+
+  useEffect(() => {
     getSuggestionsShows()
-  }, [])
+  }, [suggestedShows])
 
   // useMemo(() => suggestedArtists.length && getSuggestionsArtists(), [
   //   suggestedArtists,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { BrowserRouter as Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
 import { PageGrid, Title, LinkContainer, StyledLink } from './ExploreMainStyles'
@@ -14,9 +14,6 @@ import {
   scrollRight3,
   scrollRight4,
   scrollRight5,
-  scrollRight6,
-  scrollRight7,
-  scrollRight8,
   scrollLeft1,
 } from './ExploreMainFunctions'
 import {
@@ -38,103 +35,65 @@ export default function ExploreMain(props) {
   const [isLoading, setIsLoading] = useState(false)
   const scrollRef = useRef(null)
 
-  useMemo(() => topicsA.length && getTopicsA(), [topicsA])
-  useMemo(() => topicsB.length && getTopicsB(), [topicsB])
-  useMemo(() => topicsC.length && getTopicsC(), [topicsC])
-
   useEffect(() => {
-    if (props.location.pathname.includes('explore/all')) {
-      getTopicsA()
-    } else if (props.location.pathname.includes('explore/modern')) {
-      getTopicsB()
+    if (props.location.pathname.includes('explore/modern')) {
       scrollRight1(scrollRef)
     } else if (props.location.pathname.includes('explore/oldmasters')) {
-      getTopicsC()
       scrollRight2(scrollRef)
     } else if (props.location.pathname.includes('explore/nude')) {
-      getTopicsD()
       scrollRight3(scrollRef)
     } else if (props.location.pathname.includes('explore/nature')) {
-      getTopicsE()
       scrollRight4(scrollRef)
     } else if (props.location.pathname.includes('explore/roman')) {
-      getTopicsF()
       scrollRight5(scrollRef)
-    } else if (props.location.pathname.includes('explore/foo')) {
-      getTopicsB()
-      scrollRight6(scrollRef)
-    } else if (props.location.pathname.includes('explore/repeat')) {
-      getTopicsC()
-      scrollRight7(scrollRef)
-    } else if (props.location.pathname.includes('explore/test')) {
-      getTopicsD()
-      scrollRight8(scrollRef)
-    }
-    if (props.location.pathname.includes('explore/all')) {
+    } else if (props.location.pathname.includes('explore/all')) {
       scrollLeft1(scrollRef)
     }
   }, [props.location])
 
+  async function getData(getter, setter, name) {
+    setIsLoading(true)
+    try {
+      const res = await getter()
+      setter(res.data._embedded[name])
+    } catch (err) {
+      console.log(err)
+    }
+    setIsLoading(false)
+  }
+
   async function getTopicsA() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsAData()
-      setTopicsA(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsAData, setTopicsA, 'artworks')
   }
+
   async function getTopicsB() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsBData()
-      setTopicsB(res.data._embedded.artists)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsBData, setTopicsB, 'artists')
   }
+
   async function getTopicsC() {
-    try {
-      setIsLoading(true)
-      const res = await getTopicsCData()
-      setTopicsC(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsCData, setTopicsC, 'artworks')
   }
+
   async function getTopicsD() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsDData()
-      setTopicsD(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsDData, setTopicsD, 'artworks')
   }
+
   async function getTopicsE() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsEData()
-      setTopicsE(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsEData, setTopicsE, 'artworks')
   }
+
   async function getTopicsF() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsFData()
-      setTopicsF(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsFData, setTopicsF, 'artworks')
   }
+
+  useEffect(() => {
+    getTopicsA()
+    getTopicsB()
+    getTopicsC()
+    getTopicsD()
+    getTopicsE()
+    getTopicsF()
+  }, [])
 
   const ExploreContentCompA = () => (
     <ExploreContentA
@@ -237,33 +196,6 @@ export default function ExploreMain(props) {
         >
           Roman
         </StyledLink>
-        <StyledLink
-          to="/explore/foo"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/Jb0xDlIwe2RDTCn_EtOJdw/four_thirds.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Modern
-        </StyledLink>
-        <StyledLink
-          to="/explore/repeat"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/o1C6-_FV3rp_ZQPVY-hPtw/big_and_tall.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Old Masters
-        </StyledLink>
-        <StyledLink
-          to="/explore/test"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/klLweRmE59XCQnUa13hPQg/big_and_tall.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Nude
-        </StyledLink>
       </LinkContainer>
       <SwipeableRoutes>
         <Route path="/explore/all" component={ExploreContentCompA} />
@@ -272,9 +204,6 @@ export default function ExploreMain(props) {
         <Route path="/explore/nude" component={ExploreContentCompD} />
         <Route path="/explore/nature" component={ExploreContentCompE} />
         <Route path="/explore/romanticism" component={ExploreContentCompF} />
-        <Route path="/explore/foo" component={ExploreContentCompB} />
-        <Route path="/explore/repeat" component={ExploreContentCompC} />
-        <Route path="/explore/test" component={ExploreContentCompD} />
       </SwipeableRoutes>
     </PageGrid>
   )

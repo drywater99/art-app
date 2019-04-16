@@ -38,26 +38,23 @@ export default function PageGene({ onBookmark, bookmarked, id }) {
     setIsLoading(false)
   }
 
-  async function getGeneRelatedArtists() {
+  async function getData(getter, setter, name) {
     setIsLoading(true)
     try {
-      const res = await getGenesRelatedArtistsData(id)
-      setRelatedArtists(res.data._embedded.artists)
+      const res = await getter(id)
+      setter(res.data._embedded[name])
     } catch (err) {
       console.log(err)
     }
     setIsLoading(false)
   }
 
+  async function getGeneRelatedArtists() {
+    getData(getGenesRelatedArtistsData, setRelatedArtists, 'artists')
+  }
+
   async function getGeneRelatedArtworks() {
-    setIsLoading(true)
-    try {
-      const res = await getGeneRelatedArtworksData(id)
-      setRelatedArtworks(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getGeneRelatedArtworksData, setRelatedArtworks, 'artworks')
   }
 
   useEffect(() => {
