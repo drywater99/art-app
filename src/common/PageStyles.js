@@ -53,6 +53,13 @@ export const ContentTitle = styled.section`
   border-bottom: 1px solid #bababa;
 `
 
+export const ContentTitleGene = styled.section`
+  display: grid;
+  align-content: flex-start;
+  margin: 10px 25px 0px 25px;
+  padding: 0 0 25px 0;
+`
+
 export const ContentLink = styled.small`
   display: flex;
   color: #949494;

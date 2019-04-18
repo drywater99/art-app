@@ -196,19 +196,11 @@ function App() {
   }
 
   function GeneRoute(props) {
-    return (
-      <PageGene onBookmark={toggleArtworkBookmark} id={props.match.params.id} />
-    )
+    return <PageGene props={props} id={props.match.params.id} />
   }
 
   function ShowRoute(props) {
-    return (
-      <PageShow
-        props={props}
-        onBookmark={toggleArtworkBookmark}
-        id={props.match.params.id}
-      />
-    )
+    return <PageShow props={props} id={props.match.params.id} />
   }
 
   function NavHome() {

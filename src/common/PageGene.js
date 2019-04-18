@@ -12,16 +12,15 @@ import {
   PageGridGene,
   ImageCard,
   CancelButtonContainer,
-  BookmarkContainer,
   ExploreContainer,
   ExploreContainerX,
   SectionTitle,
   ContentDescription,
-  ContentTitle,
+  ContentTitleGene,
   LoadingContainer,
 } from './PageStyles'
 
-export default function PageGene({ onBookmark, bookmarked, id }) {
+export default function PageGene({ id }) {
   const [gene, setGene] = useState([])
   const [relatedArtists, setRelatedArtists] = useState([])
   const [relatedArtworks, setRelatedArtworks] = useState([])
@@ -67,15 +66,6 @@ export default function PageGene({ onBookmark, bookmarked, id }) {
     window.history.back()
   }
 
-  function renderBookmark(condition) {
-    return (
-      <Icon
-        fill={condition ? '#b8847d' : '#949494'}
-        name={`heart${condition ? '_active' : ''}`}
-      />
-    )
-  }
-
   function PageGeneContent() {
     if (isLoading) {
       return (
@@ -103,12 +93,9 @@ export default function PageGene({ onBookmark, bookmarked, id }) {
                   )}
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
-                <BookmarkContainer onClick={() => onBookmark(g)}>
-                  {renderBookmark(bookmarked)}
-                </BookmarkContainer>
-                <ContentTitle>
+                <ContentTitleGene>
                   <p>{g.display_name || g.name}</p>
-                </ContentTitle>
+                </ContentTitleGene>
                 <ContentDescription>{g.description}</ContentDescription>
                 <SearchContentSimArtists />
                 <SearchContentSimArtworks />

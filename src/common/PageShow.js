@@ -12,7 +12,6 @@ import {
   PageGridShow,
   ImageCard,
   CancelButtonContainer,
-  BookmarkContainer,
   ExploreContainer,
   ExploreContainerX,
   SectionTitle,
@@ -23,7 +22,7 @@ import {
   LoadingContainer,
 } from './PageStyles'
 
-export default function PageShow({ onBookmark, bookmarked, id }) {
+export default function PageShow({ id }) {
   const [show, setShow] = useState([])
   const [showImages, setShowImages] = useState([])
   const [artworks, setArtworks] = useState([])
@@ -69,15 +68,6 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     window.history.back()
   }
 
-  function renderBookmark(condition) {
-    return (
-      <Icon
-        fill={condition ? '#b8847d' : '#949494'}
-        name={`heart${condition ? '_active' : ''}`}
-      />
-    )
-  }
-
   function PageGeneContent() {
     if (isLoading) {
       return (
@@ -105,9 +95,6 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
                   )}
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
-                <BookmarkContainer onClick={() => onBookmark(s)}>
-                  {renderBookmark(bookmarked)}
-                </BookmarkContainer>
                 <ContentTitle>
                   <p>{s.name}</p>
                 </ContentTitle>
