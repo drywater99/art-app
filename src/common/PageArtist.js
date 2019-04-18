@@ -20,7 +20,7 @@ import {
   SectionTitle,
   ExploreContainerX,
   LoadingContainer,
-} from './PageArtistStyles'
+} from './PageStyles'
 
 export default function ArtistPage({ onBookmark, bookmarked, id }) {
   const [artist, setArtist] = useState([])

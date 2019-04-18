@@ -1,7 +1,7 @@
 import React from 'react'
 import SavedCardArtwork from './SavedCardArtwork'
-import SavedCardArtist from './SavedCardArtist'
-import { ResultContainer, Button } from './SavedMainStyles'
+import ThumbSimArtist from '../common/ThumbSimArtist'
+import { ResultContainer, Button, ButtonContainer } from './SavedMainStyles'
 
 export function SavedArtworksContent({
   hasError,
@@ -27,15 +27,14 @@ export function SavedArtworksContent({
           />
         ))
       ) : hasError ? (
-        <div>
-          {/* <h3>Could not load saved artworks.</h3> */}
+        <ButtonContainer>
           <Button onClick={() => loadBookmarks()}>Refresh</Button>
-        </div>
+        </ButtonContainer>
       ) : artworkBookmarks.length ? (
-        <div>
-          {/* <h3>Loading ...</h3> */}
+        <ButtonContainer>
           <Button onClick={() => loadBookmarks()}>Refresh</Button>
-        </div>
+          <h3>Loading ...</h3>
+        </ButtonContainer>
       ) : (
         <small>No bookmarks yet</small>
       )}
@@ -54,7 +53,7 @@ export function SavedArtistsContent({
     <ResultContainer>
       {pageArtists.length ? (
         pageArtists.map(a => (
-          <SavedCardArtist
+          <ThumbSimArtist
             key={a.id}
             birthday={a.birthday}
             deathday={a.deathday}
@@ -69,15 +68,14 @@ export function SavedArtistsContent({
           />
         ))
       ) : hasError ? (
-        <div>
-          {/* <h3>Could not load saved artists.</h3> */}
+        <ButtonContainer>
           <Button onClick={() => loadBookmarks()}>Refresh</Button>
-        </div>
+        </ButtonContainer>
       ) : artistBookmarks.length ? (
-        <div>
-          {/* <h3>Loading ...</h3> */}
+        <ButtonContainer>
           <Button onClick={() => loadBookmarks()}>Refresh</Button>
-        </div>
+          <h3>Loading ...</h3>
+        </ButtonContainer>
       ) : (
         <h3>No bookmarks yet</h3>
       )}

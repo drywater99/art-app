@@ -6,7 +6,7 @@ export const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto auto auto 1fr;
   overflow-y: hidden;
-  margin: 0 24px 0 24px;
+  margin: 0 26px 0 26px;
 `
 
 export const Title = styled.div`
@@ -29,11 +29,11 @@ export const HeadlineContainer = styled.div`
 
 export const ResultContainer = styled.section`
   display: grid;
-  grid-template-columns: 140px 140px;
+  grid-template-columns: 150px 150px;
   grid-template-rows: auto;
-  grid-column-gap: 16px;
-  grid-row-gap: 16px;
-  padding: 16px 12px 12px 12px;
+  grid-column-gap: 22px;
+  grid-row-gap: 22px;
+  padding: 20px 0 20px 0;
   overflow-y: scroll;
 `
 
@@ -111,9 +111,13 @@ export const ActiveUnderline = styled.div`
   border: none;
   transition: 0.2s ease-in-out;
 `
+export const ButtonContainer = styled.div`
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: span 2;
+`
 
 export const Button = styled.button`
-  display: block;
   width: 80%;
   height: 40px;
   border: none;

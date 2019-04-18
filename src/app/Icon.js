@@ -13,6 +13,8 @@ const getHeight = name => {
   switch (name) {
     case 'cancel':
       return '30px'
+    case 'cancelSearch':
+      return '24px'
     case 'heart':
       return '30px'
     case 'heart_active':
@@ -22,6 +24,8 @@ const getHeight = name => {
     case 'search_active':
       return '44px'
     case 'home':
+      return '36px'
+    case 'home_active':
       return '36px'
     case 'explore_active':
       return '35px'
@@ -36,6 +40,8 @@ const getFill = name => {
   switch (name) {
     case 'cancel':
       return '#949494'
+    case 'cancelSearch':
+      return '#949494'
     default:
       return '#949494'
   }
@@ -45,6 +51,8 @@ const getWidth = name => {
   switch (name) {
     case 'cancel':
       return '30px'
+    case 'cancelSearch':
+      return '24px'
     case 'heart':
       return '30px'
     case 'heart_active':
@@ -54,6 +62,8 @@ const getWidth = name => {
     case 'search_active':
       return '44px'
     case 'home':
+      return '36px'
+    case 'home_active':
       return '36px'
     case 'explore':
       return '35px'
@@ -70,12 +80,14 @@ const getViewBox = name => {
       return '0 0 100.699 100.699'
     case 'cancel':
       return '0 0 100.699 100.699'
+    case 'cancelSearch':
+      return '0 -2 100.699 100.699'
     case 'home_active':
       return '0 0 96 96'
     case 'search':
       return '20 19 60 60'
     case 'search_active':
-      return '21 19 62 62'
+      return '20 19 62 62'
     case 'heart':
       return '0 -2 100 100'
     case 'heart_active':
@@ -98,6 +110,13 @@ const getPath = (name, props) => {
           d="M50,6.987c-23.717,0-43.013,19.294-43.013,43.012S26.283,93.013,50,93.013S93.013,73.718,93.013,50S73.717,6.987,50,6.987z   M72.057,63.84c2.269,2.27,2.269,5.947,0,8.217c-1.135,1.135-2.623,1.701-4.108,1.701c-1.487,0-2.974-0.566-4.108-1.701L50,58.216  L36.159,72.057c-1.134,1.135-2.621,1.701-4.108,1.701c-1.486,0-2.973-0.566-4.108-1.701c-2.269-2.27-2.269-5.947,0-8.217  l13.84-13.841l-13.84-13.84c-2.269-2.269-2.269-5.948,0-8.217c2.27-2.269,5.947-2.269,8.217,0L50,41.782l13.84-13.84  c2.27-2.269,5.947-2.269,8.217,0c2.271,2.269,2.271,5.948,0,8.217l-13.84,13.84L72.057,63.84z"
         />
       )
+    case 'cancelSearch':
+      return (
+        <path
+          {...props}
+          d="M50,6.987c-23.717,0-43.013,19.294-43.013,43.012S26.283,93.013,50,93.013S93.013,73.718,93.013,50S73.717,6.987,50,6.987z   M72.057,63.84c2.269,2.27,2.269,5.947,0,8.217c-1.135,1.135-2.623,1.701-4.108,1.701c-1.487,0-2.974-0.566-4.108-1.701L50,58.216  L36.159,72.057c-1.134,1.135-2.621,1.701-4.108,1.701c-1.486,0-2.973-0.566-4.108-1.701c-2.269-2.27-2.269-5.947,0-8.217  l13.84-13.841l-13.84-13.84c-2.269-2.269-2.269-5.948,0-8.217c2.27-2.269,5.947-2.269,8.217,0L50,41.782l13.84-13.84  c2.27-2.269,5.947-2.269,8.217,0c2.271,2.269,2.271,5.948,0,8.217l-13.84,13.84L72.057,63.84z"
+        />
+      )
     case 'home':
       return (
         <path
@@ -109,7 +128,7 @@ const getPath = (name, props) => {
       return (
         <path
           {...props}
-          points="50,17.047 18.636,38.448 18.636,82.953 40.392,82.953 40.392,56.901 59.607,56.901 59.607,82.953 81.363,82.953   81.363,38.447"
+          d="50,17.047 18.636,38.448 18.636,82.953 40.392,82.953 40.392,56.901 59.607,56.901 59.607,82.953 81.363,82.953   81.363,38.447"
         />
       )
     case 'search':

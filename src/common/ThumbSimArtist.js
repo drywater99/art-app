@@ -2,8 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-const ThumbContainer = styled.section``
-
 const StyledLink = styled(Link)`
   text-decoration: none;
   display: flex;
@@ -21,18 +19,33 @@ const ProfileImage = styled.div`
 `
 const ProfileTitle = styled.div`
   font-weight: bold;
-  color: #949494;
+  color: #383838;
   text-align: center;
   margin-top: 12px;
 `
+const CardDate = styled.h3`
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #949494;
+  font-size: 12px;
+  margin: 0;
+  letter-spacing: 0.1em;
+`
 
-export default function ThumbSimArtist({ image, name, id }) {
+export default function ThumbSimArtist({
+  image,
+  name,
+  birthday,
+  deathday,
+  id,
+}) {
   return (
-    <ThumbContainer>
-      <StyledLink to={`/artist/${id}`}>
-        <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
-        <ProfileTitle>{name}</ProfileTitle>
-      </StyledLink>
-    </ThumbContainer>
+    <StyledLink to={`/artist/${id}`}>
+      <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
+      <ProfileTitle>{name}</ProfileTitle>
+      <CardDate>
+        {birthday}-{deathday}
+      </CardDate>
+    </StyledLink>
   )
 }

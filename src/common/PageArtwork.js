@@ -23,7 +23,7 @@ import {
   StyledLink,
   ExploreContainerX,
   LoadingContainer,
-} from './PageArtworkStyles'
+} from './PageStyles'
 
 PageArtwork.propTypes = {
   title: PropTypes.string,

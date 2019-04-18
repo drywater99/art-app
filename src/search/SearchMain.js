@@ -20,7 +20,7 @@ import {
   StyledInput,
   IconContainer,
   LinkContainer,
-  StyledLink,
+  StyledTab,
   ActiveUnderline,
 } from './SearchMainStyles'
 import {
@@ -123,32 +123,22 @@ export default function SearchMain(props) {
         />
         {searchString.length ? (
           <IconContainer onClick={clearInput}>
-            <Icon name="cancel" />
+            <Icon name="cancelSearch" />
           </IconContainer>
         ) : null}
       </StyledForm>
       <LinkContainer>
-        <StyledLink onClick={() => setIsActive(1)} to="/search/artists">
+        <StyledTab onClick={() => setIsActive(1)} to="/search/artists">
           Artists
-        </StyledLink>
-        <StyledLink onClick={() => setIsActive(2)} to="/search/genre">
+        </StyledTab>
+        <StyledTab onClick={() => setIsActive(2)} to="/search/genre">
           Genre
-        </StyledLink>
-        <StyledLink onClick={() => setIsActive(3)} to="/search/shows">
+        </StyledTab>
+        <StyledTab onClick={() => setIsActive(3)} to="/search/shows">
           Shows
-        </StyledLink>
+        </StyledTab>
       </LinkContainer>
-      <ActiveUnderline
-        style={
-          isActive === 1
-            ? { margin: '-1% 0 0 0' }
-            : isActive === 2
-            ? { margin: '-1% 0 0 33%' }
-            : isActive === 3
-            ? { margin: '-1% 0 0 66%' }
-            : null
-        }
-      />
+      {Underline()}
       {isLoading ? (
         <LoadingContainer>
           <img alt="Roller" src={Roller} />
@@ -162,6 +152,22 @@ export default function SearchMain(props) {
       )}
     </PageGrid>
   )
+
+  function Underline() {
+    return (
+      <ActiveUnderline
+        style={
+          isActive === 1
+            ? { 'margin-left': '0' }
+            : isActive === 2
+            ? { 'margin-left': '33%' }
+            : isActive === 3
+            ? { 'margin-left': '66%' }
+            : null
+        }
+      />
+    )
+  }
 
   function ArtistSearch() {
     return (

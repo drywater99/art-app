@@ -1,13 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-`
+import { StyledLink, ProfileTitle } from './SearchMainStyles'
 
 const ImageCard = styled.div`
   height: 120px;
@@ -18,20 +11,10 @@ const ImageCard = styled.div`
   border-radius: 100%;
   position: relative;
 `
-const ProfileTitle = styled.div`
-  font-weight: bold;
-  font-size: 15px;
-  color: #949494;
-  margin-top: 8px;
-  text-align: center;
-`
 
 export default function SearchThumbArtist({ image, id, title, name }) {
   return (
-    <StyledLink
-      to={`/artist/${id}`}
-      /*onClick={() => window.location.assign(`/artist/${id}`)}*/
-    >
+    <StyledLink to={`/artist/${id}`}>
       <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
       <ProfileTitle>{title || name}</ProfileTitle>
     </StyledLink>

@@ -9,7 +9,7 @@ import {
   getGeneRelatedArtworksData,
 } from '../services'
 import {
-  PageGrid,
+  PageGridGene,
   ImageCard,
   CancelButtonContainer,
   BookmarkContainer,
@@ -19,7 +19,7 @@ import {
   ContentDescription,
   ContentTitle,
   LoadingContainer,
-} from './PageGeneStyles'
+} from './PageStyles'
 
 export default function PageGene({ onBookmark, bookmarked, id }) {
   const [gene, setGene] = useState([])
@@ -92,7 +92,7 @@ export default function PageGene({ onBookmark, bookmarked, id }) {
               'square500'
             )
             return (
-              <PageGrid key={g.id}>
+              <PageGridGene key={g.id}>
                 <CancelButtonContainer onClick={goBack}>
                   <Icon name="cancel" />
                 </CancelButtonContainer>
@@ -112,7 +112,7 @@ export default function PageGene({ onBookmark, bookmarked, id }) {
                 <ContentDescription>{g.description}</ContentDescription>
                 <SearchContentSimArtists />
                 <SearchContentSimArtworks />
-              </PageGrid>
+              </PageGridGene>
             )
           })}
         </React.Fragment>

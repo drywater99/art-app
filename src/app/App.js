@@ -114,7 +114,7 @@ function App() {
             {NavIcon(3, 'search')}
           </StyledLink>
           <StyledLink to="/saved/artworks" onClick={() => setNav(4)}>
-            <NavSaved />
+            {NavIcon(4, 'heart')}
           </StyledLink>
         </Nav>
         <GlobalStyle />
@@ -220,34 +220,10 @@ function App() {
   }
 
   function NavIcon(state, name) {
-    return nav === `${state}` ? (
+    return nav === state ? (
       <Icon fill={'#383838'} name={`${name}_active`} />
     ) : (
       <Icon fill={'#949494'} name={`${name}`} />
-    )
-  }
-
-  // function NavExplore() {
-  //   return nav === 2 ? (
-  //     <Icon fill={'#383838'} name="explore_active" />
-  //   ) : (
-  //     <Icon fill={'#949494'} name="explore" />
-  //   )
-  // }
-
-  function NavSearch() {
-    return nav === 3 ? (
-      <Icon fill={'#383838'} name="search_active" />
-    ) : (
-      <Icon fill={'#949494'} name="search" />
-    )
-  }
-
-  function NavSaved() {
-    return nav === 4 ? (
-      <Icon fill={'#383838'} name="heart_active" />
-    ) : (
-      <Icon fill={'#949494'} name="heart" />
     )
   }
 }

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import Scope from '../images/Scope.svg'
 
 export const PageGrid = styled.div`
@@ -87,7 +87,7 @@ export const LinkContainer = styled.div`
   border-bottom: 1px solid #d0d0d0;
 `
 
-export const StyledLink = styled(NavLink)`
+export const StyledTab = styled(NavLink)`
   display: flex;
   justify-content: center;
   color: #949494;
@@ -106,8 +106,23 @@ export const StyledLink = styled(NavLink)`
 export const ActiveUnderline = styled.div`
   height: 0.18em;
   width: 34%;
-  margin: 0;
+  margin-top: -1%;
   background: #383838;
   border: none;
   transition: 0.2s ease-in-out;
+`
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`
+
+export const ProfileTitle = styled.div`
+  font-weight: bold;
+  font-size: 15px;
+  color: #949494;
+  margin-top: 8px;
+  text-align: center;
 `

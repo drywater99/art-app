@@ -3,17 +3,18 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-const BorderCard = styled.section`
-  padding: 10px 0 0 0;
-  filter: drop-shadow(0 5px 5px #cccccc);
-`
 const StyledLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   text-decoration: none;
+  margin: 5px;
+  filter: drop-shadow(2px 2px 3px #cccccc);
 `
 
 const ImageCard = styled.div`
-  height: 140px;
-  width: 140px;
+  height: 150px;
+  width: 150px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center top;
@@ -22,11 +23,8 @@ const ImageCard = styled.div`
 `
 
 const ContentCard = styled.section`
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
   height: 90px;
-  width: 140px;
+  width: 150px;
   padding: 8px 10px 10px 10px;
   background: #fafafa;
   border-radius: 0 0 8px 8px;
@@ -42,7 +40,6 @@ const CardTitle = styled.p`
 `
 
 const CardDate = styled.h3`
-  text-transform: uppercase;
   font-weight: bold;
   color: #949494;
   font-size: 12px;
@@ -64,27 +61,17 @@ SavedCardArtwork.defaultProps = {
   bookmarked: false,
 }
 
-export default function SavedCardArtwork({
-  title,
-  date,
-  image,
-  id,
-  collecting_institution,
-}) {
+export default function SavedCardArtwork({ title, date, image, id }) {
   return (
-    <BorderCard>
-      <StyledLink to={`/artwork/${id}`}>
-        <ImageCard
-          data-cy="card-image"
-          style={{ backgroundImage: 'url(' + image + ')' }}
-        />
-      </StyledLink>
+    <StyledLink to={`/artwork/${id}`}>
+      <ImageCard
+        data-cy="card-image"
+        style={{ backgroundImage: 'url(' + image + ')' }}
+      />
       <ContentCard data-cy="card-content">
-        <StyledLink to={`/artwork/${id}`}>
-          <CardTitle>{title}</CardTitle>
-          <CardDate>{date}</CardDate>
-        </StyledLink>
+        <CardTitle>{title}</CardTitle>
+        <CardDate>{date}</CardDate>
       </ContentCard>
-    </BorderCard>
+    </StyledLink>
   )
 }

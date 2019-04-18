@@ -9,7 +9,7 @@ import {
   getShowArtworksData,
 } from '../services'
 import {
-  PageGrid,
+  PageGridShow,
   ImageCard,
   CancelButtonContainer,
   BookmarkContainer,
@@ -21,7 +21,7 @@ import {
   ContentTitle,
   ContentSection,
   LoadingContainer,
-} from './PageShowStyles'
+} from './PageStyles'
 
 export default function PageShow({ onBookmark, bookmarked, id }) {
   const [show, setShow] = useState([])
@@ -94,7 +94,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
               'large'
             )
             return (
-              <PageGrid key={s.id}>
+              <PageGridShow key={s.id}>
                 <CancelButtonContainer onClick={goBack}>
                   <Icon name="cancel" />
                 </CancelButtonContainer>
@@ -125,7 +125,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
                 )}
                 <RenderShowImages />
                 <RenderShowArtworks />
-              </PageGrid>
+              </PageGridShow>
             )
           })}
         </React.Fragment>

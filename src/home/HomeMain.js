@@ -33,9 +33,6 @@ export default function HomePage({
         <StartLogo>
           Art <br />
           Collector
-          <br />
-          <br />
-          <br />
         </StartLogo>
       )
     } else {

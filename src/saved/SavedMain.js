@@ -1,12 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { BrowserRouter as Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
-
-import Roller from '../images/Roller.svg'
 import {
   PageGrid,
   Title,
-  LoadingContainer,
   LinkContainer,
   StyledLink,
   ActiveUnderline,
@@ -113,16 +110,10 @@ export default function SavedMain({
             : null
         }
       />
-      {/* {hasError ? (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller}/>
-        </LoadingContainer>
-      ) : ( */}
       <SwipeableRoutes>
         <Route exact path="/saved/artworks" component={SavedArtworks} />
         <Route exact path="/saved/artists" component={SavedArtists} />
       </SwipeableRoutes>
-      {/* )} */}
     </PageGrid>
   )
 }
