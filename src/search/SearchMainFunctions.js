@@ -17,7 +17,7 @@ export function SearchContentArtists({
   if (!searchString) {
     return isLoading ? (
       <LoadingContainer>
-        <img alt="Roller" src={Roller} width="60px" height="60px" />
+        <img alt="Roller" src={Roller} />
       </LoadingContainer>
     ) : (
       <React.Fragment>
@@ -83,7 +83,7 @@ export function SearchContentGenes({
       <React.Fragment>
         {isLoading ? (
           <LoadingContainer>
-            <img alt="Roller" src={Roller} width="60px" height="60px" />
+            <img alt="Roller" src={Roller} />
           </LoadingContainer>
         ) : (
           <React.Fragment>
@@ -149,7 +149,7 @@ export function SearchContentShows({
   if (!searchString) {
     return isLoading ? (
       <LoadingContainer>
-        <img alt="Roller" src={Roller} width="60px" height="60px" />
+        <img alt="Roller" src={Roller} />
       </LoadingContainer>
     ) : (
       <React.Fragment>

@@ -6,11 +6,12 @@ export default createGlobalStyle`
   * {
     box-sizing: border-box;
   }
+
   body {
     font-family: 'Lato', sans-serif;
     margin: 0;
-    
   }
+
   html, body {
     position: fixed;
     width: 100%;
@@ -18,17 +19,18 @@ export default createGlobalStyle`
     overflow: hidden;
     background-color: #fcfcfc;
   }
+
   h1, h2, h5, h6,
   ul, ol {
     margin: 0;
   }
 
-h2 {
+  h2 {
   font-weight: bold;
     color: #949494;
     margin: 0;
     letter-spacing: 0.1em;
-}
+  }
 
   h3 {
     text-transform: uppercase;
@@ -38,6 +40,7 @@ h2 {
     margin: 0;
     letter-spacing: 0.1em;
   }
+
   p {
     margin-top: 5px;
     margin-bottom: 8px;
@@ -47,6 +50,7 @@ h2 {
     line-height: 32px;
     letter-spacing: 0.1em;
   }
+
   small {
     padding-bottom: 6px;
     font-size: 15px;

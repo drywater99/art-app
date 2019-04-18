@@ -1,5 +1,69 @@
 import React from 'react'
 
+const getStyle = name => {
+  switch (name) {
+    case 'cancel':
+      return { opacity: '0.8' }
+    default:
+      return { opacity: '1' }
+  }
+}
+
+const getHeight = name => {
+  switch (name) {
+    case 'cancel':
+      return '30px'
+    case 'heart':
+      return '30px'
+    case 'heart_active':
+      return '30px'
+    case 'search':
+      return '44px'
+    case 'search_active':
+      return '44px'
+    case 'home':
+      return '36px'
+    case 'explore_active':
+      return '35px'
+    case 'explore':
+      return '35px'
+    default:
+      return '25px'
+  }
+}
+
+const getFill = name => {
+  switch (name) {
+    case 'cancel':
+      return '#949494'
+    default:
+      return '#949494'
+  }
+}
+
+const getWidth = name => {
+  switch (name) {
+    case 'cancel':
+      return '30px'
+    case 'heart':
+      return '30px'
+    case 'heart_active':
+      return '30px'
+    case 'search':
+      return '44px'
+    case 'search_active':
+      return '44px'
+    case 'home':
+      return '36px'
+    case 'explore':
+      return '35px'
+    case 'explore_active':
+      return '35px'
+    default:
+      return '25px'
+  }
+}
+
 const getViewBox = name => {
   switch (name) {
     case 'home':
@@ -104,17 +168,17 @@ const getPath = (name, props) => {
 const Icon = ({
   name = '',
   style = {},
-  fill = '#000',
+  fill = '',
   viewBox = '',
   width = '100%',
   className = '',
   height = '100%',
 }) => (
   <svg
-    fill={fill}
-    width={width}
-    style={style}
-    height={height}
+    fill={fill || getFill(name)}
+    width={getWidth(name)}
+    style={getStyle(name)}
+    height={getHeight(name)}
     className={className}
     xmlns="http://www.w3.org/2000/svg"
     viewBox={viewBox || getViewBox(name)}

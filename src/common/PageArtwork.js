@@ -91,11 +91,20 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     history.goBack()
   }
 
+  function renderBookmark(condition) {
+    return (
+      <Icon
+        fill={condition ? '#b8847d' : '#949494'}
+        name={`heart${condition ? '_active' : ''}`}
+      />
+    )
+  }
+
   function PageGeneContent() {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (pageArtwork.length) {
@@ -109,31 +118,11 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
             return (
               <PageGrid key={a.id}>
                 <CancelButtonContainer onClick={goBack}>
-                  <Icon
-                    name="cancel"
-                    style={{ opacity: '0.8' }}
-                    fill={'#949494'}
-                    height="30px"
-                    width="30px"
-                  />
+                  <Icon name="cancel" />
                 </CancelButtonContainer>
                 <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
                 <BookmarkContainer onClick={() => onBookmark(id)}>
-                  {bookmarked === true ? (
-                    <Icon
-                      fill={'#b8847d'}
-                      name="heart_active"
-                      height="30px"
-                      width="30px"
-                    />
-                  ) : (
-                    <Icon
-                      fill={'#949494'}
-                      name="heart"
-                      height="30px"
-                      width="30px"
-                    />
-                  )}
+                  {renderBookmark(bookmarked)}
                 </BookmarkContainer>
                 <ContentTitle>
                   {artworkArtist.map(homeArtist => (
@@ -181,7 +170,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     } else {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     }
@@ -191,7 +180,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (simArtworks.length) {
@@ -223,7 +212,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (artworkGenes.length) {

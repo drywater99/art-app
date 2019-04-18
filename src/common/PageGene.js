@@ -67,11 +67,70 @@ export default function PageGene({ onBookmark, bookmarked, id }) {
     window.history.back()
   }
 
+  function renderBookmark(condition) {
+    return (
+      <Icon
+        fill={condition ? '#b8847d' : '#949494'}
+        name={`heart${condition ? '_active' : ''}`}
+      />
+    )
+  }
+
+  function PageGeneContent() {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} />
+        </LoadingContainer>
+      )
+    } else if (gene.length > 0) {
+      return (
+        <React.Fragment>
+          {gene.map(g => {
+            const image = g._links.image.href.replace(
+              '{image_version}',
+              'square500'
+            )
+            return (
+              <PageGrid key={g.id}>
+                <CancelButtonContainer onClick={goBack}>
+                  <Icon name="cancel" />
+                </CancelButtonContainer>
+                <ImageCard
+                  image={g._links.image.href.replace(
+                    '{image_version}',
+                    'large'
+                  )}
+                  style={{ backgroundImage: 'url(' + image + ')' }}
+                />
+                <BookmarkContainer onClick={() => onBookmark(g)}>
+                  {renderBookmark(bookmarked)}
+                </BookmarkContainer>
+                <ContentTitle>
+                  <p>{g.display_name || g.name}</p>
+                </ContentTitle>
+                <ContentDescription>{g.description}</ContentDescription>
+                <SearchContentSimArtists />
+                <SearchContentSimArtworks />
+              </PageGrid>
+            )
+          })}
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} />
+        </LoadingContainer>
+      )
+    }
+  }
+
   function SearchContentSimArtists() {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (relatedArtworks.length > 0) {
@@ -103,7 +162,7 @@ export default function PageGene({ onBookmark, bookmarked, id }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (relatedArtists.length > 0) {
@@ -129,77 +188,6 @@ export default function PageGene({ onBookmark, bookmarked, id }) {
       )
     } else {
       return null
-    }
-  }
-
-  function PageGeneContent() {
-    if (isLoading) {
-      return (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      )
-    } else if (gene.length > 0) {
-      return (
-        <React.Fragment>
-          {gene.map(g => {
-            const image = g._links.image.href.replace(
-              '{image_version}',
-              'square500'
-            )
-            return (
-              <PageGrid key={g.id}>
-                <CancelButtonContainer onClick={goBack}>
-                  {' '}
-                  <Icon
-                    name="cancel"
-                    style={{ opacity: '0.8' }}
-                    fill={'#949494'}
-                    height="30px"
-                    width="30px"
-                  />
-                </CancelButtonContainer>
-                <ImageCard
-                  image={g._links.image.href.replace(
-                    '{image_version}',
-                    'large'
-                  )}
-                  style={{ backgroundImage: 'url(' + image + ')' }}
-                />
-                <BookmarkContainer onClick={() => onBookmark(g)}>
-                  {bookmarked === true ? (
-                    <Icon
-                      fill={'#b8847d'}
-                      name="heart_active"
-                      height="30px"
-                      width="30px"
-                    />
-                  ) : (
-                    <Icon
-                      fill={'#949494'}
-                      name="heart"
-                      height="30px"
-                      width="30px"
-                    />
-                  )}
-                </BookmarkContainer>
-                <ContentTitle>
-                  <p>{g.display_name || g.name}</p>
-                </ContentTitle>
-                <ContentDescription>{g.description}</ContentDescription>
-                <SearchContentSimArtists />
-                <SearchContentSimArtworks />
-              </PageGrid>
-            )
-          })}
-        </React.Fragment>
-      )
-    } else {
-      return (
-        <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
-        </LoadingContainer>
-      )
     }
   }
 

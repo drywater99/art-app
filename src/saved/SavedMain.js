@@ -115,7 +115,7 @@ export default function SavedMain({
       />
       {/* {hasError ? (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller}/>
         </LoadingContainer>
       ) : ( */}
       <SwipeableRoutes>

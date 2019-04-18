@@ -6,7 +6,6 @@ import Icon from '../app/Icon'
 import Roller from '../images/Roller.svg'
 import {
   getArtistData,
-  getArtistByArtworkData,
   getArtistGenesData,
   getArtistSimilarArtistsData,
   getArtistArtworksData,
@@ -24,7 +23,7 @@ import {
 } from './PageArtistStyles'
 
 export default function ArtistPage({ onBookmark, bookmarked, id }) {
-  const [artist, setHomeArtist] = useState([])
+  const [artist, setArtist] = useState([])
   const [artistGenes, setArtistGenes] = useState([])
   const [similarArtists, setSimilarArtists] = useState([])
   const [artistArtworks, setArtistArtworks] = useState([])
@@ -34,7 +33,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
     setIsLoading(true)
     try {
       const res = await getArtistData(id)
-      setHomeArtist([res.data])
+      setArtist([res.data])
     } catch (err) {
       console.log(err)
     }
@@ -44,16 +43,12 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
   async function getData(getter, setter, name) {
     setIsLoading(true)
     try {
-      const res = await getter()
+      const res = await getter(id)
       setter(res.data._embedded[name])
     } catch (err) {
       console.log(err)
     }
     setIsLoading(false)
-  }
-
-  async function getArtistByArtwork() {
-    getData(getArtistByArtworkData, setHomeArtist, 'artists')
   }
 
   async function getArtistArtworks() {
@@ -71,7 +66,6 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
   useEffect(() => {
     getArtist()
     getArtistArtworks()
-    getArtistByArtwork()
     getArtistSimilarArtists()
     getArtistsGenes()
   }, [id])
@@ -80,11 +74,20 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
     window.history.back()
   }
 
+  function renderBookmark(condition) {
+    return (
+      <Icon
+        fill={condition ? '#b8847d' : '#949494'}
+        name={`heart${condition ? '_active' : ''}`}
+      />
+    )
+  }
+
   function PageArtistContent() {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (artist.length) {
@@ -98,13 +101,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
             return (
               <div key={a.id}>
                 <CancelButtonContainer onClick={goBack}>
-                  <Icon
-                    name="cancel"
-                    style={{ opacity: '0.8' }}
-                    fill={'#949494'}
-                    height="30px"
-                    width="30px"
-                  />
+                  <Icon name="cancel" />
                 </CancelButtonContainer>
                 <ImageCard
                   image={a._links.image.href.replace(
@@ -114,21 +111,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
                 <BookmarkContainer onClick={() => onBookmark(id)}>
-                  {bookmarked === true ? (
-                    <Icon
-                      fill={'#b8847d'}
-                      name="heart_active"
-                      height="30px"
-                      width="30px"
-                    />
-                  ) : (
-                    <Icon
-                      fill={'#949494'}
-                      name="heart"
-                      height="30px"
-                      width="30px"
-                    />
-                  )}
+                  {renderBookmark(bookmarked)}
                 </BookmarkContainer>
                 <ContentTitle>
                   <p>{a.name}</p>
@@ -152,7 +135,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
     } else {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     }
@@ -162,7 +145,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (artistArtworks.length) {
@@ -196,7 +179,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (artistGenes.length) {
@@ -229,7 +212,7 @@ export default function ArtistPage({ onBookmark, bookmarked, id }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (similarArtists.length) {

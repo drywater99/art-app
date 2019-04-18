@@ -103,7 +103,7 @@ export const StyledLink = styled(NavLink)`
   }
 `
 
-export const Hr = styled.div`
+export const ActiveUnderline = styled.div`
   height: 0.18em;
   width: 34%;
   margin: 0;

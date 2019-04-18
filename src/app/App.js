@@ -34,7 +34,7 @@ function App() {
   const [artistBookmarks, setArtistBookmarks] = useState(
     getArtistBookmarksFromStorage() || []
   )
-  const [navClickState, setNavClickState] = useState(1)
+  const [nav, setNav] = useState(1)
 
   async function getData(getter, setter, name) {
     setIsLoading(true)
@@ -95,153 +95,161 @@ function App() {
   return (
     <Router>
       <Grid>
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <HomeMain
-              showLogo={showLogo}
-              setShowLogo={setShowLogo}
-              isLoading={isLoading}
-              artworks={artworks}
-              shows={shows.filter(show => !show.bookmarked)}
-              trendingArtists={trendingArtists}
-              onBookmark={toggleArtworkBookmark}
-            />
-          )}
-        />
-        <Route
-          path="/explore/"
-          render={props => (
-            <ExploreMain
-              {...props}
-              isLoading={isLoading}
-              onBookmark={toggleArtworkBookmark}
-            />
-          )}
-        />
-        <Route
-          path="/search"
-          render={props => (
-            <SearchMain
-              {...props}
-              artworks={artworks.filter(artwork => artwork.bookmarked)}
-            />
-          )}
-        />
-        <Route
-          path="/saved"
-          render={props => (
-            <SavedMain
-              props={props}
-              artworkBookmarks={artworkBookmarks}
-              artistBookmarks={artistBookmarks}
-              onBookmark={toggleArtworkBookmark}
-            />
-          )}
-        />
-        <Route
-          path="/artwork/:id"
-          render={props => (
-            <PageArtwork
-              props={props}
-              bookmarked={
-                artworkBookmarks &&
-                artworkBookmarks.indexOf(props.match.params.id) !== -1
-              }
-              onBookmark={toggleArtworkBookmark}
-              history={props.history}
-              id={props.match.params.id}
-            />
-          )}
-        />
-        <Route
-          path="/artist/:id"
-          render={props => (
-            <PageArtist
-              props={props}
-              bookmarked={
-                artistBookmarks &&
-                artistBookmarks.indexOf(props.match.params.id) !== -1
-              }
-              onBookmark={toggleArtistBookmark}
-              id={props.match.params.id}
-            />
-          )}
-        />
-        <Route
-          path="/gene/:id"
-          render={props => (
-            <PageGene
-              onBookmark={toggleArtworkBookmark}
-              id={props.match.params.id}
-            />
-          )}
-        />
-        <Route
-          path="/show/:id"
-          render={props => (
-            <PageShow
-              props={props}
-              onBookmark={toggleArtworkBookmark}
-              id={props.match.params.id}
-            />
-          )}
-        />
+        <Route exact path="/" render={HomeRoute} />
+        <Route path="/explore/" render={ExploreRoute} />
+        <Route path="/search" render={SearchRoute} />
+        <Route path="/saved" render={SavedRoute} />
+        <Route path="/artwork/:id" render={ArtworkRoute} />
+        <Route path="/artist/:id" render={ArtistRoute} />
+        <Route path="/gene/:id" render={GeneRoute} />
+        <Route path="/show/:id" render={ShowRoute} />
         <Nav>
-          <StyledLink exact to="/" onClick={() => setNavClickState(1)}>
-            {navClickState === 1 ? (
-              <img alt="ActiveHouse" src={ActiveHouse} />
-            ) : (
-              <Icon fill={'#949494'} name="home" height="36px" width="36px" />
-            )}
+          <StyledLink exact to="/" onClick={() => setNav(1)}>
+            <NavHome />
           </StyledLink>
-          <StyledLink to="/explore/all" onClick={() => setNavClickState(2)}>
-            {navClickState === 2 ? (
-              <Icon
-                fill={'#383838'}
-                name="explore_active"
-                height="35px"
-                width="35px"
-              />
-            ) : (
-              <Icon
-                fill={'#949494'}
-                name="explore"
-                height="35px"
-                width="35px"
-              />
-            )}
+          <StyledLink to="/explore/all" onClick={() => setNav(2)}>
+            {NavIcon(2, 'explore')}
           </StyledLink>
-          <StyledLink to="/search/artists" onClick={() => setNavClickState(3)}>
-            {navClickState === 3 ? (
-              <Icon
-                fill={'#383838'}
-                name="search_active"
-                height="44px"
-                width="44px"
-              />
-            ) : (
-              <Icon fill={'#949494'} name="search" height="44px" width="44px" />
-            )}
+          <StyledLink to="/search/artists" onClick={() => setNav(3)}>
+            {NavIcon(3, 'search')}
           </StyledLink>
-          <StyledLink to="/saved/artworks" onClick={() => setNavClickState(4)}>
-            {navClickState === 4 ? (
-              <Icon
-                fill={'#383838'}
-                name="heart_active"
-                height="30px"
-                width="30px"
-              />
-            ) : (
-              <Icon fill={'#949494'} name="heart" height="30px" width="30px" />
-            )}
+          <StyledLink to="/saved/artworks" onClick={() => setNav(4)}>
+            <NavSaved />
           </StyledLink>
         </Nav>
         <GlobalStyle />
       </Grid>
     </Router>
   )
+
+  function HomeRoute() {
+    return (
+      <HomeMain
+        showLogo={showLogo}
+        setShowLogo={setShowLogo}
+        isLoading={isLoading}
+        artworks={artworks}
+        shows={shows.filter(show => !show.bookmarked)}
+        trendingArtists={trendingArtists}
+        onBookmark={toggleArtworkBookmark}
+      />
+    )
+  }
+
+  function ExploreRoute(props) {
+    return (
+      <ExploreMain
+        {...props}
+        isLoading={isLoading}
+        onBookmark={toggleArtworkBookmark}
+      />
+    )
+  }
+
+  function SearchRoute(props) {
+    return (
+      <SearchMain
+        {...props}
+        artworks={artworks.filter(artwork => artwork.bookmarked)}
+      />
+    )
+  }
+
+  function SavedRoute(props) {
+    return (
+      <SavedMain
+        props={props}
+        artworkBookmarks={artworkBookmarks}
+        artistBookmarks={artistBookmarks}
+        onBookmark={toggleArtworkBookmark}
+      />
+    )
+  }
+
+  function ArtworkRoute(props) {
+    return (
+      <PageArtwork
+        props={props}
+        bookmarked={
+          artworkBookmarks &&
+          artworkBookmarks.indexOf(props.match.params.id) !== -1
+        }
+        onBookmark={toggleArtworkBookmark}
+        history={props.history}
+        id={props.match.params.id}
+      />
+    )
+  }
+
+  function ArtistRoute(props) {
+    return (
+      <PageArtist
+        props={props}
+        bookmarked={
+          artistBookmarks &&
+          artistBookmarks.indexOf(props.match.params.id) !== -1
+        }
+        onBookmark={toggleArtistBookmark}
+        id={props.match.params.id}
+      />
+    )
+  }
+
+  function GeneRoute(props) {
+    return (
+      <PageGene onBookmark={toggleArtworkBookmark} id={props.match.params.id} />
+    )
+  }
+
+  function ShowRoute(props) {
+    return (
+      <PageShow
+        props={props}
+        onBookmark={toggleArtworkBookmark}
+        id={props.match.params.id}
+      />
+    )
+  }
+
+  function NavHome() {
+    return nav === 1 ? (
+      <img alt="ActiveHouse" src={ActiveHouse} />
+    ) : (
+      <Icon fill={'#949494'} name="home" />
+    )
+  }
+
+  function NavIcon(state, name) {
+    return nav === `${state}` ? (
+      <Icon fill={'#383838'} name={`${name}_active`} />
+    ) : (
+      <Icon fill={'#949494'} name={`${name}`} />
+    )
+  }
+
+  // function NavExplore() {
+  //   return nav === 2 ? (
+  //     <Icon fill={'#383838'} name="explore_active" />
+  //   ) : (
+  //     <Icon fill={'#949494'} name="explore" />
+  //   )
+  // }
+
+  function NavSearch() {
+    return nav === 3 ? (
+      <Icon fill={'#383838'} name="search_active" />
+    ) : (
+      <Icon fill={'#949494'} name="search" />
+    )
+  }
+
+  function NavSaved() {
+    return nav === 4 ? (
+      <Icon fill={'#383838'} name="heart_active" />
+    ) : (
+      <Icon fill={'#949494'} name="heart" />
+    )
+  }
 }
 
 export default App

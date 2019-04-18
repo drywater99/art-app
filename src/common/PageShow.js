@@ -69,11 +69,20 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     window.history.back()
   }
 
+  function renderBookmark(condition) {
+    return (
+      <Icon
+        fill={condition ? '#b8847d' : '#949494'}
+        name={`heart${condition ? '_active' : ''}`}
+      />
+    )
+  }
+
   function PageGeneContent() {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (show.length) {
@@ -87,14 +96,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
             return (
               <PageGrid key={s.id}>
                 <CancelButtonContainer onClick={goBack}>
-                  {' '}
-                  <Icon
-                    name="cancel"
-                    style={{ opacity: '0.8' }}
-                    fill={'#949494'}
-                    height="30px"
-                    width="30px"
-                  />
+                  <Icon name="cancel" />
                 </CancelButtonContainer>
                 <ImageCard
                   image={s._links.image.href.replace(
@@ -104,21 +106,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
                 <BookmarkContainer onClick={() => onBookmark(s)}>
-                  {bookmarked === true ? (
-                    <Icon
-                      fill={'#b8847d'}
-                      name="heart_active"
-                      height="30px"
-                      width="30px"
-                    />
-                  ) : (
-                    <Icon
-                      fill={'#949494'}
-                      name="heart"
-                      height="30px"
-                      width="30px"
-                    />
-                  )}
+                  {renderBookmark(bookmarked)}
                 </BookmarkContainer>
                 <ContentTitle>
                   <p>{s.name}</p>
@@ -145,7 +133,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     } else {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     }
@@ -155,7 +143,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (showImages.length) {
@@ -183,7 +171,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (artworks.length > 0) {

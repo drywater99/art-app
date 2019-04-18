@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { BrowserRouter as Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
 import { debounce } from 'debounce'
@@ -21,7 +21,7 @@ import {
   IconContainer,
   LinkContainer,
   StyledLink,
-  Hr,
+  ActiveUnderline,
 } from './SearchMainStyles'
 import {
   SearchContentArtists,
@@ -111,46 +111,6 @@ export default function SearchMain(props) {
     getSuggestionsShows()
   }, [suggestedShows])
 
-  // useMemo(() => suggestedArtists.length && getSuggestionsArtists(), [
-  //   suggestedArtists,
-  // ])
-  // useMemo(() => suggestedGenes.length && getSuggestionsGenes(), [
-  //   suggestedGenes,
-  // ])
-  // useMemo(() => suggestedShows.length && getSuggestionsShows(), [
-  //   suggestedShows,
-  // ])
-
-  const ArtistSearch = () => (
-    <SearchContentArtists
-      searchString={searchString}
-      isLoading={isLoading}
-      suggestedArtists={suggestedArtists}
-      dataArtists={dataArtists}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-
-  const GeneSearch = () => (
-    <SearchContentGenes
-      searchString={searchString}
-      isLoading={isLoading}
-      suggestedGenes={suggestedGenes}
-      dataGenes={dataGenes}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-
-  const ShowSearch = () => (
-    <SearchContentShows
-      searchString={searchString}
-      isLoading={isLoading}
-      suggestedShows={suggestedShows}
-      dataShows={dataShows}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-
   return (
     <PageGrid>
       <Title>Search</Title>
@@ -163,7 +123,7 @@ export default function SearchMain(props) {
         />
         {searchString.length ? (
           <IconContainer onClick={clearInput}>
-            <Icon name="cancel" fill={'#949494'} height="20px" width="20px" />
+            <Icon name="cancel" />
           </IconContainer>
         ) : null}
       </StyledForm>
@@ -178,7 +138,7 @@ export default function SearchMain(props) {
           Shows
         </StyledLink>
       </LinkContainer>
-      <Hr
+      <ActiveUnderline
         style={
           isActive === 1
             ? { margin: '-1% 0 0 0' }
@@ -191,7 +151,7 @@ export default function SearchMain(props) {
       />
       {isLoading ? (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       ) : (
         <SwipeableRoutes>
@@ -202,4 +162,40 @@ export default function SearchMain(props) {
       )}
     </PageGrid>
   )
+
+  function ArtistSearch() {
+    return (
+      <SearchContentArtists
+        searchString={searchString}
+        isLoading={isLoading}
+        suggestedArtists={suggestedArtists}
+        dataArtists={dataArtists}
+        style={{ height: '100vh', 'overflow-y': 'scroll' }}
+      />
+    )
+  }
+
+  function GeneSearch() {
+    return (
+      <SearchContentGenes
+        searchString={searchString}
+        isLoading={isLoading}
+        suggestedGenes={suggestedGenes}
+        dataGenes={dataGenes}
+        style={{ height: '100vh', 'overflow-y': 'scroll' }}
+      />
+    )
+  }
+
+  function ShowSearch() {
+    return (
+      <SearchContentShows
+        searchString={searchString}
+        isLoading={isLoading}
+        suggestedShows={suggestedShows}
+        dataShows={dataShows}
+        style={{ height: '100vh', 'overflow-y': 'scroll' }}
+      />
+    )
+  }
 }
