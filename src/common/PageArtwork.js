@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ThumbSimGene from './ThumbSimGene'
 import ThumbSimArtwork from './ThumbSimArtwork'
 import Roller from '../images/Roller.svg'
-import Icon from '../app/Icon'
+import Icon from './Icon'
 import {
   getArtworkData,
   getArtistByArtworkData,

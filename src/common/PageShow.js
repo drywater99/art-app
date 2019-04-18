@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ThumbInstView from './ThumbInstView'
 import ThumbSimArtwork from './ThumbSimArtwork'
 import Roller from '../images/Roller.svg'
-import Icon from '../app/Icon'
+import Icon from './Icon'
 import {
   getSingleShowData,
   getShowImagesData,

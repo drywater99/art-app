@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ThumbSimGeneX from './ThumbSimGeneX'
 import ThumbArtwork from './ThumbArtwork'
 import ThumbSimArtistX from './ThumbSimArtistX'
-import Icon from '../app/Icon'
+import Icon from './Icon'
 import Roller from '../images/Roller.svg'
 import {
   getArtistData,

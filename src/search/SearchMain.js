@@ -3,7 +3,7 @@ import { BrowserRouter as Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
 import { debounce } from 'debounce'
 import Roller from '../images/Roller.svg'
-import Icon from '../app/Icon'
+import Icon from '../common/Icon'
 import {
   getSearchQueryArtistData,
   getSearchQueryGeneData,
