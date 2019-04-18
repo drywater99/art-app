@@ -17,7 +17,7 @@ export function SearchContentArtists({
   if (!searchString) {
     return isLoading ? (
       <LoadingContainer>
-        <img alt="Roller" src={Roller} width="60px" height="60px" />
+        <img alt="Roller" src={Roller} />
       </LoadingContainer>
     ) : (
       <React.Fragment>
@@ -30,7 +30,7 @@ export function SearchContentArtists({
               key={suggestedArtist.id}
               image={suggestedArtist._links.image.href.replace(
                 '{image_version}',
-                'large'
+                'square'
               )}
               name={suggestedArtist.name}
               id={suggestedArtist.id}
@@ -43,18 +43,18 @@ export function SearchContentArtists({
   } else if (dataArtists.length) {
     return (
       <ResultContainer>
-        {dataArtists.map(dataArtist => (
+        {dataArtists.map(a => (
           <SearchThumbArtist
-            key={dataArtist._links.self.href}
+            key={a._links.self.href}
             image={
-              dataArtist._links.thumbnail.href.includes(
+              a._links.thumbnail.href.includes(
                 '/assets/shared/missing_image.png'
               )
                 ? 'https://via.placeholder.com/150'
-                : dataArtist._links.thumbnail.href
+                : a._links.thumbnail.href
             }
-            title={dataArtist.title}
-            id={dataArtist._links.self.href.replace(
+            title={a.title}
+            id={a._links.self.href.replace(
               'https://api.artsy.net/api/artists/',
               ''
             )}
@@ -83,7 +83,7 @@ export function SearchContentGenes({
       <React.Fragment>
         {isLoading ? (
           <LoadingContainer>
-            <img alt="Roller" src={Roller} width="60px" height="60px" />
+            <img alt="Roller" src={Roller} />
           </LoadingContainer>
         ) : (
           <React.Fragment>
@@ -91,15 +91,15 @@ export function SearchContentGenes({
               <h3>Suggested</h3>
             </HeadlineContainer>
             <ResultContainer>
-              {suggestedGenes.map(suggestedGene => (
+              {suggestedGenes.map(g => (
                 <SearchThumb
-                  key={suggestedGene.id}
-                  image={suggestedGene._links.image.href.replace(
+                  key={g.id}
+                  image={g._links.image.href.replace(
                     '{image_version}',
                     'square500'
                   )}
-                  name={suggestedGene.name}
-                  id={suggestedGene.id}
+                  name={g.name}
+                  id={g.id}
                   urlCategory="gene"
                 />
               ))}
@@ -111,18 +111,18 @@ export function SearchContentGenes({
   } else if (dataGenes.length) {
     return (
       <ResultContainer>
-        {dataGenes.map(dataGene => (
+        {dataGenes.map(g => (
           <SearchThumb
-            key={dataGene._links.self.href}
+            key={g._links.self.href}
             image={
-              dataGene._links.thumbnail.href.includes(
+              g._links.thumbnail.href.includes(
                 '/assets/shared/missing_image.png'
               )
                 ? 'https://via.placeholder.com/150'
-                : dataGene._links.thumbnail.href
+                : g._links.thumbnail.href
             }
-            title={dataGene.title}
-            id={dataGene._links.self.href.replace(
+            title={g.title}
+            id={g._links.self.href.replace(
               'https://api.artsy.net/api/genes/',
               ''
             )}
@@ -149,7 +149,7 @@ export function SearchContentShows({
   if (!searchString) {
     return isLoading ? (
       <LoadingContainer>
-        <img alt="Roller" src={Roller} width="60px" height="60px" />
+        <img alt="Roller" src={Roller} />
       </LoadingContainer>
     ) : (
       <React.Fragment>
@@ -157,19 +157,19 @@ export function SearchContentShows({
           <h3>Suggested</h3>
         </HeadlineContainer>
         <ResultContainer>
-          {suggestedShows.map(suggestedShow => (
-            <React.Fragment key={suggestedShow.id}>
+          {suggestedShows.map(s => (
+            <React.Fragment key={s.id}>
               <SearchThumb
-                name={suggestedShow.name}
+                name={s.name}
                 image={
-                  suggestedShow._links.thumbnail.href.includes(
+                  s._links.thumbnail.href.includes(
                     '/assets/shared/missing_image.png'
                   )
                     ? 'https://via.placeholder.com/150'
-                    : suggestedShow._links.thumbnail.href
+                    : s._links.thumbnail.href
                 }
-                key={suggestedShow.id}
-                id={suggestedShow.id}
+                key={s.id}
+                id={s.id}
                 urlCategory="show"
               />
             </React.Fragment>
@@ -180,18 +180,18 @@ export function SearchContentShows({
   } else if (dataShows.length) {
     return (
       <ResultContainer>
-        {dataShows.map(dataShow => (
+        {dataShows.map(s => (
           <SearchThumb
             image={
-              dataShow._links.thumbnail.href.includes(
+              s._links.thumbnail.href.includes(
                 '/assets/shared/missing_image.png'
               )
                 ? 'https://via.placeholder.com/150'
-                : dataShow._links.thumbnail.href
+                : s._links.thumbnail.href
             }
-            title={dataShow.title}
-            key={dataShow._links.self.href}
-            id={dataShow._links.self.href.replace(
+            title={s.title}
+            key={s._links.self.href}
+            id={s._links.self.href.replace(
               'https://api.artsy.net/api/shows/',
               ''
             )}

@@ -3,7 +3,7 @@ import { BrowserRouter as Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
 import { debounce } from 'debounce'
 import Roller from '../images/Roller.svg'
-import Icon from '../app/Icon'
+import Icon from '../common/Icon'
 import {
   getSearchQueryArtistData,
   getSearchQueryGeneData,
@@ -20,8 +20,8 @@ import {
   StyledInput,
   IconContainer,
   LinkContainer,
-  StyledLink,
-  Hr,
+  StyledTab,
+  ActiveUnderline,
 } from './SearchMainStyles'
 import {
   SearchContentArtists,
@@ -42,7 +42,7 @@ export default function SearchMain(props) {
 
   const onSearchInputChange = debounce(text => {
     setSearchString(text)
-    getSearchQuery()
+    getSearchResults()
   }, 100)
 
   function clearInput(e) {
@@ -60,91 +60,56 @@ export default function SearchMain(props) {
     }
   }, [props.location])
 
-  async function getSearchQuery() {
+  async function getSearchQuery(getter, setter) {
     setIsLoading(true)
-    await getSearchQueryArtistData(searchString)
+    await getter(searchString)
       .then(res => {
-        setDataArtists(res.data._embedded.results)
+        setter(res.data._embedded.results)
       })
       .catch(err => console.log(err))
-    await getSearchQueryGeneData(searchString)
-      .then(res => {
-        setDataGenes(res.data._embedded.results)
-      })
-      .catch(err => console.log(err))
-    await getSearchQueryShowData(searchString)
-      .then(res => {
-        setDataShows(res.data._embedded.results)
-      })
-      .catch(err => console.log(err))
+    setIsLoading(false)
+  }
+
+  function getSearchResults() {
+    getSearchQuery(getSearchQueryArtistData, setDataArtists)
+    getSearchQuery(getSearchQueryGeneData, setDataGenes)
+    getSearchQuery(getSearchQueryShowData, setDataShows)
+  }
+
+  async function getData(getter, setter, name) {
+    setIsLoading(true)
+    try {
+      const res = await getter()
+      setter(res.data._embedded[name])
+    } catch (err) {
+      console.log(err)
+    }
     setIsLoading(false)
   }
 
   async function getSuggestionsArtists() {
-    setIsLoading(true)
-    await getSuggestionsArtistData()
-      .then(res => {
-        setsuggestedArtists(res.data._embedded.artists)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+    getData(getSuggestionsArtistData, setsuggestedArtists, 'artists')
   }
 
   async function getSuggestionsGenes() {
-    setIsLoading(true)
-    await getSuggestionsGenesData()
-      .then(res => {
-        setSuggestedGenes(res.data._embedded.genes)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+    getData(getSuggestionsGenesData, setSuggestedGenes, 'genes')
   }
 
   async function getSuggestionsShows() {
-    setIsLoading(true)
-    await getSuggestionsShowData()
-      .then(res => {
-        setSuggestedShows(res.data._embedded.shows)
-      })
-      .catch(err => console.log(err))
-    setIsLoading(false)
+    getData(getSuggestionsShowData, setSuggestedShows, 'shows')
   }
 
   useEffect(() => {
     getSuggestionsArtists()
+  }, [suggestedArtists])
+
+  useEffect(() => {
     getSuggestionsGenes()
+  }, [suggestedGenes])
+
+  useEffect(() => {
     getSuggestionsShows()
-  }, [])
-
-  const ArtistSearch = () => (
-    <SearchContentArtists
-      searchString={searchString}
-      isLoading={isLoading}
-      suggestedArtists={suggestedArtists}
-      dataArtists={dataArtists}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-
-  const GeneSearch = () => (
-    <SearchContentGenes
-      searchString={searchString}
-      isLoading={isLoading}
-      suggestedGenes={suggestedGenes}
-      dataGenes={dataGenes}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-
-  const ShowSearch = () => (
-    <SearchContentShows
-      searchString={searchString}
-      isLoading={isLoading}
-      suggestedShows={suggestedShows}
-      dataShows={dataShows}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
+  }, [suggestedShows])
 
   return (
     <PageGrid>
@@ -158,35 +123,25 @@ export default function SearchMain(props) {
         />
         {searchString.length ? (
           <IconContainer onClick={clearInput}>
-            <Icon name="cancel" fill={'#949494'} height="20px" width="20px" />
+            <Icon name="cancelSearch" />
           </IconContainer>
         ) : null}
       </StyledForm>
       <LinkContainer>
-        <StyledLink onClick={() => setIsActive(1)} to="/search/artists">
+        <StyledTab onClick={() => setIsActive(1)} to="/search/artists">
           Artists
-        </StyledLink>
-        <StyledLink onClick={() => setIsActive(2)} to="/search/genre">
+        </StyledTab>
+        <StyledTab onClick={() => setIsActive(2)} to="/search/genre">
           Genre
-        </StyledLink>
-        <StyledLink onClick={() => setIsActive(3)} to="/search/shows">
+        </StyledTab>
+        <StyledTab onClick={() => setIsActive(3)} to="/search/shows">
           Shows
-        </StyledLink>
+        </StyledTab>
       </LinkContainer>
-      <Hr
-        style={
-          isActive === 1
-            ? { margin: '-1% 0 0 0' }
-            : isActive === 2
-            ? { margin: '-1% 0 0 33%' }
-            : isActive === 3
-            ? { margin: '-1% 0 0 66%' }
-            : null
-        }
-      />
+      {Underline()}
       {isLoading ? (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       ) : (
         <SwipeableRoutes>
@@ -197,4 +152,56 @@ export default function SearchMain(props) {
       )}
     </PageGrid>
   )
+
+  function Underline() {
+    return (
+      <ActiveUnderline
+        style={
+          isActive === 1
+            ? { 'margin-left': '0' }
+            : isActive === 2
+            ? { 'margin-left': '33%' }
+            : isActive === 3
+            ? { 'margin-left': '66%' }
+            : null
+        }
+      />
+    )
+  }
+
+  function ArtistSearch() {
+    return (
+      <SearchContentArtists
+        searchString={searchString}
+        isLoading={isLoading}
+        suggestedArtists={suggestedArtists}
+        dataArtists={dataArtists}
+        style={{ height: '100vh', 'overflow-y': 'scroll' }}
+      />
+    )
+  }
+
+  function GeneSearch() {
+    return (
+      <SearchContentGenes
+        searchString={searchString}
+        isLoading={isLoading}
+        suggestedGenes={suggestedGenes}
+        dataGenes={dataGenes}
+        style={{ height: '100vh', 'overflow-y': 'scroll' }}
+      />
+    )
+  }
+
+  function ShowSearch() {
+    return (
+      <SearchContentShows
+        searchString={searchString}
+        isLoading={isLoading}
+        suggestedShows={suggestedShows}
+        dataShows={dataShows}
+        style={{ height: '100vh', 'overflow-y': 'scroll' }}
+      />
+    )
+  }
 }

@@ -1,24 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { BrowserRouter as Route } from 'react-router-dom'
 import SwipeableRoutes from 'react-swipeable-routes'
-import { PageGrid, Title, LinkContainer, StyledLink } from './ExploreMainStyles'
+import ExploreThumb from './ExploreThumb'
+import Roller from '../images/Roller.svg'
 import {
-  ExploreContentA,
-  ExploreContentB,
-  ExploreContentC,
-  ExploreContentD,
-  ExploreContentE,
-  ExploreContentF,
-  scrollRight1,
-  scrollRight2,
-  scrollRight3,
-  scrollRight4,
-  scrollRight5,
-  scrollRight6,
-  scrollRight7,
-  scrollRight8,
-  scrollLeft1,
-} from './ExploreMainFunctions'
+  PageGrid,
+  Title,
+  LinkContainer,
+  StyledLink,
+  LoadingContainer,
+  ExploreContainer,
+} from './ExploreMainStyles'
 import {
   getTopicsAData,
   getTopicsBData,
@@ -38,89 +30,71 @@ export default function ExploreMain(props) {
   const [isLoading, setIsLoading] = useState(false)
   const scrollRef = useRef(null)
 
+  function scrollRight(scrollRef, position) {
+    scrollRef.current.scrollTo({
+      top: 0,
+      left: `${position}`,
+      behavior: 'smooth',
+    })
+  }
+
+  function scrollLeft(scrollRef) {
+    scrollRef.current.scrollTo({
+      top: 0,
+      left: -125,
+      behavior: 'smooth',
+    })
+  }
+
   useEffect(() => {
-    console.log(props.location.pathname)
     if (props.location.pathname.includes('explore/modern')) {
-      scrollRight1(scrollRef)
+      scrollRight(scrollRef, 125)
     } else if (props.location.pathname.includes('explore/oldmasters')) {
-      scrollRight2(scrollRef)
+      scrollRight(scrollRef, 250)
     } else if (props.location.pathname.includes('explore/nude')) {
-      scrollRight3(scrollRef)
+      scrollRight(scrollRef, 375)
     } else if (props.location.pathname.includes('explore/nature')) {
-      scrollRight4(scrollRef)
+      scrollRight(scrollRef, 500)
     } else if (props.location.pathname.includes('explore/roman')) {
-      scrollRight5(scrollRef)
-    } else if (props.location.pathname.includes('explore/foo')) {
-      scrollRight6(scrollRef)
-    } else if (props.location.pathname.includes('explore/repeat')) {
-      scrollRight7(scrollRef)
-    } else if (props.location.pathname.includes('explore/test')) {
-      scrollRight8(scrollRef)
-    }
-    if (props.location.pathname.includes('explore/all')) {
-      scrollLeft1(scrollRef)
+      scrollRight(scrollRef, 625)
+    } else if (props.location.pathname.includes('explore/all')) {
+      scrollLeft(scrollRef, '-125')
     }
   }, [props.location])
 
+  async function getData(getter, setter, name) {
+    setIsLoading(true)
+    try {
+      const res = await getter()
+      setter(res.data._embedded[name])
+    } catch (err) {
+      console.log(err)
+    }
+    setIsLoading(false)
+  }
+
   async function getTopicsA() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsAData()
-      setTopicsA(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsAData, setTopicsA, 'artworks')
   }
+
   async function getTopicsB() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsBData()
-      setTopicsB(res.data._embedded.artists)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsBData, setTopicsB, 'artists')
   }
+
   async function getTopicsC() {
-    try {
-      setIsLoading(true)
-      const res = await getTopicsCData()
-      setTopicsC(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsCData, setTopicsC, 'artworks')
   }
+
   async function getTopicsD() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsDData()
-      setTopicsD(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsDData, setTopicsD, 'artworks')
   }
+
   async function getTopicsE() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsEData()
-      setTopicsE(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsEData, setTopicsE, 'artworks')
   }
+
   async function getTopicsF() {
-    setIsLoading(true)
-    try {
-      const res = await getTopicsFData()
-      setTopicsF(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getTopicsFData, setTopicsF, 'artworks')
   }
 
   useEffect(() => {
@@ -132,146 +106,137 @@ export default function ExploreMain(props) {
     getTopicsF()
   }, [])
 
-  const ExploreContentCompA = () => (
-    <ExploreContentA
-      isLoading={isLoading}
-      topicsA={topicsA}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-  const ExploreContentCompB = () => (
-    <ExploreContentB
-      isLoading={isLoading}
-      topicsB={topicsB}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-  const ExploreContentCompC = () => (
-    <ExploreContentC
-      isLoading={isLoading}
-      topicsC={topicsC}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-  const ExploreContentCompD = () => (
-    <ExploreContentD
-      isLoading={isLoading}
-      topicsD={topicsD}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-  const ExploreContentCompE = () => (
-    <ExploreContentE
-      isLoading={isLoading}
-      topicsE={topicsE}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-  const ExploreContentCompF = () => (
-    <ExploreContentF
-      isLoading={isLoading}
-      topicsF={topicsF}
-      style={{ height: '100vh', 'overflow-y': 'scroll' }}
-    />
-  )
-
   return (
     <PageGrid>
       <Title data-cy="header-title">Explore</Title>
       <LinkContainer ref={scrollRef}>
-        <StyledLink
-          to="/explore/all"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/NOpIAwQa-3r51Cg9qXKbfA/medium.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          All
-        </StyledLink>
-        <StyledLink
-          to="/explore/modern"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/Jb0xDlIwe2RDTCn_EtOJdw/four_thirds.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Modern
-        </StyledLink>
-        <StyledLink
-          to="/explore/oldmasters"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/o1C6-_FV3rp_ZQPVY-hPtw/big_and_tall.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Old Masters
-        </StyledLink>
-        <StyledLink
-          to="/explore/nude"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/klLweRmE59XCQnUa13hPQg/big_and_tall.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Nude
-        </StyledLink>
-        <StyledLink
-          to="/explore/nature"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/rgsexJnD9jWMJr7yFS0mWg/big_and_tall.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Nature
-        </StyledLink>
-        <StyledLink
-          to="/explore/romanticism"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/WukYS86TbdKqyRz9aibVHA/big_and_tall.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Roman
-        </StyledLink>
-        <StyledLink
-          to="/explore/foo"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/Jb0xDlIwe2RDTCn_EtOJdw/four_thirds.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Modern
-        </StyledLink>
-        <StyledLink
-          to="/explore/repeat"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/o1C6-_FV3rp_ZQPVY-hPtw/big_and_tall.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Old Masters
-        </StyledLink>
-        <StyledLink
-          to="/explore/test"
-          style={{
-            backgroundImage:
-              'url("https://d32dm0rphc51dk.cloudfront.net/klLweRmE59XCQnUa13hPQg/big_and_tall.jpg"), linear-gradient(transparent, #525252)',
-          }}
-        >
-          Nude
-        </StyledLink>
+        {themeButton('all', 'NOpIAwQa-3r51Cg9qXKbfA/medium', 'All')}
+        {themeButton('modern', 'Jb0xDlIwe2RDTCn_EtOJdw/four_thirds', 'Modern')}
+        {themeButton(
+          'oldmasters',
+          'o1C6-_FV3rp_ZQPVY-hPtw/big_and_tall',
+          'Old Masters'
+        )}
+        {themeButton('nude', 'klLweRmE59XCQnUa13hPQg/big_and_tall', 'Nude')}
+        {themeButton('nature', 'rgsexJnD9jWMJr7yFS0mWg/big_and_tall', 'Nature')}
+        {themeButton(
+          'romanticism',
+          'WukYS86TbdKqyRz9aibVHA/big_and_tall',
+          'Roman'
+        )}
       </LinkContainer>
       <SwipeableRoutes>
-        <Route path="/explore/all" component={ExploreContentCompA} />
-        <Route path="/explore/modern" component={ExploreContentCompB} />
-        <Route path="/explore/oldmasters" component={ExploreContentCompC} />
-        <Route path="/explore/nude" component={ExploreContentCompD} />
-        <Route path="/explore/nature" component={ExploreContentCompE} />
-        <Route path="/explore/romanticism" component={ExploreContentCompF} />
-        <Route path="/explore/foo" component={ExploreContentCompB} />
-        <Route path="/explore/repeat" component={ExploreContentCompC} />
-        <Route path="/explore/test" component={ExploreContentCompD} />
+        <Route path="/explore/all" component={RenderContentCompA} />
+        <Route path="/explore/modern" component={RenderContentCompB} />
+        <Route path="/explore/oldmasters" component={RenderContentCompC} />
+        <Route path="/explore/nude" component={RenderContentCompD} />
+        <Route path="/explore/nature" component={RenderContentCompE} />
+        <Route path="/explore/romanticism" component={RenderContentCompF} />
       </SwipeableRoutes>
     </PageGrid>
   )
+
+  function themeButton(url, image, name) {
+    return (
+      <StyledLink
+        to={`/explore/${url}`}
+        style={{
+          backgroundImage: `url(https://d32dm0rphc51dk.cloudfront.net/${image}.jpg), linear-gradient(transparent, #525252)`,
+        }}
+      >
+        {name}
+      </StyledLink>
+    )
+  }
+
+  function ExploreContent(array) {
+    if (isLoading) {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} />
+        </LoadingContainer>
+      )
+    } else if (array.length) {
+      return (
+        <ExploreContainer>
+          {array.map(topic => (
+            <ExploreThumb
+              image={topic._links.image.href.replace(
+                '{image_version}',
+                'square'
+              )}
+              {...topic}
+              key={topic.id}
+            />
+          ))}
+        </ExploreContainer>
+      )
+    } else {
+      return (
+        <LoadingContainer>
+          <img alt="Roller" src={Roller} />
+        </LoadingContainer>
+      )
+    }
+  }
+
+  function ExploreContentA() {
+    return ExploreContent(topicsA)
+  }
+
+  function RenderContentCompA() {
+    return (
+      <ExploreContentA style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+    )
+  }
+
+  function ExploreContentB() {
+    return ExploreContent(topicsB)
+  }
+
+  function RenderContentCompB() {
+    return (
+      <ExploreContentB style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+    )
+  }
+
+  function ExploreContentC() {
+    return ExploreContent(topicsC)
+  }
+
+  function RenderContentCompC() {
+    return (
+      <ExploreContentC style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+    )
+  }
+
+  function ExploreContentD() {
+    return ExploreContent(topicsD)
+  }
+
+  function RenderContentCompD() {
+    return (
+      <ExploreContentD style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+    )
+  }
+
+  function ExploreContentE() {
+    return ExploreContent(topicsE)
+  }
+
+  function RenderContentCompE() {
+    return (
+      <ExploreContentE style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+    )
+  }
+
+  function ExploreContentF() {
+    return ExploreContent(topicsF)
+  }
+
+  function RenderContentCompF() {
+    return (
+      <ExploreContentF style={{ height: '100vh', 'overflow-y': 'scroll' }} />
+    )
+  }
 }

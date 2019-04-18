@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import Scope from '../images/Scope.svg'
 
 export const PageGrid = styled.div`
   display: grid;
   grid-template-rows: auto auto auto 1fr;
   overflow-y: hidden;
-  margin: 0 24px 0 24px;
+  margin: 0 26px 0 26px;
 `
 
 export const Title = styled.div`
@@ -31,9 +31,9 @@ export const ResultContainer = styled.section`
   display: grid;
   grid-template-columns: 150px 150px;
   grid-template-rows: auto;
-  grid-column-gap: 21px;
+  grid-column-gap: 22px;
   grid-row-gap: 22px;
-  padding-top: 25px;
+  padding: 20px 0 20px 0;
   overflow-y: scroll;
 `
 
@@ -87,7 +87,7 @@ export const LinkContainer = styled.div`
   border-bottom: 1px solid #d0d0d0;
 `
 
-export const StyledTab = styled(NavLink)`
+export const StyledLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   color: #949494;
@@ -105,24 +105,26 @@ export const StyledTab = styled(NavLink)`
 
 export const ActiveUnderline = styled.div`
   height: 0.18em;
-  width: 34%;
-  margin-top: -1%;
+  width: 50%;
+  margin: 0;
   background: #383838;
   border: none;
   transition: 0.2s ease-in-out;
 `
-
-export const StyledLink = styled(Link)`
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+export const ButtonContainer = styled.div`
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: span 2;
 `
 
-export const ProfileTitle = styled.div`
+export const Button = styled.button`
+  width: 80%;
+  height: 40px;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
   font-weight: bold;
-  font-size: 15px;
-  color: #949494;
-  margin-top: 8px;
-  text-align: center;
+  color: #383838;
+  border-radius: 4px;
+  margin: 12px auto;
 `

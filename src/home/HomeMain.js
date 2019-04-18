@@ -33,9 +33,6 @@ export default function HomePage({
         <StartLogo>
           Art <br />
           Collector
-          <br />
-          <br />
-          <br />
         </StartLogo>
       )
     } else {
@@ -47,7 +44,7 @@ export default function HomePage({
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (artworks.length > 0) {
@@ -78,7 +75,7 @@ export default function HomePage({
     } else {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     }

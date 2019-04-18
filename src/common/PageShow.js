@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react'
 import ThumbInstView from './ThumbInstView'
 import ThumbSimArtwork from './ThumbSimArtwork'
 import Roller from '../images/Roller.svg'
-import Icon from '../app/Icon'
+import Icon from './Icon'
 import {
   getSingleShowData,
   getShowImagesData,
   getShowArtworksData,
 } from '../services'
 import {
-  PageGrid,
+  PageGridShow,
   ImageCard,
   CancelButtonContainer,
-  BookmarkContainer,
   ExploreContainer,
   ExploreContainerX,
   SectionTitle,
@@ -21,9 +20,9 @@ import {
   ContentTitle,
   ContentSection,
   LoadingContainer,
-} from './PageShowStyles'
+} from './PageStyles'
 
-export default function PageShow({ onBookmark, bookmarked, id }) {
+export default function PageShow({ id }) {
   const [show, setShow] = useState([])
   const [showImages, setShowImages] = useState([])
   const [artworks, setArtworks] = useState([])
@@ -40,26 +39,23 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     setIsLoading(false)
   }
 
-  async function getShowArtworks() {
+  async function getData(getter, setter, name) {
     setIsLoading(true)
     try {
-      const res = await getShowArtworksData(id)
-      setArtworks(res.data._embedded.artworks)
+      const res = await getter(id)
+      setter(res.data._embedded[name])
     } catch (err) {
       console.log(err)
     }
     setIsLoading(false)
   }
 
+  async function getShowArtworks() {
+    getData(getShowArtworksData, setArtworks, 'artworks')
+  }
+
   async function getShowImages() {
-    setIsLoading(true)
-    try {
-      const res = await getShowImagesData(id)
-      setShowImages(res.data._embedded.images)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getShowImagesData, setShowImages, 'images')
   }
 
   useEffect(() => {
@@ -76,7 +72,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (show.length) {
@@ -88,16 +84,9 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
               'large'
             )
             return (
-              <PageGrid key={s.id}>
+              <PageGridShow key={s.id}>
                 <CancelButtonContainer onClick={goBack}>
-                  {' '}
-                  <Icon
-                    name="cancel"
-                    style={{ opacity: '0.8' }}
-                    fill={'#949494'}
-                    height="30px"
-                    width="30px"
-                  />
+                  <Icon name="cancel" />
                 </CancelButtonContainer>
                 <ImageCard
                   image={s._links.image.href.replace(
@@ -106,23 +95,6 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
                   )}
                   style={{ backgroundImage: 'url(' + image + ')' }}
                 />
-                <BookmarkContainer onClick={() => onBookmark(s)}>
-                  {bookmarked === true ? (
-                    <Icon
-                      fill={'#b8847d'}
-                      name="heart_active"
-                      height="30px"
-                      width="30px"
-                    />
-                  ) : (
-                    <Icon
-                      fill={'#949494'}
-                      name="heart"
-                      height="30px"
-                      width="30px"
-                    />
-                  )}
-                </BookmarkContainer>
                 <ContentTitle>
                   <p>{s.name}</p>
                 </ContentTitle>
@@ -140,7 +112,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
                 )}
                 <RenderShowImages />
                 <RenderShowArtworks />
-              </PageGrid>
+              </PageGridShow>
             )
           })}
         </React.Fragment>
@@ -148,7 +120,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     } else {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     }
@@ -158,7 +130,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (showImages.length) {
@@ -186,7 +158,7 @@ export default function PageShow({ onBookmark, bookmarked, id }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (artworks.length > 0) {

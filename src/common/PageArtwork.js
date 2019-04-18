@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ThumbSimGene from './ThumbSimGene'
 import ThumbSimArtwork from './ThumbSimArtwork'
 import Roller from '../images/Roller.svg'
-import Icon from '../app/Icon'
+import Icon from './Icon'
 import {
   getArtworkData,
   getArtistByArtworkData,
@@ -23,7 +23,7 @@ import {
   StyledLink,
   ExploreContainerX,
   LoadingContainer,
-} from './PageArtworkStyles'
+} from './PageStyles'
 
 PageArtwork.propTypes = {
   title: PropTypes.string,
@@ -57,37 +57,27 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     setIsLoading(false)
   }
 
-  async function getArtistByArtwork() {
+  async function getData(getter, setter, name) {
     setIsLoading(true)
     try {
-      const res = await getArtistByArtworkData(id)
-      setArtworkArtist(res.data._embedded.artists)
+      const res = await getter(id)
+      setter(res.data._embedded[name])
     } catch (err) {
       console.log(err)
     }
     setIsLoading(false)
   }
 
-  async function getSimilarArtworksToArtwork() {
-    setIsLoading(true)
-    try {
-      const res = await getSimilarArtworksToArtworkData(id)
-      setSimArtworks(res.data._embedded.artworks)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+  function getArtistByArtwork() {
+    getData(getArtistByArtworkData, setArtworkArtist, 'artists')
+  }
+
+  function getSimilarArtworksToArtwork() {
+    getData(getSimilarArtworksToArtworkData, setSimArtworks, 'artworks')
   }
 
   async function getArtworkGenes() {
-    setIsLoading(true)
-    try {
-      const res = await getArtworkGenesData(id)
-      setArtworkGenes(res.data._embedded.genes)
-    } catch (err) {
-      console.log(err)
-    }
-    setIsLoading(false)
+    getData(getArtworkGenesData, setArtworkGenes, 'genes')
   }
 
   useEffect(() => {
@@ -101,11 +91,20 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     history.goBack()
   }
 
+  function renderBookmark(condition) {
+    return (
+      <Icon
+        fill={condition ? '#b8847d' : '#949494'}
+        name={`heart${condition ? '_active' : ''}`}
+      />
+    )
+  }
+
   function PageGeneContent() {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (pageArtwork.length) {
@@ -119,31 +118,11 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
             return (
               <PageGrid key={a.id}>
                 <CancelButtonContainer onClick={goBack}>
-                  <Icon
-                    name="cancel"
-                    style={{ opacity: '0.8' }}
-                    fill={'#949494'}
-                    height="30px"
-                    width="30px"
-                  />
+                  <Icon name="cancel" />
                 </CancelButtonContainer>
                 <ImageCard style={{ backgroundImage: 'url(' + image + ')' }} />
                 <BookmarkContainer onClick={() => onBookmark(id)}>
-                  {bookmarked === true ? (
-                    <Icon
-                      fill={'#b8847d'}
-                      name="heart_active"
-                      height="30px"
-                      width="30px"
-                    />
-                  ) : (
-                    <Icon
-                      fill={'#949494'}
-                      name="heart"
-                      height="30px"
-                      width="30px"
-                    />
-                  )}
+                  {renderBookmark(bookmarked)}
                 </BookmarkContainer>
                 <ContentTitle>
                   {artworkArtist.map(homeArtist => (
@@ -191,7 +170,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     } else {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     }
@@ -201,7 +180,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (simArtworks.length) {
@@ -233,7 +212,7 @@ export default function PageArtwork({ onBookmark, bookmarked, id, history }) {
     if (isLoading) {
       return (
         <LoadingContainer>
-          <img alt="Roller" src={Roller} width="60px" height="60px" />
+          <img alt="Roller" src={Roller} />
         </LoadingContainer>
       )
     } else if (artworkGenes.length) {

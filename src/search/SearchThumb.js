@@ -1,13 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-`
+import { StyledLink, ProfileTitle } from './SearchMainStyles'
 
 const ImageCard = styled.div`
   height: 140px;
@@ -17,13 +10,6 @@ const ImageCard = styled.div`
   background-position: center top;
   border-radius: 12px;
   position: relative;
-`
-const ProfileTitle = styled.div`
-  font-weight: bold;
-  font-size: 15px;
-  color: #949494;
-  margin-top: 8px;
-  text-align: center;
 `
 
 export default function ThumbSearch({ image, id, title, name, urlCategory }) {

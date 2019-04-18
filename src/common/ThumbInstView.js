@@ -23,7 +23,7 @@ const ProfileImage = styled.div`
   margin-right: 16px;
 `
 
-export default function ThumbInstView({ image, id }) {
+export default function ThumbInstView({ image }) {
   return (
     <ThumbContainer>
       <ProfileImage style={{ backgroundImage: 'url(' + image + ')' }} />
