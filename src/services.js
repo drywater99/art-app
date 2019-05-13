@@ -3,7 +3,7 @@ import axios from 'axios'
 const apiToken = {
   headers: {
     'X-Xapp-Token':
-      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1NzgyOTA1OSwiaWF0IjoxNTU3MjI0MjU5LCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWNkMTViNDNlYzg3MDEzMjNhYTZmNDA0In0.xCaLBUbnVvTN9VPObHmWZDRFOeaTZXkjw1-m7GJicfQ',
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IiIsImV4cCI6MTU1ODM3OTkwMiwiaWF0IjoxNTU3Nzc1MTAyLCJhdWQiOiI1YzdmZjEyODZhZDY4NTc3ZTdiNTcwZjciLCJpc3MiOiJHcmF2aXR5IiwianRpIjoiNWNkOWMyZmVjOWRhNjQyYzUwZGFjZmZmIn0.JE2hWQTZjwPg97UlsZY8cwb369vvpwm1HzCw0PhPp7c',
   },
 }
 
